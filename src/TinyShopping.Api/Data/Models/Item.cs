@@ -15,20 +15,25 @@ namespace TinyShopping.Api.Data.Models
         public int StoreId { get; set; }
     }
 
-    public class Store
+    public class Store : IGeoLocation
     {
         [Key, Copy(Exclude = true)]
         public int ID { get; set; }
         public string Name { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
     }
 
-    public class Item
+    public class Item : IGeoLocation
     {
-        [Key,Copy(Exclude = true)]
+        [Key, Copy(Exclude = true)]
         public int ID { get; set; }
         public DateTime Added { get; set; }
-        public DateTime Completed { get; set; }
+        public DateTime Done { get; set; }
         public string Name { get; set; }
-        public int ShoppingListId { get; set; }
+        public bool Completed { get; set; }
+        public int ListId { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
     }
 }

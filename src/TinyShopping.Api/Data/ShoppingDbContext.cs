@@ -20,7 +20,7 @@ namespace TinyShopping.Api.Data
 
         public IEnumerable<Item> GetListItems(int id)
         {
-            return Items.Where(d => d.ShoppingListId == id);
+            return Items.Where(d => d.ListId == id);
         }
     }
 }
