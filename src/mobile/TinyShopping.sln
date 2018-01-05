@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyShopping.iOS", "iOS\Tin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyShopping.Droid", "Droid\TinyShopping.Droid.csproj", "{DF0B6CD5-2A64-4E12-A605-D1FFDC3BD71A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyShopping.Core", "TinyShopping.Core\TinyShopping.Core.csproj", "{B7F72A49-D09C-48D4-839E-206893C21CDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -41,5 +43,17 @@ Global
 		{DF0B6CD5-2A64-4E12-A605-D1FFDC3BD71A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF0B6CD5-2A64-4E12-A605-D1FFDC3BD71A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF0B6CD5-2A64-4E12-A605-D1FFDC3BD71A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Release|iPhone.Build.0 = Release|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7F72A49-D09C-48D4-839E-206893C21CDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
