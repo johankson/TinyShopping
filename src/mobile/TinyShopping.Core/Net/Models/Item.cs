@@ -22,13 +22,16 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// Initializes a new instance of the Item class.
         /// </summary>
-        public Item(int? id = default(int?), System.DateTime? added = default(System.DateTime?), System.DateTime? completed = default(System.DateTime?), string name = default(string), int? shoppingListId = default(int?))
+        public Item(int? id = default(int?), System.DateTime? added = default(System.DateTime?), System.DateTime? done = default(System.DateTime?), string name = default(string), bool? completed = default(bool?), int? listId = default(int?), double? lat = default(double?), double? lng = default(double?))
         {
             Id = id;
             Added = added;
-            Completed = completed;
+            Done = done;
             Name = name;
-            ShoppingListId = shoppingListId;
+            Completed = completed;
+            ListId = listId;
+            Lat = lat;
+            Lng = lng;
             CustomInit();
         }
 
@@ -49,8 +52,8 @@ namespace TinyShopping.Core.Net.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "completed")]
-        public System.DateTime? Completed { get; set; }
+        [JsonProperty(PropertyName = "done")]
+        public System.DateTime? Done { get; set; }
 
         /// <summary>
         /// </summary>
@@ -59,8 +62,23 @@ namespace TinyShopping.Core.Net.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "shoppingListId")]
-        public int? ShoppingListId { get; set; }
+        [JsonProperty(PropertyName = "completed")]
+        public bool? Completed { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "listId")]
+        public int? ListId { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "lat")]
+        public double? Lat { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "lng")]
+        public double? Lng { get; set; }
 
     }
 }

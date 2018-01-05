@@ -283,5 +283,65 @@ namespace TinyShopping.Core.Net
                 (await operations.DeleteListItemWithHttpMessagesAsync(id, listid, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='user'>
+            /// </param>
+            /// <param name='password'>
+            /// </param>
+            public static IdentityResult ApiUserAdduserByUserGet(this IShoppingAPI operations, string user, string password = default(string))
+            {
+                return operations.ApiUserAdduserByUserGetAsync(user, password).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='user'>
+            /// </param>
+            /// <param name='password'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<IdentityResult> ApiUserAdduserByUserGetAsync(this IShoppingAPI operations, string user, string password = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.ApiUserAdduserByUserGetWithHttpMessagesAsync(user, password, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='user'>
+            /// </param>
+            /// <param name='password'>
+            /// </param>
+            public static string ApiUserLoginByUserGet(this IShoppingAPI operations, string user, string password = default(string))
+            {
+                return operations.ApiUserLoginByUserGetAsync(user, password).GetAwaiter().GetResult();
+            }
+
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='user'>
+            /// </param>
+            /// <param name='password'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<string> ApiUserLoginByUserGetAsync(this IShoppingAPI operations, string user, string password = default(string), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.ApiUserLoginByUserGetWithHttpMessagesAsync(user, password, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
     }
 }

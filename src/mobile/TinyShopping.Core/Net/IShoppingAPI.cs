@@ -152,5 +152,29 @@ namespace TinyShopping.Core.Net
         /// </param>
         Task<HttpOperationResponse> DeleteListItemWithHttpMessagesAsync(int id, string listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
+        /// <param name='user'>
+        /// </param>
+        /// <param name='password'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<IdentityResult>> ApiUserAdduserByUserGetWithHttpMessagesAsync(string user, string password = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name='user'>
+        /// </param>
+        /// <param name='password'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<string>> ApiUserLoginByUserGetWithHttpMessagesAsync(string user, string password = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
     }
 }
