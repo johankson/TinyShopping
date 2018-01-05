@@ -30,16 +30,23 @@ namespace TinyShopping.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthorization();
-            services.AddSingleton<TokenService>();
+            services.AddDbContext<ShoppingDbContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("ShoppingDB")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Shopping API", Version = "v1" });
             });
-            services.AddDbContext<ShoppingDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("ShoppingDB")));
+            ConfigureAuth(services);
+            services.AddMvc();
+        }
+
+        private void ConfigureAuth(IServiceCollection services)
+        {
+            services.AddAuthorization();
+            services.AddSingleton<TokenService>();
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ShoppingDbContext>()
+                .AddEntityFrameworkStores<ShoppingDbContext>()
                 .AddDefaultTokenProviders();
             services.AddAuthentication(options =>
             {
@@ -63,7 +70,6 @@ namespace TinyShopping.Api
                     ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
                 };
             });
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
