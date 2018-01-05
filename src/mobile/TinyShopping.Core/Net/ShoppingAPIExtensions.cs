@@ -20,24 +20,20 @@ namespace TinyShopping.Core.Net
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='id'>
-            /// </param>
-            public static IList<ShoppingList> ApiShoppingListGet(this IShoppingAPI operations, int id)
+            public static IList<ShoppingList> GetShoppingLists(this IShoppingAPI operations)
             {
-                return operations.ApiShoppingListGetAsync(id).GetAwaiter().GetResult();
+                return operations.GetShoppingListsAsync().GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='id'>
-            /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<ShoppingList>> ApiShoppingListGetAsync(this IShoppingAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<ShoppingList>> GetShoppingListsAsync(this IShoppingAPI operations, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.ApiShoppingListGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetShoppingListsWithHttpMessagesAsync(null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -48,9 +44,9 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='listData'>
             /// </param>
-            public static void ApiShoppingListPost(this IShoppingAPI operations, ShoppingList listData = default(ShoppingList))
+            public static void AddShoppingList(this IShoppingAPI operations, ShoppingList listData = default(ShoppingList))
             {
-                operations.ApiShoppingListPostAsync(listData).GetAwaiter().GetResult();
+                operations.AddShoppingListAsync(listData).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -61,9 +57,9 @@ namespace TinyShopping.Core.Net
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiShoppingListPostAsync(this IShoppingAPI operations, ShoppingList listData = default(ShoppingList), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task AddShoppingListAsync(this IShoppingAPI operations, ShoppingList listData = default(ShoppingList), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiShoppingListPostWithHttpMessagesAsync(listData, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                (await operations.AddShoppingListWithHttpMessagesAsync(listData, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <param name='operations'>
@@ -71,9 +67,9 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='id'>
             /// </param>
-            public static ShoppingList ApiShoppingListByIdGet(this IShoppingAPI operations, int id)
+            public static ShoppingList GetShoppingList(this IShoppingAPI operations, int id)
             {
-                return operations.ApiShoppingListByIdGetAsync(id).GetAwaiter().GetResult();
+                return operations.GetShoppingListAsync(id).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -84,9 +80,9 @@ namespace TinyShopping.Core.Net
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<ShoppingList> ApiShoppingListByIdGetAsync(this IShoppingAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<ShoppingList> GetShoppingListAsync(this IShoppingAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.ApiShoppingListByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetShoppingListWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -99,9 +95,9 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='listData'>
             /// </param>
-            public static void ApiShoppingListByIdPut(this IShoppingAPI operations, int id, ShoppingList listData = default(ShoppingList))
+            public static void UpdateShoppingList(this IShoppingAPI operations, int id, ShoppingList listData = default(ShoppingList))
             {
-                operations.ApiShoppingListByIdPutAsync(id, listData).GetAwaiter().GetResult();
+                operations.UpdateShoppingListAsync(id, listData).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -114,9 +110,9 @@ namespace TinyShopping.Core.Net
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiShoppingListByIdPutAsync(this IShoppingAPI operations, int id, ShoppingList listData = default(ShoppingList), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task UpdateShoppingListAsync(this IShoppingAPI operations, int id, ShoppingList listData = default(ShoppingList), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiShoppingListByIdPutWithHttpMessagesAsync(id, listData, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                (await operations.UpdateShoppingListWithHttpMessagesAsync(id, listData, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <param name='operations'>
@@ -124,9 +120,9 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='id'>
             /// </param>
-            public static void ApiShoppingListByIdDelete(this IShoppingAPI operations, int id)
+            public static void DeleteShoppingList(this IShoppingAPI operations, int id)
             {
-                operations.ApiShoppingListByIdDeleteAsync(id).GetAwaiter().GetResult();
+                operations.DeleteShoppingListAsync(id).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -137,9 +133,9 @@ namespace TinyShopping.Core.Net
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiShoppingListByIdDeleteAsync(this IShoppingAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task DeleteShoppingListAsync(this IShoppingAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiShoppingListByIdDeleteWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                (await operations.DeleteShoppingListWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <param name='operations'>
@@ -149,9 +145,9 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='listid'>
             /// </param>
-            public static IList<Item> ApiShoppingListByListidItemsGet(this IShoppingAPI operations, int id, string listid)
+            public static IList<Item> GetListItems(this IShoppingAPI operations, int id, string listid)
             {
-                return operations.ApiShoppingListByListidItemsGetAsync(id, listid).GetAwaiter().GetResult();
+                return operations.GetListItemsAsync(id, listid).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -164,9 +160,9 @@ namespace TinyShopping.Core.Net
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<Item>> ApiShoppingListByListidItemsGetAsync(this IShoppingAPI operations, int id, string listid, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<IList<Item>> GetListItemsAsync(this IShoppingAPI operations, int id, string listid, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.ApiShoppingListByListidItemsGetWithHttpMessagesAsync(id, listid, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetListItemsWithHttpMessagesAsync(id, listid, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -177,11 +173,11 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='listid'>
             /// </param>
-            /// <param name='listData'>
+            /// <param name='itemData'>
             /// </param>
-            public static void ApiShoppingListByListidItemsPost(this IShoppingAPI operations, string listid, Item listData = default(Item))
+            public static void AddListItem(this IShoppingAPI operations, string listid, Item itemData = default(Item))
             {
-                operations.ApiShoppingListByListidItemsPostAsync(listid, listData).GetAwaiter().GetResult();
+                operations.AddListItemAsync(listid, itemData).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -189,14 +185,14 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='listid'>
             /// </param>
-            /// <param name='listData'>
+            /// <param name='itemData'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiShoppingListByListidItemsPostAsync(this IShoppingAPI operations, string listid, Item listData = default(Item), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task AddListItemAsync(this IShoppingAPI operations, string listid, Item itemData = default(Item), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiShoppingListByListidItemsPostWithHttpMessagesAsync(listid, listData, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                (await operations.AddListItemWithHttpMessagesAsync(listid, itemData, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <param name='operations'>
@@ -206,9 +202,9 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='listid'>
             /// </param>
-            public static Item ApiShoppingListByListidItemsByIdGet(this IShoppingAPI operations, int id, string listid)
+            public static Item GetListItem(this IShoppingAPI operations, int id, string listid)
             {
-                return operations.ApiShoppingListByListidItemsByIdGetAsync(id, listid).GetAwaiter().GetResult();
+                return operations.GetListItemAsync(id, listid).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -221,9 +217,9 @@ namespace TinyShopping.Core.Net
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<Item> ApiShoppingListByListidItemsByIdGetAsync(this IShoppingAPI operations, int id, string listid, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<Item> GetListItemAsync(this IShoppingAPI operations, int id, string listid, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.ApiShoppingListByListidItemsByIdGetWithHttpMessagesAsync(id, listid, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetListItemWithHttpMessagesAsync(id, listid, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -236,11 +232,11 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='listid'>
             /// </param>
-            /// <param name='listData'>
+            /// <param name='itemData'>
             /// </param>
-            public static void ApiShoppingListByListidItemsByIdPut(this IShoppingAPI operations, int id, string listid, Item listData = default(Item))
+            public static void UpdateListItem(this IShoppingAPI operations, int id, string listid, Item itemData = default(Item))
             {
-                operations.ApiShoppingListByListidItemsByIdPutAsync(id, listid, listData).GetAwaiter().GetResult();
+                operations.UpdateListItemAsync(id, listid, itemData).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -250,14 +246,14 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='listid'>
             /// </param>
-            /// <param name='listData'>
+            /// <param name='itemData'>
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiShoppingListByListidItemsByIdPutAsync(this IShoppingAPI operations, int id, string listid, Item listData = default(Item), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task UpdateListItemAsync(this IShoppingAPI operations, int id, string listid, Item itemData = default(Item), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiShoppingListByListidItemsByIdPutWithHttpMessagesAsync(id, listid, listData, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                (await operations.UpdateListItemWithHttpMessagesAsync(id, listid, itemData, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <param name='operations'>
@@ -267,9 +263,9 @@ namespace TinyShopping.Core.Net
             /// </param>
             /// <param name='listid'>
             /// </param>
-            public static void ApiShoppingListByListidItemsByIdDelete(this IShoppingAPI operations, int id, string listid)
+            public static void DeleteListItem(this IShoppingAPI operations, int id, string listid)
             {
-                operations.ApiShoppingListByListidItemsByIdDeleteAsync(id, listid).GetAwaiter().GetResult();
+                operations.DeleteListItemAsync(id, listid).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -282,9 +278,9 @@ namespace TinyShopping.Core.Net
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiShoppingListByListidItemsByIdDeleteAsync(this IShoppingAPI operations, int id, string listid, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task DeleteListItemAsync(this IShoppingAPI operations, int id, string listid, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiShoppingListByListidItemsByIdDeleteWithHttpMessagesAsync(id, listid, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                (await operations.DeleteListItemWithHttpMessagesAsync(id, listid, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
     }
