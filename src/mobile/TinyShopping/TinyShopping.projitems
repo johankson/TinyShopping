@@ -19,5 +19,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)TinyShoppingPage.xaml.cs">
       <DependentUpon>TinyShoppingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TinyShoppingListViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using TinyShopping.ViewModels;
+using Xamarin.Forms;
 
 namespace TinyShopping
 {
@@ -7,6 +8,7 @@ namespace TinyShopping
         public TinyShoppingPage()
         {
             InitializeComponent();
+            BindingContext = new TinyShoppingListViewModel();
         }
     }
 }
