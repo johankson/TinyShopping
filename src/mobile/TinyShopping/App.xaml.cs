@@ -8,7 +8,7 @@ namespace TinyShopping
         {
             InitializeComponent();
 
-            MainPage = new TinyShoppingPage();
+            MainPage = new NavigationPage(new TinyShoppingPage());
         }
 
         protected override void OnStart()
