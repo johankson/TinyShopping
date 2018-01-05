@@ -268,8 +268,6 @@ namespace TinyShopping.Core.Net
             };
             CustomInitialize();
         }
-        /// <param name='id'>
-        /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
         /// </param>
@@ -285,7 +283,7 @@ namespace TinyShopping.Core.Net
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<IList<ShoppingList>>> ApiShoppingListGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<IList<ShoppingList>>> GetShoppingListsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -294,19 +292,12 @@ namespace TinyShopping.Core.Net
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ApiShoppingListGet", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "GetShoppingLists", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/ShoppingList").ToString();
-            List<string> _queryParameters = new List<string>();
-            _queryParameters.Add(string.Format("id={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(id, SerializationSettings).Trim('"'))));
-            if (_queryParameters.Count > 0)
-            {
-                _url += "?" + string.Join("&", _queryParameters);
-            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
@@ -414,7 +405,7 @@ namespace TinyShopping.Core.Net
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiShoppingListPostWithHttpMessagesAsync(ShoppingList listData = default(ShoppingList), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> AddShoppingListWithHttpMessagesAsync(ShoppingList listData = default(ShoppingList), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -425,7 +416,7 @@ namespace TinyShopping.Core.Net
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("listData", listData);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ApiShoppingListPost", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "AddShoppingList", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
@@ -528,7 +519,7 @@ namespace TinyShopping.Core.Net
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<ShoppingList>> ApiShoppingListByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<ShoppingList>> GetShoppingListWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -539,7 +530,7 @@ namespace TinyShopping.Core.Net
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ApiShoppingListByIdGet", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "GetShoppingList", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
@@ -654,7 +645,7 @@ namespace TinyShopping.Core.Net
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiShoppingListByIdPutWithHttpMessagesAsync(int id, ShoppingList listData = default(ShoppingList), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> UpdateShoppingListWithHttpMessagesAsync(int id, ShoppingList listData = default(ShoppingList), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -666,7 +657,7 @@ namespace TinyShopping.Core.Net
                 tracingParameters.Add("id", id);
                 tracingParameters.Add("listData", listData);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ApiShoppingListByIdPut", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "UpdateShoppingList", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
@@ -767,7 +758,7 @@ namespace TinyShopping.Core.Net
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiShoppingListByIdDeleteWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> DeleteShoppingListWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -778,7 +769,7 @@ namespace TinyShopping.Core.Net
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ApiShoppingListByIdDelete", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "DeleteShoppingList", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
@@ -884,7 +875,7 @@ namespace TinyShopping.Core.Net
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<IList<Item>>> ApiShoppingListByListidItemsGetWithHttpMessagesAsync(int id, string listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<IList<Item>>> GetListItemsWithHttpMessagesAsync(int id, string listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (listid == null)
             {
@@ -900,7 +891,7 @@ namespace TinyShopping.Core.Net
                 tracingParameters.Add("id", id);
                 tracingParameters.Add("listid", listid);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ApiShoppingListByListidItemsGet", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "GetListItems", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
@@ -1007,7 +998,7 @@ namespace TinyShopping.Core.Net
 
         /// <param name='listid'>
         /// </param>
-        /// <param name='listData'>
+        /// <param name='itemData'>
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -1027,7 +1018,7 @@ namespace TinyShopping.Core.Net
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiShoppingListByListidItemsPostWithHttpMessagesAsync(string listid, Item listData = default(Item), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> AddListItemWithHttpMessagesAsync(string listid, Item itemData = default(Item), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (listid == null)
             {
@@ -1040,10 +1031,10 @@ namespace TinyShopping.Core.Net
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("listData", listData);
+                tracingParameters.Add("itemData", itemData);
                 tracingParameters.Add("listid", listid);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ApiShoppingListByListidItemsPost", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "AddListItem", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
@@ -1071,9 +1062,9 @@ namespace TinyShopping.Core.Net
 
             // Serialize Request
             string _requestContent = null;
-            if(listData != null)
+            if(itemData != null)
             {
-                _requestContent = SafeJsonConvert.SerializeObject(listData, SerializationSettings);
+                _requestContent = SafeJsonConvert.SerializeObject(itemData, SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
@@ -1155,7 +1146,7 @@ namespace TinyShopping.Core.Net
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<Item>> ApiShoppingListByListidItemsByIdGetWithHttpMessagesAsync(int id, string listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<Item>> GetListItemWithHttpMessagesAsync(int id, string listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (listid == null)
             {
@@ -1171,7 +1162,7 @@ namespace TinyShopping.Core.Net
                 tracingParameters.Add("id", id);
                 tracingParameters.Add("listid", listid);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ApiShoppingListByListidItemsByIdGet", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "GetListItem", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
@@ -1275,7 +1266,7 @@ namespace TinyShopping.Core.Net
         /// </param>
         /// <param name='listid'>
         /// </param>
-        /// <param name='listData'>
+        /// <param name='itemData'>
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -1295,7 +1286,7 @@ namespace TinyShopping.Core.Net
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiShoppingListByListidItemsByIdPutWithHttpMessagesAsync(int id, string listid, Item listData = default(Item), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> UpdateListItemWithHttpMessagesAsync(int id, string listid, Item itemData = default(Item), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (listid == null)
             {
@@ -1309,10 +1300,10 @@ namespace TinyShopping.Core.Net
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("id", id);
-                tracingParameters.Add("listData", listData);
+                tracingParameters.Add("itemData", itemData);
                 tracingParameters.Add("listid", listid);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ApiShoppingListByListidItemsByIdPut", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "UpdateListItem", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
@@ -1341,9 +1332,9 @@ namespace TinyShopping.Core.Net
 
             // Serialize Request
             string _requestContent = null;
-            if(listData != null)
+            if(itemData != null)
             {
-                _requestContent = SafeJsonConvert.SerializeObject(listData, SerializationSettings);
+                _requestContent = SafeJsonConvert.SerializeObject(itemData, SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
@@ -1422,7 +1413,7 @@ namespace TinyShopping.Core.Net
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiShoppingListByListidItemsByIdDeleteWithHttpMessagesAsync(int id, string listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse> DeleteListItemWithHttpMessagesAsync(int id, string listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (listid == null)
             {
@@ -1438,7 +1429,7 @@ namespace TinyShopping.Core.Net
                 tracingParameters.Add("id", id);
                 tracingParameters.Add("listid", listid);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ApiShoppingListByListidItemsByIdDelete", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "DeleteListItem", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
