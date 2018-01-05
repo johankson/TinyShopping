@@ -90,8 +90,6 @@ namespace TinyShopping.Core.Net
         /// </param>
         Task<HttpOperationResponse> DeleteShoppingListWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
-        /// <param name='id'>
-        /// </param>
         /// <param name='listid'>
         /// </param>
         /// <param name='customHeaders'>
@@ -100,9 +98,19 @@ namespace TinyShopping.Core.Net
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<Item>>> GetListItemsWithHttpMessagesAsync(int id, string listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<Item>>> GetListItemsWithHttpMessagesAsync(int listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
-        /// <param name='listid'>
+        /// <param name='id'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<Item>> GetListItemWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <param name='id'>
         /// </param>
         /// <param name='itemData'>
         /// </param>
@@ -112,11 +120,9 @@ namespace TinyShopping.Core.Net
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> AddListItemWithHttpMessagesAsync(string listid, Item itemData = default(Item), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> UpdateListItemWithHttpMessagesAsync(int id, Item itemData = default(Item), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='id'>
-        /// </param>
-        /// <param name='listid'>
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -124,12 +130,8 @@ namespace TinyShopping.Core.Net
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<Item>> GetListItemWithHttpMessagesAsync(int id, string listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> DeleteListItemWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
-        /// <param name='id'>
-        /// </param>
-        /// <param name='listid'>
-        /// </param>
         /// <param name='itemData'>
         /// </param>
         /// <param name='customHeaders'>
@@ -138,19 +140,7 @@ namespace TinyShopping.Core.Net
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> UpdateListItemWithHttpMessagesAsync(int id, string listid, Item itemData = default(Item), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <param name='id'>
-        /// </param>
-        /// <param name='listid'>
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse> DeleteListItemWithHttpMessagesAsync(int id, string listid, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> AddListItemWithHttpMessagesAsync(Item itemData = default(Item), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='user'>
         /// </param>

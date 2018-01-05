@@ -63,20 +63,20 @@ namespace TinyShopping.Api.Controllers
         // Items
         [SwaggerOperation("GetListItems")]
         [HttpGet("{listid}/items", Name = "GetListItems")]
-        public IEnumerable<Item> GetItemsList(int id)
+        public IEnumerable<Item> GetItemsList(int listid)
         {
-            return db.GetListItems(id);
+            return db.GetListItems(listid);
         }
 
         [SwaggerOperation("GetListItem")]
-        [HttpGet("{listid}/items/{id}", Name = "GetListItem")]
+        [HttpGet("items/{id}", Name = "GetListItem")]
         public Item GetItemList(int id)
         {
             return db.Items.FirstOrDefault(d => d.ID == id);
         }
 
         [SwaggerOperation("AddListItem")]
-        [HttpPost("{listid}/items", Name = "AddListItem")]
+        [HttpPost("items", Name = "AddListItem")]
         public void AddItem([FromBody]Item itemData)
         {
             db.Items.Add(itemData);
@@ -84,7 +84,7 @@ namespace TinyShopping.Api.Controllers
         }
 
         [SwaggerOperation("UpdateListItem")]
-        [HttpPut("{listid}/items/{id}", Name = "UpdateListItem")]
+        [HttpPut("items/{id}", Name = "UpdateListItem")]
         public void UpdateItem(int id, [FromBody]Item itemData)
         {
             var item = db.Lists.FirstOrDefault(d => d.ID == id);
@@ -93,7 +93,7 @@ namespace TinyShopping.Api.Controllers
         }
 
         [SwaggerOperation("DeleteListItem")]
-        [HttpDelete("{listid}/items/{id}", Name = "DeleteListItem")]
+        [HttpDelete("items/{id}", Name = "DeleteListItem")]
         public void DeleteItem(int id)
         {
             var item = db.Items.FirstOrDefault(d => d.ID == id);

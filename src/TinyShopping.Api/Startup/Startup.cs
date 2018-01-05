@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using TinyShopping.Api.Data;
 using TinyShopping.Api.Data.Models;
+using TinyShopping.Api.Services;
 
 namespace TinyShopping.Api
 {
@@ -30,7 +31,7 @@ namespace TinyShopping.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthorization();
-
+            services.AddSingleton<TokenService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Shopping API", Version = "v1" });
@@ -75,7 +76,7 @@ namespace TinyShopping.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shoppinglist API V1");
             });
 
             app.UseAuthentication();
