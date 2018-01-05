@@ -8,7 +8,7 @@
     <StackLayout>
         <Label Text="TinyShopping" />
         
-        <ListView>
+        <ListView ItemsSource="{Binding ShoppingLists}" >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

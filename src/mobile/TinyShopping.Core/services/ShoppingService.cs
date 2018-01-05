@@ -17,7 +17,8 @@ namespace TinyShopping.Core.services
 
         public async Task<IList<ShoppingList>> GetShoppingLists()
         {
-            return new NotImplementedException();
+            var data =  await _client.GetShoppingListsAsync();
+            return data;
         }
     }
 }
