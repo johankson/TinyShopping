@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using TinyCache;
+using Xamarin.Forms;
 
 namespace TinyShopping
 {
@@ -8,7 +9,10 @@ namespace TinyShopping
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new TinyShoppingPage());
+            Bootstrapper.Initialize(this);
+
+            MainPage = new NavigationPage(new Views.ShoppingListView());
+
         }
 
         protected override void OnStart()

@@ -1,23 +1,33 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using TinyShopping.Core.services;
-using Xamarin.Forms;
+using TinyShopping.Core.Net.Models;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using PropertyChanged;
+using TinyMvvm;
 
 namespace TinyShopping.ViewModels
 {
-    public class ShoppingListViewModel 
+    
+    public class ShoppingListViewModel : ShoppingBaseModel
     {
         private ShoppingService _shoppingService;
 
-        public ShoppingListViewModel(int shoppingListId)
+        public ShoppingListViewModel(ShoppingService shoppingService) 
         {
-            _shoppingService = new ShoppingService();
-            Task.Run(async () => await LoadData(shoppingListId));
+            _shoppingService = shoppingService;
         }
 
-        public async Task LoadData(int id)
+        public async override Task OnFirstAppear()
         {
-            var items = await _shoppingService.GetItems(id);
+            await LoadData();
         }
+        public async Task LoadData()
+        {
+            ShoppingLists = new ObservableCollection<ShoppingList>(await _shoppingService.GetShoppingLists());
+        }
+
+        public ObservableCollection<ShoppingList> ShoppingLists { get; set; }
     }
 }

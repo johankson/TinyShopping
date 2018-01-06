@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TinyShopping.Views.ShoppingListView">
+<tinymvvm:ViewBase
+	x:TypeArguments="viewmodels:ShoppingListViewModel"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
+	xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="TinyShopping.Views.ShoppingListView">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem
+			Name="MenuItem1"
+			Order="Secondary"
+			Text="Add"
+			Priority="0" />
+	</ContentPage.ToolbarItems>
 	<ContentPage.Content>
-        <ListView ItemsSource="{Binding Items}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                       <Grid>
-                            <Label Text="Kondomer" />
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-         
+		<ListView
+			ItemsSource="{Binding ShoppingLists}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<Label
+							Text="{Binding Name}" />
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
 	</ContentPage.Content>
-</ContentPage>
+</tinymvvm:ViewBase>

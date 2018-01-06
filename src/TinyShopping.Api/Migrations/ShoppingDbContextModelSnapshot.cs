@@ -183,11 +183,25 @@ namespace TinyShopping.Api.Migrations
 
                     b.Property<DateTime>("Added");
 
-                    b.Property<DateTime>("Completed");
+                    b.Property<string>("Barcode");
+
+                    b.Property<bool>("Completed");
+
+                    b.Property<DateTime>("Done");
+
+                    b.Property<double>("Lat");
+
+                    b.Property<int>("ListId");
+
+                    b.Property<double>("Lng");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("ShoppingListId");
+                    b.Property<double>("Price");
+
+                    b.Property<bool>("PriceExists");
+
+                    b.Property<int>("StoreID");
 
                     b.HasKey("ID");
 
@@ -207,7 +221,7 @@ namespace TinyShopping.Api.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("StoreId");
+                    b.Property<int>("StoreID");
 
                     b.HasKey("ID");
 
@@ -219,7 +233,15 @@ namespace TinyShopping.Api.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Chain");
+
+                    b.Property<double>("Lat");
+
+                    b.Property<double>("Lng");
+
                     b.Property<string>("Name");
+
+                    b.Property<string>("Notes");
 
                     b.HasKey("ID");
 

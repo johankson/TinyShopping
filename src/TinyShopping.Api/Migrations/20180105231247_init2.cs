@@ -54,9 +54,16 @@ namespace TinyShopping.Api.Migrations
                     ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Added = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Completed = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Barcode = table.Column<string>(type: "TEXT", nullable: true),
+                    Completed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Done = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Lat = table.Column<double>(type: "REAL", nullable: false),
+                    ListId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Lng = table.Column<double>(type: "REAL", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    ShoppingListId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Price = table.Column<double>(type: "REAL", nullable: false),
+                    PriceExists = table.Column<bool>(type: "INTEGER", nullable: false),
+                    StoreID = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,7 +80,7 @@ namespace TinyShopping.Api.Migrations
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Done = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    StoreId = table.Column<int>(type: "INTEGER", nullable: false)
+                    StoreID = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,7 +93,11 @@ namespace TinyShopping.Api.Migrations
                 {
                     ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Chain = table.Column<string>(type: "TEXT", nullable: true),
+                    Lat = table.Column<double>(type: "REAL", nullable: false),
+                    Lng = table.Column<double>(type: "REAL", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

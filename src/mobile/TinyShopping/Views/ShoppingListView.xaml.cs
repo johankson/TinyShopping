@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using TinyShopping.ViewModels;
-using Xamarin.Forms;
-
-namespace TinyShopping.Views
+﻿namespace TinyShopping.Views
 {
-    public partial class ShoppingListView : ContentPage
+    using TinyMvvm.Forms;
+    using TinyShopping.ViewModels;
+    
+    public partial class ShoppingListView : ViewBase<ShoppingListViewModel>
     {
         public ShoppingListView()
         {
-            InitializeComponent();
-
-            BindingContext = new ShoppingListViewModel();
+            this.InitializeComponent();
         }
     }
 }

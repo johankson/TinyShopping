@@ -23,7 +23,7 @@ namespace TinyShopping.Api.Controllers
         }
 
         [HttpGet("adduser/{user}")]
-        public async Task<IdentityResult> AddUser(string user, [FromQuery]string password)
+        public async Task<object> AddUser(string user, [FromQuery]string password)
         {
             var r = await userManager.CreateAsync(new ApplicationUser()
             {

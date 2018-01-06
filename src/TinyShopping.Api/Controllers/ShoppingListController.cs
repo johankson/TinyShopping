@@ -10,7 +10,7 @@ using TinyShopping.Api.Extensions;
 
 namespace TinyShopping.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/lists")]
     public class ShoppingListController : Controller
     {
         ShoppingDbContext db;
@@ -66,39 +66,6 @@ namespace TinyShopping.Api.Controllers
         public IEnumerable<Item> GetItemsList(int listid)
         {
             return db.GetListItems(listid);
-        }
-
-        [SwaggerOperation("GetListItem")]
-        [HttpGet("items/{id}", Name = "GetListItem")]
-        public Item GetItemList(int id)
-        {
-            return db.Items.FirstOrDefault(d => d.ID == id);
-        }
-
-        [SwaggerOperation("AddListItem")]
-        [HttpPost("items", Name = "AddListItem")]
-        public void AddItem([FromBody]Item itemData)
-        {
-            db.Items.Add(itemData);
-            db.SaveChangesAsync();
-        }
-
-        [SwaggerOperation("UpdateListItem")]
-        [HttpPut("items/{id}", Name = "UpdateListItem")]
-        public void UpdateItem(int id, [FromBody]Item itemData)
-        {
-            var item = db.Lists.FirstOrDefault(d => d.ID == id);
-            itemData.MemberviseCopyTo(item);
-            db.SaveChangesAsync();
-        }
-
-        [SwaggerOperation("DeleteListItem")]
-        [HttpDelete("items/{id}", Name = "DeleteListItem")]
-        public void DeleteItem(int id)
-        {
-            var item = db.Items.FirstOrDefault(d => d.ID == id);
-            db.Items.Remove(item);
-            db.SaveChangesAsync();
         }
     }
 }
