@@ -10,18 +10,33 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)TinyShoppingPage.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ListEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ShoppingListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)TinyShoppingPage.xaml.cs">
-      <DependentUpon>TinyShoppingPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ShoppingListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ListEditor.xaml.cs">
+      <DependentUpon>ListEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\TinyShoppingListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ListEditorViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Startup\Bootstrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ShoppingListView.xaml.cs">
+      <DependentUpon>ShoppingListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ShoppingBaseModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Views\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Startup\" />
   </ItemGroup>
 </Project>

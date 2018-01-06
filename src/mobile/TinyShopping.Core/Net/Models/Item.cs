@@ -22,16 +22,20 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// Initializes a new instance of the Item class.
         /// </summary>
-        public Item(int? id = default(int?), System.DateTime? added = default(System.DateTime?), System.DateTime? done = default(System.DateTime?), string name = default(string), bool? completed = default(bool?), int? listId = default(int?), double? lat = default(double?), double? lng = default(double?))
+        public Item(int? id = default(int?), System.DateTime? added = default(System.DateTime?), System.DateTime? done = default(System.DateTime?), string name = default(string), bool? completed = default(bool?), int? storeID = default(int?), int? listId = default(int?), double? lat = default(double?), double? lng = default(double?), bool? priceExists = default(bool?), double? price = default(double?), string barcode = default(string))
         {
             Id = id;
             Added = added;
             Done = done;
             Name = name;
             Completed = completed;
+            StoreID = storeID;
             ListId = listId;
             Lat = lat;
             Lng = lng;
+            PriceExists = priceExists;
+            Price = price;
+            Barcode = barcode;
             CustomInit();
         }
 
@@ -67,6 +71,11 @@ namespace TinyShopping.Core.Net.Models
 
         /// <summary>
         /// </summary>
+        [JsonProperty(PropertyName = "storeID")]
+        public int? StoreID { get; set; }
+
+        /// <summary>
+        /// </summary>
         [JsonProperty(PropertyName = "listId")]
         public int? ListId { get; set; }
 
@@ -79,6 +88,21 @@ namespace TinyShopping.Core.Net.Models
         /// </summary>
         [JsonProperty(PropertyName = "lng")]
         public double? Lng { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "priceExists")]
+        public bool? PriceExists { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "price")]
+        public double? Price { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "barcode")]
+        public string Barcode { get; set; }
 
     }
 }

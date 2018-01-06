@@ -12,12 +12,29 @@ namespace TinyShopping.Core.services
 
         public ShoppingService()
         {
-            _client = new ShoppingAPI(new Uri("http://192.168.119.131:5000"), new UnsafeCredentials(), new TinyCache.TinyCacheDelegationHandler());
+            //_client = new ShoppingAPI(new Uri("http://localhost:5000"), new UnsafeCredentials(), new TinyCache.TinyCacheDelegationHandler());
+            _client = new ShoppingAPI(new Uri("http://localhost:5000"), new UnsafeCredentials());
         }
 
         public async Task<IList<ShoppingList>> GetShoppingLists()
         {
-            var data =  await _client.GetShoppingListsAsync();
+            var data = await _client.GetShoppingListsAsync();
+            return data;
+        }
+
+        public async Task AddItem(Item item)
+        {
+            await _client.AddListItemAsync(item);
+        }
+
+        public async Task AddList(ShoppingList item)
+        {
+            await _client.AddShoppingListAsync(item);
+        }
+
+        public async Task<IList<Item>> GetListItems(int listId)
+        {
+            var data = await _client.GetListItemsAsync(listId);
             return data;
         }
     }

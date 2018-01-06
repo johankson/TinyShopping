@@ -110,6 +110,27 @@
     <Reference Include="PropertyChanged">
       <HintPath>..\packages\PropertyChanged.Fody.2.2.4.0\lib\netstandard1.0\PropertyChanged.dll</HintPath>
     </Reference>
+    <Reference Include="TinyNavigationHelper.Abstraction">
+      <HintPath>..\packages\TinyNavigationHelper.Abstraction.1.2.1\lib\netstandard1.0\TinyNavigationHelper.Abstraction.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyMvvm">
+      <HintPath>..\packages\TinyMvvm.0.1.39\lib\netstandard1.0\TinyMvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyNavigationHelper.Forms">
+      <HintPath>..\packages\TinyNavigationHelper.Forms.1.2.1\lib\netstandard1.0\TinyNavigationHelper.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyMvvm.Forms">
+      <HintPath>..\packages\TinyMvvm.Forms.0.1.39\lib\netstandard1.0\TinyMvvm.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyCache.Forms">
+      <HintPath>..\packages\TinyCache.Forms.1.0.18\lib\netstandard1.4\TinyCache.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.4.6.1\lib\netstandard1.1\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyMvvm.Autofac">
+      <HintPath>..\packages\TinyMvvm.Autofac.0.1.39\lib\netstandard1.1\TinyMvvm.Autofac.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />

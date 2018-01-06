@@ -5,21 +5,24 @@ using TinyShopping.Core.Net.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using PropertyChanged;
+using TinyMvvm;
 
 namespace TinyShopping.ViewModels
 {
-    [AddINotifyPropertyChangedInterface]
-    public class TinyShoppingListViewModel
+    
+    public class ShoppingListViewModel : ShoppingBaseModel
     {
         private ShoppingService _shoppingService;
 
-        public TinyShoppingListViewModel()
+        public ShoppingListViewModel(ShoppingService shoppingService) 
         {
-            _shoppingService = new ShoppingService();
-
-            Task.Run(async () => await LoadData());
+            _shoppingService = shoppingService;
         }
 
+        public async override Task OnFirstAppear()
+        {
+            await LoadData();
+        }
         public async Task LoadData()
         {
             ShoppingLists = new ObservableCollection<ShoppingList>(await _shoppingService.GetShoppingLists());

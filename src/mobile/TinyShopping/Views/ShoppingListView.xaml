@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tinymvvm:ViewBase
+	x:TypeArguments="viewmodels:ShoppingListViewModel"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
+	xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="TinyShopping.Views.ShoppingListView">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem
+			Name="MenuItem1"
+			Order="Secondary"
+			Text="Add"
+			Priority="0" />
+	</ContentPage.ToolbarItems>
+	<ContentPage.Content>
+		<ListView
+			ItemsSource="{Binding ShoppingLists}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<Label
+							Text="{Binding Name}" />
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</ContentPage.Content>
+</tinymvvm:ViewBase>
