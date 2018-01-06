@@ -1,4 +1,4 @@
-﻿namespace TinyShopping.Views
+﻿﻿namespace TinyShopping.Views
 {
     using TinyMvvm.Forms;
     using TinyShopping.ViewModels;
