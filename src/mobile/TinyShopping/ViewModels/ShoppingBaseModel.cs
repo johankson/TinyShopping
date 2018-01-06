@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using TinyPubSubLib;
 using Xamarin.Forms;
 
 namespace TinyShopping.ViewModels
@@ -8,6 +9,11 @@ namespace TinyShopping.ViewModels
     public class ShoppingBaseModel : TinyMvvm.ViewModelBase
     {
         private bool hasLoaded = false;
+
+        public ShoppingBaseModel()
+        {
+            TinyPubSub.Register(this);
+        }
 
         public async virtual Task OnFirstAppear() {
             

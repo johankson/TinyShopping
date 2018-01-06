@@ -5,13 +5,16 @@
     xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
     xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="TinyShopping.Views.ShoppingListView">
+    x:Class="TinyShopping.Views.ShoppingListView"
+    Title="TinyShopping">
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Name="MenuItem1"
-            Order="Secondary"
             Text="Add"
-            Priority="0" />
+            Priority="0"
+            Command="{Binding NavigateTo}"
+            CommandParameter="ListEditorView"   
+        />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView

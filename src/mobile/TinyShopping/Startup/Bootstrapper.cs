@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Reflection;
 using Autofac;
 using TinyCache;
 using TinyMvvm.Autofac;
 using TinyMvvm.IoC;
 using TinyNavigationHelper;
+using TinyPubSubLib;
 
 namespace TinyShopping
 {
@@ -40,7 +42,14 @@ namespace TinyShopping
             var cacheFirstPolicy = new TinyCachePolicy().SetMode(TinyCacheModeEnum.FetchFirst).SetFetchTimeout(600);
             TinyCache.TinyCache.SetBasePolicy(cacheFirstPolicy);
 
+            // Init TinyMvvm
             TinyMvvm.Forms.TinyMvvm.Initialize();
+
+            var asm = typeof(App).GetTypeInfo().Assembly;
+            navigationHelper.RegisterViewsInAssembly(asm);
+
+            // Init TinyPubSub
+            TinyPubSubLib.TinyPubSubForms.Init(app);
 
             // Platform specifics
             Platform?.Initialize(app, builder);

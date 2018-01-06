@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ListEditor.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ListEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -24,8 +24,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ShoppingListViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ListEditor.xaml.cs">
-      <DependentUpon>ListEditor.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ListEditorView.xaml.cs">
+      <DependentUpon>ListEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ListEditorViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Startup\Bootstrapper.cs" />
@@ -33,10 +33,12 @@
       <DependentUpon>ShoppingListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ShoppingBaseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messaging\Channels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
     <Folder Include="$(MSBuildThisFileDirectory)Startup\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Messaging\" />
   </ItemGroup>
 </Project>

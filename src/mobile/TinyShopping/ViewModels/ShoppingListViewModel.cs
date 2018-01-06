@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using PropertyChanged;
 using Xamarin.Forms;
 using TinyMvvm;
+using TinyPubSubLib;
+using TinyShopping.Messaging;
 
 namespace TinyShopping.ViewModels
 {
@@ -24,6 +26,8 @@ namespace TinyShopping.ViewModels
         {
             await LoadData();
         }
+
+        [TinySubscribe(Channels.ShoppingListAdded)]
         public async Task LoadData()
         {
             ShoppingLists = new ObservableCollection<ShoppingList>(await _shoppingService.GetShoppingLists());
@@ -41,5 +45,6 @@ namespace TinyShopping.ViewModels
                 }
             }
         }
+
     }
 }

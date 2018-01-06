@@ -5,7 +5,20 @@
     xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
     xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="TinyShopping.Views.ListEditor">
+    x:Class="TinyShopping.Views.ListEditorView"
+    Title="Add a list">
+     <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Name="MenuItem1"
+            Text="Save"
+            Priority="0"
+            Command="{Binding Save}"
+        />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Name"/>
+            <Entry Text="{Binding Name}" />
+        </StackLayout>
     </ContentPage.Content>
 </tinymvvm:ViewBase>

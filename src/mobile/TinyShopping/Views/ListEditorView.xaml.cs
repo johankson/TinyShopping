@@ -6,9 +6,9 @@ using TinyShopping.ViewModels;
 
 namespace TinyShopping.Views
 {
-    public partial class ListEditor : ViewBase<ListEditorViewModel>
+    public partial class ListEditorView : ViewBase<ListEditorViewModel>
     {
-        public ListEditor()
+        public ListEditorView()
         {
             InitializeComponent();
         }

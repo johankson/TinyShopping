@@ -1,4 +1,5 @@
 ﻿using TinyCache;
+using TinyNavigationHelper.Abstraction;
 using Xamarin.Forms;
 
 namespace TinyShopping
@@ -11,8 +12,7 @@ namespace TinyShopping
 
             Bootstrapper.Initialize(this);
 
-            MainPage = new NavigationPage(new Views.ShoppingListView());
-
+            NavigationHelper.Current.SetRootView("ShoppingListView", true);
         }
 
         protected override void OnStart()
