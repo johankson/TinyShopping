@@ -5,6 +5,7 @@ using TinyShopping.Core.Net.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using PropertyChanged;
+using Xamarin.Forms;
 
 namespace TinyShopping.ViewModels
 {
@@ -12,6 +13,8 @@ namespace TinyShopping.ViewModels
     public class TinyShoppingListViewModel
     {
         private ShoppingService _shoppingService;
+		
+        public INavigation Navigation { get; internal set; }
 
         public TinyShoppingListViewModel()
         {
@@ -26,5 +29,16 @@ namespace TinyShopping.ViewModels
         }
 
         public ObservableCollection<ShoppingList> ShoppingLists { get; set; }
+
+        public ShoppingList SelectedItem
+        {
+            set
+            {
+                if(value == null)
+                {
+                    return;
+                }
+            }
+        }
     }
 }

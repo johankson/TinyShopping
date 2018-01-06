@@ -8,7 +8,10 @@ namespace TinyShopping
         public TinyShoppingPage()
         {
             InitializeComponent();
-            BindingContext = new TinyShoppingListViewModel();
+
+            var vm = new TinyShoppingListViewModel();
+            vm.Navigation = this.Navigation;
+            BindingContext = vm;
         }
     }
 }

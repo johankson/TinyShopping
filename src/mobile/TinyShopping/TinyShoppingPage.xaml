@@ -8,12 +8,12 @@
     <StackLayout>
         <Label Text="TinyShopping" />
         
-        <ListView ItemsSource="{Binding ShoppingLists}" >
+        <ListView ItemsSource="{Binding ShoppingLists}" SelectedItem="{Binding SelectedItem}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Grid>
-                            <Label Text="Anka" />
+                            <Label Text="{Binding Name}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

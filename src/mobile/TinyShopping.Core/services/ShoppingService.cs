@@ -20,5 +20,11 @@ namespace TinyShopping.Core.services
             var data =  await _client.GetShoppingListsAsync();
             return data;
         }
+
+        public async Task<IList<Item>> GetItems(int shoppingListId)
+        {
+            var data = await _client.GetListItemsAsync(shoppingListId);
+            return data;
+        }
     }
 }
