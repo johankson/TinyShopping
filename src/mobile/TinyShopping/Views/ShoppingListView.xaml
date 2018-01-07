@@ -8,6 +8,9 @@
     x:Class="TinyShopping.Views.ShoppingListView"
     x:Name="root"
     Title="TinyShopping">
+    <tinymvvm:ViewBase.TitleView>
+        <Entry Text="Sklepar" />
+    </tinymvvm:ViewBase.TitleView>
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Name="MenuItem1"
@@ -26,16 +29,6 @@
             IsRefreshing="{Binding IsBusy, Mode=OneWay}"
             RefreshCommand="{Binding Refresh}"
             ItemsSource="{Binding ShoppingLists}">
-
-            <ListView.HeaderTemplate>
-                <DataTemplate>
-                        <Grid BackgroundColor="Fuchsia" Padding="8,2,8,2">
-                            <Entry Placeholder="Add item" Text="{Binding NewListName}" 
-                                Completed="Handle_Completed" FontSize="25" />
-                        </Grid>
-                </DataTemplate>
-            </ListView.HeaderTemplate>
-            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -51,7 +44,7 @@
                                 CommandParameter="{Binding .}" />
                         </ViewCell.ContextActions>
                         <Grid
-                            Margin="14,14,14,0">
+                            Margin="14,14">
                             <Label
                                 Text="{Binding Name}"
                                 FontAttributes="Bold" />
@@ -64,6 +57,13 @@
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <StackLayout BackgroundColor="Lime" Padding="10" Orientation="Horizontal">
+                        <Entry Placeholder="Add item" Text="{Binding NewListName}" Completed="Handle_Completed" HorizontalOptions="StartAndExpand" />
+                    </StackLayout>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
         </ListView>
     </ContentPage.Content>
 </tinymvvm:ViewBase>

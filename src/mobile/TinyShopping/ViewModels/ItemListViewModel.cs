@@ -36,7 +36,7 @@ namespace TinyShopping.ViewModels
             };
             Device.BeginInvokeOnMainThread(() =>
             {
-                ItemsList.Add(newItem);
+                ItemsList.Insert(0,newItem);
             });
             Task.Run(async () =>
             {
