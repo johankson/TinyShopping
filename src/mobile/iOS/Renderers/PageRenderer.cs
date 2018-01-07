@@ -5,7 +5,7 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(ContentPage),typeof(TilePageRenderer))]
+[assembly: ExportRenderer(typeof(ContentPage), typeof(TilePageRenderer))]
 
 namespace TinyShopping.iOS.Renderers
 {
@@ -19,11 +19,20 @@ namespace TinyShopping.iOS.Renderers
                 var renderer = Platform.CreateRenderer(titleViewContainer.TitleView);
                 var view = renderer.NativeView;
                 view.SizeToFit();
-                //parent.NavigationItem.view
-
-               // parent.NavigationItem.TitleView = view.Subviews[0];
+                var searchController = new UISearchController(searchResultsController: null)
+                {
+                    HidesNavigationBarDuringPresentation = true,
+                    DimsBackgroundDuringPresentation = false,
+                    //ObscuresBackgroundDuringPresentation = true
+                };
+                searchController.SearchBar.SearchBarStyle = UISearchBarStyle.Minimal;
+                searchController.SearchBar.Placeholder = "Search or add";
+                parent.NavigationItem.SearchController = searchController;
             }
+
+            // parent.NavigationItem.TitleView = view.Subviews[0];
         }
+
 
         public override void ViewWillAppear(bool animated)
         {
