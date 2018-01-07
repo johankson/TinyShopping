@@ -7,6 +7,7 @@ using TinyShopping.ApplicationModels;
 using System.Windows.Input;
 using TinyMvvm;
 using System;
+using Xamarin.Forms;
 
 namespace TinyShopping.ViewModels
 {
@@ -20,10 +21,10 @@ namespace TinyShopping.ViewModels
             _shoppingService = shoppingService;
         }
 
-        public void OpenList(ShoppingList shoppingList)
-        {
-            Navigation.NavigateToAsync("ItemListView", shoppingList);
-        }
+        //public void OpenList(ShoppingList shoppingList)
+        //{
+        //    Navigation.NavigateToAsync("ItemListView", shoppingList);
+        //}
 
         public async void AddListFromName()
         {
@@ -58,15 +59,21 @@ namespace TinyShopping.ViewModels
         {
             get
             {
-                return selectedItem;
+                return null;
             }
 
             set
             {
-                if (value != null && selectedItem != value)
+                if (value == null)
                 {
-                    selectedItem = value;
+                    return;
                 }
+
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Navigation.NavigateToAsync("ItemListView", value);
+                    RaisePropertyChanged(nameof(SelectedItem));
+                });
             }
         }
 

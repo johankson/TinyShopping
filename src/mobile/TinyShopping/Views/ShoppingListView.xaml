@@ -18,6 +18,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView
+            x:Name="MainListView"
             Header="{Binding .}"
             SelectedItem="{Binding SelectedItem}"
             ItemSelected="Handle_ItemSelected"
@@ -40,7 +41,7 @@
                                 CommandParameter="{Binding .}" />
                         </ViewCell.ContextActions>
                         <Grid
-                            Margin="14,14">
+                            Margin="14,14,14,0">
                             <Label
                                 Text="{Binding Name}"
                                 FontAttributes="Bold" />
@@ -55,9 +56,11 @@
             </ListView.ItemTemplate>
             <ListView.HeaderTemplate>
                 <DataTemplate>
-                    <StackLayout BackgroundColor="Lime" Padding="10" Orientation="Horizontal">
-                        <Entry Placeholder="Add item" Text="{Binding NewListName}" Completed="Handle_Completed" HorizontalOptions="StartAndExpand" />
-                    </StackLayout>
+                        <Grid BackgroundColor="Fuchsia" Padding="8,2,8,2">
+                            <Entry Placeholder="Add item" Text="{Binding NewListName}" 
+                                Completed="Handle_Completed" FontSize="25" />
+
+                        </Grid>
                 </DataTemplate>
             </ListView.HeaderTemplate>
         </ListView>

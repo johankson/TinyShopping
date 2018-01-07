@@ -1,6 +1,5 @@
-﻿﻿using System.Windows.Input;
-﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TinyMvvm;
 using TinyPubSubLib;
 using TinyShopping.ApplicationModels;
