@@ -20,6 +20,12 @@ namespace TinyShopping.Controls
                 that.DataItem = newValue;
         }
 
+        public bool ShowExcudedAsText
+        {
+            get;
+            set;
+        } = true;
+
         object dataItem;
         public object DataItem
         {
@@ -40,6 +46,8 @@ namespace TinyShopping.Controls
 
         private FieldGroup GetGroup(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                name = "Extra";
             var ret = FieldGroups.FirstOrDefault(d => d.Name.Equals(name));
             if (ret == null)
             {
@@ -67,14 +75,17 @@ namespace TinyShopping.Controls
                 FieldGroups = new ObservableCollection<FieldGroup>();
             FieldGroups.Clear();
 
-            foreach (var field in fields.Select(d => new EditableField(d, DataItem)))
+            foreach (var field in fields.Select(d => new EditableField(d, DataItem)).OrderBy(d=>d.PropertyData.Order))
             {
-                if (field.Excluded)
+                if (field.PropertyData.Excluded && !ShowExcudedAsText)
                     continue;
-                AllFields.Add(field);
-                var grp = GetGroup(field.Group);
-                grp.Fields.Add(field);
-                grp.View.Add(field.EditorCell);
+                if (field.EditorCell != null)
+                {
+                    AllFields.Add(field);
+                    var grp = GetGroup(field.PropertyData.Group);
+                    grp.Fields.Add(field);
+                    grp.View.Add(field.EditorCell);
+                }
             }
 
         }

@@ -18,10 +18,10 @@ namespace TinyShopping.Controls
             this.parent = parent;
             var attr = propery.GetEditorAttribute();
             SourceProperty = propery;
-            Group = attr.Group;
-            Title = attr.Title;
-            Excluded = attr.Excluded;
+            PropertyData = attr;
         }
+
+        public EditorAttribute PropertyData { get; internal set; }
 
         private Cell view;
         public Cell EditorCell
@@ -30,31 +30,46 @@ namespace TinyShopping.Controls
             {
                 if (view == null)
                 {
-                    view = new EntryCell()
+                    if (PropertyData.Excluded)
                     {
-                        Label = Title,
-                    };
+                        view = new TextCell()
+                        {
+                            Text = PropertyData.Title,
+                            Detail = Value.ToString()
+                        };
+                    }
+                    else
+                    {
+                        if (SourceProperty.PropertyType == typeof(string))
+                        {
+                            view = new EntryCell()
+                            {
+                                Label = PropertyData.Title
+                            };
+                            view.SetBinding(EntryCell.TextProperty, nameof(Value));
+                        }
+                        if (SourceProperty.PropertyType == typeof(bool))
+                        {
+                            view = new SwitchCell()
+                            {
+                                Text = PropertyData.Title
+                            };
+                            view.SetBinding(SwitchCell.OnProperty, nameof(Value));
+                        }
+                        else if (SourceProperty.PropertyType == typeof(DateTime))
+                        {
+                            var vc = new ViewCell()
+                            { 
+                                
+                            };
+                            view = vc;
+                            vc.View = new DatePicker();
+                        }
+                        if (view!=null)
+                            view.BindingContext = this;
 
-                    if (SourceProperty.PropertyType == typeof(bool))
-                    {
-                        view = new SwitchCell()
-                        {
-                            Text = Title
-                        };
-                        view.SetBinding(SwitchCell.OnProperty, nameof(Value));
                     }
-                    else if (SourceProperty.PropertyType == typeof(DateTime))
-                    {
-                        var vc = new ViewCell()
-                        {
-                        };
-                        view = vc;
-                        vc.View = new DatePicker();
-                    }
-                    view.BindingContext = this;
-                    if (view is EntryCell)
-                        view.SetBinding(EntryCell.TextProperty, nameof(Value));
-                        
+
                 }
                 return view;
             }
@@ -73,10 +88,7 @@ namespace TinyShopping.Controls
             }
         }
 
-        public string Title { get; set; }
-        public string Placeholder { get; set; }
-        public bool Excluded { get; set; }
-        internal string Group { get; set; }
+
         internal PropertyInfo SourceProperty { get; set; }
     }
 }

@@ -157,7 +157,6 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="FieldGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TinyShopping.Core\TinyShopping.Core.csproj">

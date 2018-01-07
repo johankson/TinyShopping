@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ObjectEditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\EditableField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Editor\EditorExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\FieldGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />

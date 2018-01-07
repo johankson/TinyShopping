@@ -47,12 +47,12 @@ namespace TinyShopping.Core.Net.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "created")]
+        [JsonProperty(PropertyName = "created"),Editor("Completed","List data", Readonly = true)]
         public System.DateTime Created { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "completed"), Editor("Done", "Basic")]
+        [JsonProperty(PropertyName = "completed"), Editor("Done", "List data")]
         public bool Completed { get; set; }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace TinyShopping.Core.Net.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "name"), Editor("Name","Basic")]
+        [JsonProperty(PropertyName = "name"), Editor("Name", "List data")]
         public string Name { get; set; }
 
         /// <summary>

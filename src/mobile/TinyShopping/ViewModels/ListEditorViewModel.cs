@@ -17,7 +17,8 @@ namespace TinyShopping.ViewModels
         public ListEditorViewModel(ShoppingService shoppingService)
         {
             _shoppingService = shoppingService;
-            ShoppingList = new ShoppingList() {
+            ShoppingList = new ShoppingList()
+            {
                 Name = "No name"
             };
         }
@@ -35,8 +36,13 @@ namespace TinyShopping.ViewModels
                 return new TinyCommand(async () =>
                 {
                     if (ShoppingList.Id == 0)
+                    {
                         await _shoppingService.AddList(ShoppingList);
-
+                    }
+                    else
+                    {
+                        await _shoppingService.UpdateList(ShoppingList);
+                    }
                     await TinyPubSub.PublishAsync(Channels.ShoppingListAdded);
                     await Navigation.BackAsync();
                 });
