@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using TinyMvvm;
 using TinyNavigationHelper.Forms;
@@ -17,13 +18,22 @@ namespace TinyShopping.ViewModels
         public ListEditorViewModel(ShoppingService shoppingService)
         {
             _shoppingService = shoppingService;
-            ShoppingList = new ShoppingList()
-            {
-                Name = "No name"
-            };
         }
 
+        public async override Task Initialize()
+        {
+            var shoppingList = NavigationParameter as ShoppingList;
 
+            if (shoppingList == null)
+            {
+                shoppingList = new ShoppingList()
+                {
+                    Name = "No name"
+                };
+            }
+
+            ShoppingList = shoppingList;
+        }
 
         public ShoppingList ShoppingList { get; set; }
 
@@ -43,6 +53,7 @@ namespace TinyShopping.ViewModels
                     {
                         await _shoppingService.UpdateList(ShoppingList);
                     }
+
                     await TinyPubSub.PublishAsync(Channels.ShoppingListAdded);
                     await Navigation.BackAsync();
                 });

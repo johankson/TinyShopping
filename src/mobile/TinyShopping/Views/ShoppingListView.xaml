@@ -24,7 +24,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Text="Edit" Command="{Binding Source={x:Reference root}, Path=BindingContenxt.Edit}" CommandParameter="{Binding .}" />
+                            <MenuItem Text="Edit" Command="{Binding Source={x:Reference root}, Path=BindingContext.Edit}" CommandParameter="{Binding .}" />
                             <MenuItem Text="Delete" IsDestructive="true" Command="{Binding Source={x:Reference root}, Path=BindingContext.Delete}" CommandParameter="{Binding .}" />
                         </ViewCell.ContextActions>
                         <Label

@@ -64,9 +64,9 @@ namespace TinyShopping.ViewModels
         {
             get
             {
-                return new TinyCommand<ShoppingList>((shoppingList) =>
+                return new TinyCommand<ShoppingList>(async (shoppingList) =>
                 {
-                    throw new NotImplementedException();
+                    await Navigation.NavigateToAsync("ListEditorView", shoppingList);
                 });
             }
         }
