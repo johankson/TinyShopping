@@ -52,10 +52,21 @@ namespace TinyShopping.ViewModels
         {
             get
             {
-                return new Command(async (o) =>
+                return new TinyCommand<ShoppingList>(async (shoppingList) =>
                 {
-                    ShoppingLists.Remove(o as ShoppingList);
-                    await _shoppingService.Delete(o as ShoppingList);
+                    ShoppingLists.Remove(shoppingList);
+                    await _shoppingService.Delete(shoppingList);
+                });
+            }
+        }
+
+        public ICommand Edit
+        {
+            get
+            {
+                return new TinyCommand<ShoppingList>((shoppingList) =>
+                {
+                    throw new NotImplementedException();
                 });
             }
         }

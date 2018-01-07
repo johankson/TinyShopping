@@ -40,7 +40,12 @@ namespace TinyShopping.Core.services
 
         public async Task Delete(ShoppingList shoppingList)
         {
-            await _client.DeleteShoppingListAsync(shoppingList.Id.Value);
+            await _client.DeleteShoppingListAsync(shoppingList.Id);
+        }
+
+        public async Task UpdateList(ShoppingList shoppingList)
+        {
+            await _client.UpdateShoppingListAsync(shoppingList.Id, shoppingList);
         }
     }
 }

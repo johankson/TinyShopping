@@ -6,6 +6,7 @@
     xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="TinyShopping.Views.ShoppingListView"
+    x:Name="root"
     Title="TinyShopping">
     <ContentPage.ToolbarItems>
         <ToolbarItem
@@ -23,8 +24,8 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Text="Edit" Command="{Binding Edit}" CommandParameter="{Binding .}" />
-                            <MenuItem Text="Delete" IsDestructive="true" Command="{Binding Delete}" CommandParameter="{Binding .}" />
+                            <MenuItem Text="Edit" Command="{Binding Source={x:Reference root}, Path=BindingContenxt.Edit}" CommandParameter="{Binding .}" />
+                            <MenuItem Text="Delete" IsDestructive="true" Command="{Binding Source={x:Reference root}, Path=BindingContext.Delete}" CommandParameter="{Binding .}" />
                         </ViewCell.ContextActions>
                         <Label
                             Text="{Binding Name}" />

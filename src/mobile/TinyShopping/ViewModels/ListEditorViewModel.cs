@@ -6,6 +6,7 @@ using TinyPubSubLib;
 using TinyShopping.Core.Net.Models;
 using TinyShopping.Core.services;
 using TinyShopping.Messaging;
+using Xamarin.Forms;
 
 namespace TinyShopping.ViewModels
 {
@@ -16,23 +17,34 @@ namespace TinyShopping.ViewModels
         public ListEditorViewModel(ShoppingService shoppingService)
         {
             _shoppingService = shoppingService;
+            ShoppingList = new ShoppingList()
+            {
+                Name = "No name"
+            };
         }
+
+
+
+        public ShoppingList ShoppingList { get; set; }
 
         public string Name { get; set; }
 
-        public ICommand Save 
+        public ICommand Save
         {
             get
             {
                 return new TinyCommand(async () =>
                 {
-                    await _shoppingService.AddList(new ShoppingList()
+                    if (ShoppingList.Id == 0)
                     {
-                        Name = this.Name
-                    });
-
+                        await _shoppingService.AddList(ShoppingList);
+                    }
+                    else
+                    {
+                        await _shoppingService.UpdateList(ShoppingList);
+                    }
                     await TinyPubSub.PublishAsync(Channels.ShoppingListAdded);
-                    await Navigation.BackAsync(); 
+                    await Navigation.BackAsync();
                 });
             }
         }

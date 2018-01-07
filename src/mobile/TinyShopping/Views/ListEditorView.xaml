@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
     xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
+    xmlns:controls="clr-namespace:TinyShopping.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="TinyShopping.Views.ListEditorView"
     Title="Add a list">
@@ -16,9 +17,6 @@
         />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Name"/>
-            <Entry Text="{Binding Name}" />
-        </StackLayout>
+        <controls:ObjectEditor DataItem="{Binding ShoppingList}" />
     </ContentPage.Content>
 </tinymvvm:ViewBase>
