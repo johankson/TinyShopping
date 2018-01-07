@@ -38,15 +38,17 @@ namespace TinyShopping.ViewModels
             ShoppingLists = new ObservableCollection<ShoppingList>(res);
         }
 
-        public async void AddListFromName()
+        public void AddItem()
         {
             var newList = new ShoppingList()
             {
-                Name = NewListName
+                Name = _searchString
             };
-            await _shoppingService.AddList(newList);
-            ShoppingLists.Insert(0, newList);
-            NewListName = string.Empty;
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await _shoppingService.AddList(newList);
+                ShoppingLists.Insert(0, newList);
+            });
         }
 
         public async override Task OnFirstAppear()

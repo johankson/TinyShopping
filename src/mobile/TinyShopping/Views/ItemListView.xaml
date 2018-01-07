@@ -13,10 +13,13 @@
             Name="MenuItem1"
             Text="Add"
             Priority="0"
-            Command="{Binding AddItem}" />
+            Command="{Binding CreateNewItem}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            RefreshCommand="{Binding Refresh}"
             ItemsSource="{Binding ItemsList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -37,20 +40,6 @@
                     </SwitchCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <ListView.HeaderTemplate>
-                <DataTemplate>
-                    <StackLayout
-                        BackgroundColor="Lime"
-                        Padding="10"
-                        Orientation="Horizontal">
-                        <Entry
-                            Placeholder="Add item"
-                            Text="{Binding NewItemName}"
-                            Completed="Handle_Completed"
-                            HorizontalOptions="StartAndExpand" />
-                    </StackLayout>
-                </DataTemplate>
-            </ListView.HeaderTemplate>
         </ListView>
     </ContentPage.Content>
 </tinymvvm:ViewBase>

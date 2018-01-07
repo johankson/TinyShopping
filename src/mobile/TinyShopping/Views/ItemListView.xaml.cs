@@ -19,9 +19,5 @@ namespace TinyShopping.Views
 
         public bool LargeTile => true;
 
-        void Handle_Completed(object sender, System.EventArgs e)
-        {
-            ViewModel.AddItemFromName();
-        }
     }
 }

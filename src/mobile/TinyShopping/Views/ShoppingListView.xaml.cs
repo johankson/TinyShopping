@@ -20,16 +20,6 @@
             MainListView.ItemSelected += (sender, e) => MainListView.SelectedItem = null;
         }
 
-        void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
-        {
-            //   ViewModel.OpenList(e.SelectedItem as ShoppingList);
-        }
-
-        void Handle_Completed(object sender, System.EventArgs e)
-        {
-            var entry = sender as Entry;
-            ViewModel.AddListFromName();
-        }
     }
 
     public interface ICustomTitleView
@@ -47,5 +37,6 @@
     {
         void Search(string value);
         void Clear();
+        void AddItem();
     }
 }

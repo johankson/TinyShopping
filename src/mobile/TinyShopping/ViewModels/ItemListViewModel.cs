@@ -33,12 +33,12 @@ namespace TinyShopping.ViewModels
 
         public string Name => _shoppingList?.Name ?? String.Empty;
 
-        public void AddItemFromName()
+        public void AddItem()
         {
             var newItem = new Item()
             {
                 ListId = _shoppingList.Id,
-                Name = NewItemName
+                Name = _searchString
             };
             Device.BeginInvokeOnMainThread(() =>
             {
@@ -48,7 +48,7 @@ namespace TinyShopping.ViewModels
             {
                 await _shoppingService.AddItem(newItem);
             });
-            NewItemName = string.Empty;
+            //NewItemName = string.Empty;
         }
 
         public async override Task OnFirstAppear()
@@ -120,7 +120,7 @@ namespace TinyShopping.ViewModels
             }
         }
 
-        public ICommand AddItem => new TinyCommand(() =>
+        public ICommand CreateNewItem => new TinyCommand(() =>
         {
             var newItem = new Item()
             {
