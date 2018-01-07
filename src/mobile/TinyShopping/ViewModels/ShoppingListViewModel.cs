@@ -21,6 +21,11 @@ namespace TinyShopping.ViewModels
             _shoppingService = shoppingService;
         }
 
+        public void SearchTextChanged(string e)
+        {
+            var it = 2;
+        }
+
         public async void AddListFromName()
         {
             var newList = new ShoppingList()

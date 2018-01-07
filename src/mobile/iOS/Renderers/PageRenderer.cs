@@ -26,6 +26,9 @@ namespace TinyShopping.iOS.Renderers
                 searchController.SearchBar.SearchBarStyle = UISearchBarStyle.Minimal;
                 searchController.SearchBar.Placeholder = "Search or add";
                 parent.NavigationItem.SearchController = searchController;
+                searchController.SearchBar.TextChanged += (sender, e) => {
+                    titleViewContainer.SearchTextChanged?.Invoke(sender, e.SearchText);
+                };
             }
 
             // parent.NavigationItem.TitleView = view.Subviews[0];

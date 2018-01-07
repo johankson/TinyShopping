@@ -1,5 +1,6 @@
 ﻿namespace TinyShopping.Views
 {
+    using System;
     using TinyMvvm.Forms;
     using TinyShopping.ApplicationModels;
     using TinyShopping.ViewModels;
@@ -9,10 +10,12 @@
     {
         public View TitleView { get; set; }
 
+        public EventHandler<string> SearchTextChanged { get; set; }
+
         public ShoppingListView()
         {
             this.InitializeComponent();
-
+            SearchTextChanged += (sender, e) => ViewModel.SearchTextChanged(e);
             MainListView.ItemSelected += (sender, e) => MainListView.SelectedItem = null;
         }
 
@@ -31,5 +34,6 @@
     internal interface ICustomTitleView
     {
         View TitleView { get; set; }
+        EventHandler<string> SearchTextChanged { get; set; }
     }
 }
