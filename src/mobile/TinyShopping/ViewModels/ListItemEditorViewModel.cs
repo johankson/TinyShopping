@@ -10,31 +10,31 @@ using TinyShopping.Messaging;
 namespace TinyShopping.ViewModels
 {
 
-    public class ListEditorViewModel : ShoppingBaseModel
+    public class ListItemEditorViewModel : ShoppingBaseModel
     {
         private ShoppingService _shoppingService;
 
-        public ListEditorViewModel(ShoppingService shoppingService)
+        public ListItemEditorViewModel(ShoppingService shoppingService)
         {
             _shoppingService = shoppingService;
         }
 
         public async override Task Initialize()
         {
-            var shoppingList = NavigationParameter as ShoppingList;
+            var item = NavigationParameter as Item;
 
-            if (shoppingList == null)
+            if (item == null)
             {
-                shoppingList = new ShoppingList()
+                item = new Item()
                 {
                     Name = "No name"
                 };
             }
 
-            ShoppingList = shoppingList;
+            Item = item;
         }
 
-        public ShoppingList ShoppingList { get; set; }
+        public Item Item { get; set; }
 
         public string Name { get; set; }
 
@@ -44,13 +44,13 @@ namespace TinyShopping.ViewModels
             {
                 return new TinyCommand(async () =>
                 {
-                    if (ShoppingList.Id == 0)
+                    if (Item.Id == 0)
                     {
-                        await _shoppingService.AddList(ShoppingList);
+                        await _shoppingService.AddItem(Item);
                     }
                     else
                     {
-                        await _shoppingService.UpdateList(ShoppingList);
+                        await _shoppingService.UpdateItem(Item);
                     }
 
                     await TinyPubSub.PublishAsync(Channels.ShoppingListAdded);

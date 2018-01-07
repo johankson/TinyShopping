@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tinymvvm:ViewBase
+    x:TypeArguments="viewmodels:ItemListViewModel"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
+    xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="TinyShopping.Views.ItemListView"
+    Title="TinyShopping">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Name="MenuItem1"
+            Text="Add"
+            Priority="0"
+            Command="{Binding NavigateTo}"
+            CommandParameter="ListItemEditorView" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ListView
+            Header="{Binding NewItemName}"
+            ItemsSource="{Binding ItemsList}">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <EntryCell x:Name="newItem" Placeholder="Add item" Text="{Binding .}" />
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Edit" Command="{Binding Source={x:Reference root}, Path=BindingContext.Edit}" CommandParameter="{Binding .}" />
+                            <MenuItem Text="Delete" IsDestructive="true" Command="{Binding Source={x:Reference root}, Path=BindingContext.Delete}" CommandParameter="{Binding .}" />
+                        </ViewCell.ContextActions>
+                        <Grid Margin="14,14">
+                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <Label Text="13/18 items checked" Grid.Column="1" FontSize="Micro" HorizontalTextAlignment="End"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <StackLayout BackgroundColor="Lime" Padding="10" Orientation="Horizontal">
+                        <Entry Placeholder="Add item" Text="{Binding NewItemName}" Completed="Handle_Completed" HorizontalOptions="StartAndExpand" />
+                    </StackLayout>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+        </ListView>
+    </ContentPage.Content>
+</tinymvvm:ViewBase>

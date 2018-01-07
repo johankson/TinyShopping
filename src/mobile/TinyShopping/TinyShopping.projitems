@@ -18,6 +18,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ItemListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
@@ -34,6 +38,11 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ShoppingBaseModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messaging\Channels.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ItemListView.xaml.cs">
+      <DependentUpon>ItemListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ListItemEditorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />

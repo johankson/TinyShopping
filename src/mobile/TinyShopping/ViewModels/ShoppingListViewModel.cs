@@ -6,6 +6,7 @@ using TinyShopping.Messaging;
 using TinyShopping.ApplicationModels;
 using System.Windows.Input;
 using TinyMvvm;
+using System;
 
 namespace TinyShopping.ViewModels
 {
@@ -13,10 +14,21 @@ namespace TinyShopping.ViewModels
     public class ShoppingListViewModel : ShoppingBaseModel
     {
         private ShoppingService _shoppingService;
-		
-        public ShoppingListViewModel(ShoppingService shoppingService) 
+
+        public ShoppingListViewModel(ShoppingService shoppingService)
         {
             _shoppingService = shoppingService;
+        }
+
+        public async void AddListFromName()
+        {
+            var newList = new ShoppingList()
+            {
+                Name = NewListName
+            };
+            await _shoppingService.AddList(newList);
+            ShoppingLists.Insert(0, newList);
+            NewListName = string.Empty;
         }
 
         public async override Task OnFirstAppear()
@@ -28,21 +40,36 @@ namespace TinyShopping.ViewModels
         [TinySubscribe(Channels.ShoppingListDeleted)]
         public async Task LoadData()
         {
+            IsBusy = true;
             ShoppingLists = new ObservableCollection<ShoppingList>(await _shoppingService.GetShoppingLists());
+            IsBusy = false;
         }
 
         public ObservableCollection<ShoppingList> ShoppingLists { get; set; }
 
+        ShoppingList selectedItem;
+
         public ShoppingList SelectedItem
         {
+            get
+            {
+                return selectedItem;
+            }
+
             set
             {
-                if(value == null)
+                if (value != null && selectedItem != value)
                 {
-                    return;
+                    selectedItem = value;
                 }
             }
         }
+
+        public string NewListName
+        {
+            get;
+            set;
+        } = string.Empty;
 
         public ICommand Delete
         {
@@ -55,6 +82,8 @@ namespace TinyShopping.ViewModels
                 });
             }
         }
+
+        public ICommand Refresh => new TinyCommand(async () => await LoadData());
 
         public ICommand Edit
         {

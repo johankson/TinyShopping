@@ -6,7 +6,7 @@ namespace TinyShopping.Core.ApplicationModels.RestHelper
 {
     public static class Converters
     {
-        public static IList<TinyShopping.ApplicationModels.ShoppingList> ToModel(this IList<Net.Models.ShoppingList> list)
+        public static IList<TinyShopping.ApplicationModels.ShoppingList> ToModel(this IEnumerable<Net.Models.ShoppingList> list)
         {
             var ret = new List<TinyShopping.ApplicationModels.ShoppingList>();
             foreach (var item in list)
@@ -23,7 +23,7 @@ namespace TinyShopping.Core.ApplicationModels.RestHelper
             return ret;
         }
 
-        public static IList<TinyShopping.ApplicationModels.Item> ToModel(this IList<Net.Models.Item> list)
+        public static IList<TinyShopping.ApplicationModels.Item> ToModel(this IEnumerable<Net.Models.Item> list)
         {
             var ret = new List<TinyShopping.ApplicationModels.Item>();
             foreach (var item in list)
