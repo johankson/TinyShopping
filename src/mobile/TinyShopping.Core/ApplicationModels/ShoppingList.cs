@@ -1,46 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TinyEditor;
 using TinyShopping.Core.Net.Interface;
-using TinyShopping.Core.Services;
 
 namespace TinyShopping.ApplicationModels
 {
-    [PropertyChanged.AddINotifyPropertyChangedInterface]
-    public class ShoppingListRelation : IEditorRelation
-    {
-        private readonly ShoppingService _service;
-        private IList<ShoppingList> _list;
-
-        public ShoppingListRelation()
-        {
-            _service = new Core.Services.ShoppingService();
-        }
-
-        public object FindItem(object value)
-        {
-            if (value is int id)
-            {
-                return _list.FirstOrDefault(d => d.Id == id);
-            }
-            else if (value is IShoppingList lst)
-            {
-                return _list.FirstOrDefault(d => d.Id == lst.Id);
-            }
-            return null;
-        }
-
-        public async Task<IEnumerable<object>> GetValues()
-        {
-            var ret = await _service.GetShoppingLists();
-            return ret.OfType<object>();
-        }
-    }
-
-
-
     [PropertyChanged.AddINotifyPropertyChangedInterface]
     public class ShoppingList : IShoppingList
     {
@@ -61,8 +24,11 @@ namespace TinyShopping.ApplicationModels
             set
             {
                 completed = value;
+
                 if (value == true)
+                {
                     Done = System.DateTime.Now;
+                }
             }
         }
 
@@ -71,13 +37,20 @@ namespace TinyShopping.ApplicationModels
 
         [Editor("Name", "List data", Order = 1)]
         public string Name { get; set; }
+       
 
+        public int StoreID { get; set; }
+
+        [Editor("Number of items", "Stats", Readonly = true)]
+        public int NumberOfItems { get; set; }
+
+        public int NumberOfCompletedItems { get; set; }
+
+        public string NumberOfItemsChecked => $"{NumberOfItemsChecked}/{NumberOfItems} items checked";
 
         public override string ToString()
         {
             return Name;
         }
-
-        public int StoreID { get; set; }
     }
 }

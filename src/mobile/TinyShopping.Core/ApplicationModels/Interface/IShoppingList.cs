@@ -14,5 +14,8 @@
 
         int StoreID { get; set; }
 
+        int NumberOfItems { get; set; }
+
+        int NumberOfCompletedItems { get; set; }
     }
 }
