@@ -7,6 +7,7 @@ using TinyPubSubLib;
 using TinyShopping.ApplicationModels;
 using TinyShopping.Core.Services;
 using TinyShopping.Messaging;
+using Xamarin.Forms;
 
 namespace TinyShopping.ViewModels
 {
@@ -33,8 +34,12 @@ namespace TinyShopping.ViewModels
                 ListId = ListId,
                 Name = NewItemName
             };
-            ItemsList.Add(newItem);
-            Task.Run(async ()=>{
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ItemsList.Add(newItem);
+            });
+            Task.Run(async () =>
+            {
                 await _shoppingService.AddItem(newItem);
             });
             NewItemName = string.Empty;

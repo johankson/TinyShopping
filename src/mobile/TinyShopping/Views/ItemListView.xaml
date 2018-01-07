@@ -12,7 +12,8 @@
             Name="MenuItem1"
             Text="Add"
             Priority="0"
-            Command="{Binding AddItem}" />
+            Command="{Binding NavigateTo}"
+            CommandParameter="ListItemEditorView" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView
@@ -27,7 +28,6 @@
                         </ViewCell.ContextActions>
                         <Grid Margin="14,14">
                             <Label Text="{Binding Name}" FontAttributes="Bold" />
-                            <Label Text="13/18 items checked" Grid.Column="1" FontSize="Micro" HorizontalTextAlignment="End"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
