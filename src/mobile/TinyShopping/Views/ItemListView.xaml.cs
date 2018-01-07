@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace TinyShopping.Views
 {
-    public partial class ItemListView : ViewBase<ItemListViewModel>, ICustomTitleView
+    public partial class ItemListView : ViewBase<ItemListViewModel>, ISearchControllerPage
     {
         public ItemListView()
         {
@@ -15,7 +15,9 @@ namespace TinyShopping.Views
 
         public bool ShowSearchBar => true;
 
-        public EventHandler<string> SearchTextChanged { get; set; }
+        public ISearchHandler SearchHandler => ViewModel;
+
+        public bool LargeTile => true;
 
         void Handle_Completed(object sender, System.EventArgs e)
         {

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TinyMvvm;
@@ -7,11 +9,12 @@ using TinyPubSubLib;
 using TinyShopping.ApplicationModels;
 using TinyShopping.Core.Services;
 using TinyShopping.Messaging;
+using TinyShopping.Views;
 using Xamarin.Forms;
 
 namespace TinyShopping.ViewModels
 {
-    public class ItemListViewModel : ShoppingBaseModel
+    public class ItemListViewModel : ShoppingBaseModel, ISearchHandler
     {
         private ShoppingService _shoppingService;
         private ShoppingList _shoppingList;
@@ -55,7 +58,32 @@ namespace TinyShopping.ViewModels
 
         public async Task LoadData()
         {
-            ItemsList = new ObservableCollection<Item>(await _shoppingService.GetListItems(_shoppingList.Id));
+            _allItems = await _shoppingService.GetListItems(_shoppingList.Id);
+
+            FilterResult();
+
+        }
+
+        private void FilterResult()
+        {
+            var ret = _allItems;
+            if (!string.IsNullOrEmpty(_searchString))
+                ret = _allItems.Where(d => d.Name.Contains(_searchString)).ToList();
+            ItemsList = new ObservableCollection<Item>(ret);
+        }
+
+
+        private string _searchString;
+        public void Search(string value)
+        {
+            _searchString = value;
+            FilterResult();
+        }
+
+        public void Clear()
+        {
+            _searchString = string.Empty;
+            FilterResult();
         }
 
         public string NewItemName
@@ -64,6 +92,7 @@ namespace TinyShopping.ViewModels
             set;
         }
 
+        private IList<Item> _allItems;
         public ObservableCollection<Item> ItemsList { get; set; }
 
         public ICommand Delete

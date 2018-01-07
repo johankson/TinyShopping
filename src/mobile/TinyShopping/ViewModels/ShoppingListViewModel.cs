@@ -8,11 +8,14 @@ using System.Windows.Input;
 using TinyMvvm;
 using System;
 using Xamarin.Forms;
+using System.Collections.Generic;
+using System.Linq;
+using TinyShopping.Views;
 
 namespace TinyShopping.ViewModels
 {
 
-    public class ShoppingListViewModel : ShoppingBaseModel
+    public class ShoppingListViewModel : ShoppingBaseModel, ISearchHandler
     {
         private ShoppingService _shoppingService;
 
@@ -21,9 +24,18 @@ namespace TinyShopping.ViewModels
             _shoppingService = shoppingService;
         }
 
-        public void SearchTextChanged(string e)
+        private string _searchString;
+
+
+
+        private void FilterResults()
         {
-            var it = 2;
+            var res = _allLists;
+            if (!string.IsNullOrEmpty(_searchString))
+            {
+                res = _allLists.Where(d => d.Name.Contains(_searchString)).ToList();
+            }
+            ShoppingLists = new ObservableCollection<ShoppingList>(res);
         }
 
         public async void AddListFromName()
@@ -47,10 +59,24 @@ namespace TinyShopping.ViewModels
         public async Task LoadData()
         {
             IsBusy = true;
-            ShoppingLists = new ObservableCollection<ShoppingList>(await _shoppingService.GetShoppingLists());
+            _allLists = await _shoppingService.GetShoppingLists();
+            FilterResults();
             IsBusy = false;
         }
 
+        public void Search(string value)
+        {
+            _searchString = value;
+            FilterResults();
+        }
+
+        public void Clear()
+        {
+            _searchString = string.Empty;
+            FilterResults();
+        }
+
+        private IList<ShoppingList> _allLists;
         public ObservableCollection<ShoppingList> ShoppingLists { get; set; }
 
         public ShoppingList SelectedItem

@@ -14,10 +14,10 @@ namespace TinyShopping.iOS.Renderers
         public override void WillMoveToParentViewController(UIKit.UIViewController parent)
         {
             base.WillMoveToParentViewController(parent);
-            if (Element is ICustomTitleView titleViewContainer)
+            if (Element is ISearchControllerPage searchView)
             {
-                
-                var searchController = new UISearchController( searchResultsController:null )
+
+                var searchController = new UISearchController(searchResultsController: null)
                 {
                     HidesNavigationBarDuringPresentation = true,
                     DimsBackgroundDuringPresentation = false,
@@ -26,22 +26,37 @@ namespace TinyShopping.iOS.Renderers
                 searchController.SearchBar.SearchBarStyle = UISearchBarStyle.Minimal;
                 searchController.SearchBar.Placeholder = "Search or add";
                 parent.NavigationItem.SearchController = searchController;
-                searchController.SearchBar.TextChanged += (sender, e) => {
-                    titleViewContainer.SearchTextChanged?.Invoke(sender, e.SearchText);
+                searchController.SearchBar.TextChanged += (sender, e) =>
+                {
+                    searchView.SearchHandler.Search(e.SearchText);
+                };
+                searchController.SearchBar.CancelButtonClicked += (sender, e) => {
+                    searchView.SearchHandler.Clear();
                 };
             }
 
             // parent.NavigationItem.TitleView = view.Subviews[0];
         }
 
-
+        protected override void OnElementChanged(VisualElementChangedEventArgs e)
+        {
+            base.OnElementChanged(e);
+            UpdateTiles();
+        }
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
+            UpdateTiles();
+        }
 
-            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0) && NavigationController != null && NavigationController.NavigationBar != null)
+        private void UpdateTiles()
+        {
+            if (Element is ICustomTitleView tv)
             {
-                NavigationController.NavigationBar.PrefersLargeTitles = true;
+                if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0) && NavigationController != null && NavigationController.NavigationBar != null)
+                {
+                    NavigationController.NavigationBar.PrefersLargeTitles = tv.LargeTile;
+                }
             }
         }
 
