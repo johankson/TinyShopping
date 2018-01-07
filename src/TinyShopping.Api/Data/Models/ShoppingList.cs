@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using TinyShopping.Api.Extensions;
 
@@ -20,5 +21,11 @@ namespace TinyShopping.Api.Data.Models
         public string Name { get; set; }
         [Required]
         public int StoreID { get; set; }
+
+        [NotMapped]
+        public int NumberOfItems { get; set; }
+
+        [NotMapped]
+        public int NumberOfCompletedItems { get; set; }
     }
 }

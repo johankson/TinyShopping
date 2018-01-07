@@ -24,7 +24,16 @@ namespace TinyShopping.Api.Controllers
         [HttpGet(Name = "GetShoppingLists")]
         public IEnumerable<ShoppingList> GetLists()
         {
-            return db.Lists;
+            var lists = db.Lists;
+            var items = db.Items;
+
+            foreach (var list in lists)
+            {
+                list.NumberOfItems = items.Count(e => e.ListId == list.ID);
+                list.NumberOfCompletedItems = items.Count(e => e.ListId == list.ID && e.Completed == true);
+            }
+
+            return lists;
         }
 
         [SwaggerOperation("GetShoppingList")]
