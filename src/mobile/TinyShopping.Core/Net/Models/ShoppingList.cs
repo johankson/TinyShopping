@@ -8,8 +8,6 @@ namespace TinyShopping.Core.Net.Models
 {
     using Microsoft.Rest;
     using Newtonsoft.Json;
-    using System.Linq;
-    using TinyShopping.Controls;
 
     public partial class ShoppingList
     {
@@ -47,12 +45,12 @@ namespace TinyShopping.Core.Net.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "created"),Editor("Completed","List data", Readonly = true)]
+        [JsonProperty(PropertyName = "created")]
         public System.DateTime Created { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "completed"), Editor("Done", "List data")]
+        [JsonProperty(PropertyName = "completed")]
         public bool Completed { get; set; }
 
         /// <summary>
@@ -62,7 +60,7 @@ namespace TinyShopping.Core.Net.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "name"), Editor("Name", "List data")]
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
         /// <summary>

@@ -7,11 +7,17 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="TinyCache" Version="1.0.18" />
     <PackageReference Include="PropertyChanged.Fody" Version="2.2.4" />
+    <PackageReference Include="TinyCache" Version="1.0.19" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="services\" />
+    <Folder Include="Services\" />
     <Folder Include="ApplicationModels\" />
+    <Folder Include="ApplicationModels\RestHelper\" />
+    <Folder Include="ApplicationModels\Interface\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TinyEditor.Forms\TinyEditor.Forms.csproj" />
+    <ProjectReference Include="..\TinyHelper\TinyHelper.csproj" />
   </ItemGroup>
 </Project>

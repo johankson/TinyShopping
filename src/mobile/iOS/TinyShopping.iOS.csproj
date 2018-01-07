@@ -104,9 +104,6 @@
     <Reference Include="Microsoft.Rest.ClientRuntime">
       <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.10\lib\netstandard1.4\Microsoft.Rest.ClientRuntime.dll</HintPath>
     </Reference>
-    <Reference Include="TinyCache">
-      <HintPath>..\packages\TinyCache.1.0.18\lib\netstandard1.4\TinyCache.dll</HintPath>
-    </Reference>
     <Reference Include="PropertyChanged">
       <HintPath>..\packages\PropertyChanged.Fody.2.2.4.0\lib\netstandard1.0\PropertyChanged.dll</HintPath>
     </Reference>
@@ -122,9 +119,6 @@
     <Reference Include="TinyMvvm.Forms">
       <HintPath>..\packages\TinyMvvm.Forms.0.1.39\lib\netstandard1.0\TinyMvvm.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="TinyCache.Forms">
-      <HintPath>..\packages\TinyCache.Forms.1.0.18\lib\netstandard1.4\TinyCache.Forms.dll</HintPath>
-    </Reference>
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.4.6.1\lib\netstandard1.1\Autofac.dll</HintPath>
     </Reference>
@@ -136,6 +130,12 @@
     </Reference>
     <Reference Include="TinyPubSub">
       <HintPath>..\packages\tinypubsub.1.2.72\lib\netstandard1.0\TinyPubSub.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyCache">
+      <HintPath>..\packages\TinyCache.1.0.19\lib\netstandard1.4\TinyCache.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyCache.Forms">
+      <HintPath>..\packages\TinyCache.Forms.1.0.19\lib\netstandard1.4\TinyCache.Forms.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +162,10 @@
     <ProjectReference Include="..\TinyShopping.Core\TinyShopping.Core.csproj">
       <Project>{B7F72A49-D09C-48D4-839E-206893C21CDB}</Project>
       <Name>TinyShopping.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TinyEditor.Forms\TinyEditor.Forms.csproj">
+      <Project>{782272BB-1D7B-44DA-BDB8-90C7A2E26E94}</Project>
+      <Name>TinyEditor.Forms</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\TinyShopping\TinyShopping.projitems" Label="Shared" Condition="Exists('..\TinyShopping\TinyShopping.projitems')" />

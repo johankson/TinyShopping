@@ -39,7 +39,7 @@ namespace TinyShopping
 
             // Init cache and settings
             TinyCache.TinyCache.SetCacheStore(new XamarinPropertyStorage());
-            var cacheFirstPolicy = new TinyCachePolicy().SetMode(TinyCacheModeEnum.FetchFirst).SetFetchTimeout(600);
+            var cacheFirstPolicy = new TinyCachePolicy().SetMode(TinyCacheModeEnum.FetchFirst).SetFetchTimeout(1600);
             TinyCache.TinyCache.SetBasePolicy(cacheFirstPolicy);
 
             // Init TinyMvvm

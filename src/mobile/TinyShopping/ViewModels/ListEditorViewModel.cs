@@ -1,12 +1,9 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TinyMvvm;
-using TinyNavigationHelper.Forms;
 using TinyPubSubLib;
-using TinyShopping.Core.Net.Models;
+using TinyShopping.ApplicationModels;
 using TinyShopping.Core.services;
 using TinyShopping.Messaging;
-using Xamarin.Forms;
 
 namespace TinyShopping.ViewModels
 {
@@ -22,8 +19,6 @@ namespace TinyShopping.ViewModels
                 Name = "No name"
             };
         }
-
-
 
         public ShoppingList ShoppingList { get; set; }
 

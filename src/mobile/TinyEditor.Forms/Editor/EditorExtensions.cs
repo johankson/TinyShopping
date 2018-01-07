@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace TinyShopping.Controls
+namespace TinyEditor
 {
     public static class EditorExtensions
     {

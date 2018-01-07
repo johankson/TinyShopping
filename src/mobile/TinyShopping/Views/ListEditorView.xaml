@@ -4,7 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
     xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
-    xmlns:controls="clr-namespace:TinyShopping.Controls"
+    xmlns:Editor="clr-namespace:TinyEditor.Controls;assembly=TinyEditor.Forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="TinyShopping.Views.ListEditorView"
     Title="Add a list">
@@ -17,6 +17,6 @@
         />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <controls:ObjectEditor DataItem="{Binding ShoppingList}" />
+        <Editor:ObjectEditor DataItem="{Binding ShoppingList}" />
     </ContentPage.Content>
 </tinymvvm:ViewBase>

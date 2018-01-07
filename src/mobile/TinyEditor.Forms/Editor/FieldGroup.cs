@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using Xamarin.Forms;
 
-namespace TinyShopping.Controls
+namespace TinyEditor.Controls
 {
-    [PropertyChanged.AddINotifyPropertyChangedInterface]
     public class FieldGroup
     {
         public TableSection View { get; set; }

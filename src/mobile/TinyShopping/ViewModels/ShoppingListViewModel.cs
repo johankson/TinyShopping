@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using TinyShopping.Core.services;
-using TinyShopping.Core.Net.Models;
+﻿using TinyShopping.Core.services;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using PropertyChanged;
-using Xamarin.Forms;
-using TinyMvvm;
 using TinyPubSubLib;
 using TinyShopping.Messaging;
+using TinyShopping.ApplicationModels;
 
 namespace TinyShopping.ViewModels
 {
-    
+
     public class ShoppingListViewModel : ShoppingBaseModel
     {
         private ShoppingService _shoppingService;

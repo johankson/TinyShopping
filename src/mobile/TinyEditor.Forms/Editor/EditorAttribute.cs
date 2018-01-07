@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TinyShopping.Controls
+namespace TinyEditor
 {
     public class EditorAttribute : Attribute
     {
@@ -10,6 +10,8 @@ namespace TinyShopping.Controls
         public bool Excluded { get; set; }
         public bool Readonly { get; set; }
         public int Order { get; set; } = 99999;
+        public Type RelationTo { get; set; }
+        public Type CustomHandler { get; set; }
 
         public EditorAttribute(string title, string group) : this(title)
         {

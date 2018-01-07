@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reflection;
+using TinyEditor.Forms.Cells;
 using Xamarin.Forms;
 
-namespace TinyShopping.Controls
+namespace TinyEditor
 {
-    public class EditableField
+    public class EditableField : INotifyPropertyChanged
     {
         public EditableField()
         {
@@ -24,6 +26,9 @@ namespace TinyShopping.Controls
         public EditorAttribute PropertyData { get; internal set; }
 
         private Cell view;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Cell EditorCell
         {
             get
@@ -58,14 +63,13 @@ namespace TinyShopping.Controls
                         }
                         else if (SourceProperty.PropertyType == typeof(DateTime))
                         {
-                            var vc = new ViewCell()
-                            { 
-                                
+                            view = new DateCell()
+                            {
+                                Text = PropertyData.Title
                             };
-                            view = vc;
-                            vc.View = new DatePicker();
+                            view.SetBinding(DateCell.ValueProperty, nameof(Value));
                         }
-                        if (view!=null)
+                        if (view != null)
                             view.BindingContext = this;
 
                     }
@@ -85,6 +89,7 @@ namespace TinyShopping.Controls
             set
             {
                 SourceProperty.SetValue(parent, value);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Value"));
             }
         }
 

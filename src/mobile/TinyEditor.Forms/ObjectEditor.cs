@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Xamarin.Forms;
 
-namespace TinyShopping.Controls
+namespace TinyEditor.Controls
 {
 
     public class ObjectEditor : TableView
@@ -20,11 +20,34 @@ namespace TinyShopping.Controls
                 that.DataItem = newValue;
         }
 
+        public static readonly BindableProperty ShowExcudedAsTextProperty =
+            BindableProperty.Create("ShowExcudedAsText", typeof(bool), typeof(object), false, propertyChanged: ChangeShowExcluded, validateValue: CheckBook);
+
+        private static void ChangeShowExcluded(BindableObject bindable, object oldValue, object newValue)
+        {
+            var that = bindable as ObjectEditor;
+            if (newValue is bool b)
+            {
+                if (that.ShowExcudedAsText != b)
+                {
+                    that.ShowExcudedAsText = b;
+                    if (that.DataItem != null)
+                        that.PopulateFields();
+                }
+            }
+        }
+
+        private static bool CheckBook(BindableObject bindable, object value)
+        {
+            var that = bindable as ObjectEditor;
+            return value != null && value is bool;
+        }
+
         public bool ShowExcudedAsText
         {
             get;
             set;
-        } = true;
+        } = false;
 
         object dataItem;
         public object DataItem
@@ -69,13 +92,13 @@ namespace TinyShopping.Controls
         private void PopulateFields()
         {
             var type = DataItem.GetType();
-            var fields = type.GetProperties().Where(d => d.CanWrite);
+            var fields = type.GetRuntimeProperties().Where(d => d.CanWrite);
             AllFields = new List<EditableField>();
             if (FieldGroups == null)
                 FieldGroups = new ObservableCollection<FieldGroup>();
             FieldGroups.Clear();
 
-            foreach (var field in fields.Select(d => new EditableField(d, DataItem)).OrderBy(d=>d.PropertyData.Order))
+            foreach (var field in fields.Select(d => new EditableField(d, DataItem)).OrderBy(d => d.PropertyData.Order))
             {
                 if (field.PropertyData.Excluded && !ShowExcudedAsText)
                     continue;
