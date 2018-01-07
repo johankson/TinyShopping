@@ -37,8 +37,9 @@ namespace TinyEditor
                 {
                     pchange.PropertyChanged += (sender, e) =>
                     {
-                        if (e.PropertyName==SourceProperty.Name) {
-                            PropertyChanged.Invoke(this,new PropertyChangedEventArgs("Value"));
+                        if (e.PropertyName == SourceProperty.Name)
+                        {
+                            PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Value"));
                         }
                     };
                 }
@@ -57,7 +58,20 @@ namespace TinyEditor
                     }
                     else
                     {
-                        if (SourceProperty.PropertyType == typeof(string))
+                        var type = SourceProperty.PropertyType;
+                        if (PropertyData.RelationTo != null)
+                        {
+                            var inst = Activator.CreateInstance(PropertyData.RelationTo);
+                            if (inst is IEditorRelation rel)
+                            {
+                                view = new RelationCell(rel)
+                                {
+                                    Text = PropertyData.Title
+                                };
+                                view.SetBinding(DateCell.ValueProperty, nameof(Value));
+                            }
+                        }
+                        else if (type == typeof(string) || type == typeof(int))
                         {
                             view = new EntryCell()
                             {
@@ -65,7 +79,7 @@ namespace TinyEditor
                             };
                             view.SetBinding(EntryCell.TextProperty, nameof(Value));
                         }
-                        if (SourceProperty.PropertyType == typeof(bool))
+                        else if (type == typeof(bool))
                         {
                             view = new SwitchCell()
                             {
@@ -73,7 +87,7 @@ namespace TinyEditor
                             };
                             view.SetBinding(SwitchCell.OnProperty, nameof(Value));
                         }
-                        else if (SourceProperty.PropertyType == typeof(DateTime))
+                        else if (type == typeof(DateTime))
                         {
                             view = new DateCell()
                             {

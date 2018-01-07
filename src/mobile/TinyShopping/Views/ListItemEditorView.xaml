@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tinymvvm:ViewBase
+    x:TypeArguments="viewmodels:ListItemEditorViewModel"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
+    xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
+    xmlns:Editor="clr-namespace:TinyEditor.Controls;assembly=TinyEditor.Forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="TinyShopping.Views.ListItemEditorView"
+    Title="Add item">
+     <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Name="MenuItem1"
+            Text="Save"
+            Priority="0"
+            Command="{Binding Save}"
+        />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Editor:ObjectEditor DataItem="{Binding Item}" />
+    </ContentPage.Content>
+</tinymvvm:ViewBase>

@@ -19,11 +19,6 @@
         <ListView
             Header="{Binding NewItemName}"
             ItemsSource="{Binding ItemsList}">
-            <ListView.HeaderTemplate>
-                <DataTemplate>
-                    <EntryCell x:Name="newItem" Placeholder="Add item" Text="{Binding .}" />
-                </DataTemplate>
-            </ListView.HeaderTemplate>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

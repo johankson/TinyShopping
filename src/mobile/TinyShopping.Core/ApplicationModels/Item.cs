@@ -27,7 +27,7 @@ namespace TinyShopping.ApplicationModels
         //[Editor("Store", "List data", RelationTo = typeof())]
         public int StoreID { get; set; }
 
-
+        [Editor("Store", "List data", RelationTo = typeof(ShoppingListRelation))]
         public int ListId { get; set; }
 
 
@@ -42,7 +42,7 @@ namespace TinyShopping.ApplicationModels
         public double Price { get; set; }
 
         [Editor("Barcode", "List data", CustomHandler = typeof(BarCodeHandler))]
-        public string Barcode { get; set; }
+        public string Barcode { get; set; } = string.Empty;
 
 
     }

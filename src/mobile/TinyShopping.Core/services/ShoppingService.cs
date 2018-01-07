@@ -8,7 +8,7 @@ using TinyShopping.Core.Net;
 using TinyShopping.Core.Net.Interface;
 
 
-namespace TinyShopping.Core.services
+namespace TinyShopping.Core.Services
 {
     public class ShoppingService
     {
@@ -56,6 +56,12 @@ namespace TinyShopping.Core.services
                 return ret.ToModel();
             });
             return data;
+        }
+
+        public async Task DeleteItem(Item item)
+        {
+            await _client.DeleteListItemAsync(item.Id);
+            TinyCache.TinyCache.Remove("listItems"+item.ListId);
         }
 
         public async Task Delete(ShoppingList shoppingList)
