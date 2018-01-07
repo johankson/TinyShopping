@@ -1,7 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TinyEditor
 {
+
+    public interface IEditorRelation
+    {
+        IEnumerable<object> Values { get; }
+        object FindItem(object value);
+    }
+
+
     public class EditorAttribute : Attribute
     {
         public string Title { get; set; }

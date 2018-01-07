@@ -20,6 +20,7 @@
         <ListView
             Header="{Binding .}"
             SelectedItem="{Binding SelectedItem}"
+            ItemSelected="Handle_ItemSelected"
             IsPullToRefreshEnabled="true"
             IsRefreshing="{Binding IsBusy, Mode=OneWay}"
             RefreshCommand="{Binding Refresh}"

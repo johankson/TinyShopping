@@ -24,7 +24,7 @@ namespace TinyShopping
             builder.RegisterAssemblyTypes(ass)
                    .Where(x => x.Name.EndsWith("ViewModel", StringComparison.Ordinal));
 
-            builder.RegisterAssemblyTypes(typeof(Core.services.ShoppingService).Assembly)
+            builder.RegisterAssemblyTypes(typeof(Core.Services.ShoppingService).Assembly)
                    .Where(x => x.Name.EndsWith("Service", StringComparison.Ordinal));
 
             // Navigation

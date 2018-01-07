@@ -1,6 +1,6 @@
 ﻿using Microsoft.Rest;
 
-namespace TinyShopping.Core.services
+namespace TinyShopping.Core.Services
 {
     public class UnsafeCredentials : ServiceClientCredentials
     {

@@ -1,4 +1,4 @@
-﻿using TinyShopping.Core.services;
+﻿using TinyShopping.Core.Services;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TinyPubSubLib;
@@ -18,6 +18,11 @@ namespace TinyShopping.ViewModels
         public ShoppingListViewModel(ShoppingService shoppingService)
         {
             _shoppingService = shoppingService;
+        }
+
+        public void OpenList(ShoppingList shoppingList)
+        {
+            Navigation.NavigateToAsync("ItemListView", shoppingList);
         }
 
         public async void AddListFromName()

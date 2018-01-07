@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using TinyMvvm;
 using TinyPubSubLib;
 using TinyShopping.ApplicationModels;
-using TinyShopping.Core.services;
+using TinyShopping.Core.Services;
 using TinyShopping.Messaging;
 
 namespace TinyShopping.ViewModels
@@ -63,5 +65,30 @@ namespace TinyShopping.ViewModels
             get;
             set;
         } = 1;
+
+        public ICommand Delete
+        {
+            get
+            {
+                return new TinyCommand<Item>(async (item) =>
+                {
+                    ItemsList.Remove(item);
+                    await _shoppingService.DeleteItem(item);
+                });
+            }
+        }
+
+        public ICommand Refresh => new TinyCommand(async () => await LoadData());
+
+        public ICommand Edit
+        {
+            get
+            {
+                return new TinyCommand<ShoppingList>(async (item) =>
+                {
+                    await Navigation.NavigateToAsync("ListItemEditorView", item);
+                });
+            }
+        }
     }
 }

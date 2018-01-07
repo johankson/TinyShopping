@@ -10,7 +10,8 @@ namespace TinyEditor.Forms.Cells
             Orientation = StackOrientation.Horizontal
         };
 
-        public Label TextLabel = new Label() {
+        public Label TextLabel = new Label()
+        {
             HorizontalOptions = LayoutOptions.StartAndExpand,
             VerticalOptions = LayoutOptions.Center
         };

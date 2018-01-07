@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TinyMvvm;
 using TinyPubSubLib;
 using TinyShopping.ApplicationModels;
-using TinyShopping.Core.services;
+using TinyShopping.Core.Services;
 using TinyShopping.Messaging;
 
 namespace TinyShopping.ViewModels
