@@ -23,7 +23,7 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// Initializes a new instance of the ShoppingList class.
         /// </summary>
-        public ShoppingList(int id, System.DateTime created, bool completed, System.DateTime done, string name, int storeID, int? numberOfItems = default(int?), int? numberOfCompletedItems = default(int?))
+        public ShoppingList(int id, System.DateTime created, bool completed, System.DateTime done, string name, int storeID, int numberOfItems, int numberOfCompletedItems)
         {
             Id = id;
             Created = created;
@@ -74,12 +74,12 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "numberOfItems")]
-        public int? NumberOfItems { get; set; }
+        public int NumberOfItems { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "numberOfCompletedItems")]
-        public int? NumberOfCompletedItems { get; set; }
+        public int NumberOfCompletedItems { get; set; }
 
         /// <summary>
         /// Validate the object.

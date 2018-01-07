@@ -16,10 +16,8 @@ namespace TinyShopping.iOS.Renderers
             base.WillMoveToParentViewController(parent);
             if (Element is ICustomTitleView titleViewContainer)
             {
-                var renderer = Platform.CreateRenderer(titleViewContainer.TitleView);
-                var view = renderer.NativeView;
-                view.SizeToFit();
-                var searchController = new UISearchController(searchResultsController: null)
+                
+                var searchController = new UISearchController( searchResultsController:null )
                 {
                     HidesNavigationBarDuringPresentation = true,
                     DimsBackgroundDuringPresentation = false,
