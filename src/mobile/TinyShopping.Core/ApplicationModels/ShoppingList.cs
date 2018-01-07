@@ -17,25 +17,6 @@ namespace TinyShopping.ApplicationModels
         public ShoppingListRelation()
         {
             _service = new Core.Services.ShoppingService();
-            _list = new List<ShoppingList>();
-            GetValues();
-
-        }
-
-        private void GetValues()
-        {
-            Task.Run(async () =>
-            {
-                _list = await _service.GetShoppingLists();
-            });
-        }
-
-        public IEnumerable<object> Values
-        {
-            get
-            {
-                return _list.OfType<object>();
-            }
         }
 
         public object FindItem(object value)
@@ -49,6 +30,12 @@ namespace TinyShopping.ApplicationModels
                 return _list.FirstOrDefault(d => d.Id == lst.Id);
             }
             return null;
+        }
+
+        public async Task<IEnumerable<object>> GetValues()
+        {
+            var ret = await _service.GetShoppingLists();
+            return ret.OfType<object>();
         }
     }
 
@@ -84,6 +71,12 @@ namespace TinyShopping.ApplicationModels
 
         [Editor("Name", "List data", Order = 1)]
         public string Name { get; set; }
+
+
+        public override string ToString()
+        {
+            return Name;
+        }
 
         public int StoreID { get; set; }
     }

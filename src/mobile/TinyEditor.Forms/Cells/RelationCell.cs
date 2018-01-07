@@ -35,26 +35,19 @@ namespace TinyEditor.Forms.Cells
             PickerView.BindingContext = this;
             TextLabel.SetBinding(Label.TextProperty, nameof(Text));
             PickerView.SetBinding(Picker.SelectedItemProperty, nameof(Value));
-            if (_relation is INotifyPropertyChanged notif)
-            {
-                notif.PropertyChanged += (sender, e) =>
-                {
-                    if (e.PropertyName == "Values")
-                    {
-                        PopulateValues(_relation.Values);
-                    }
-                };
-            }
-            else
-                PopulateValues(_relation.Values);
+            PopulateValues();
         }
 
-        public void PopulateValues(IEnumerable<object> values)
+        public void PopulateValues()
         {
-            foreach (var val in _relation.Values)
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                PickerView.Items.Add(val.ToString());
-            }
+                var values = await _relation.GetValues();
+                foreach (var val in values)
+                {
+                    PickerView.Items.Add(val.ToString());
+                }
+            });
         }
 
 
