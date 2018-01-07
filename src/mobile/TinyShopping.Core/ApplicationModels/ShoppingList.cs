@@ -31,7 +31,7 @@ namespace TinyShopping.ApplicationModels
         [Editor("Completed at", "List data", Readonly = true)]
         public System.DateTime Done { get; set; }
 
-        [Editor("Name", "List data")]
+        [Editor("Name", "List data", Order = 1)]
         public string Name { get; set; }
 
         public int StoreID { get; set; }
