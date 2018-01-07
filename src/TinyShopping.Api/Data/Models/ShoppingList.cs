@@ -21,11 +21,10 @@ namespace TinyShopping.Api.Data.Models
         public string Name { get; set; }
         [Required]
         public int StoreID { get; set; }
-
-        [NotMapped]
+        
+        [NotMapped, Required]
         public int NumberOfItems { get; set; }
-
-        [NotMapped]
+        [NotMapped, Required]
         public int NumberOfCompletedItems { get; set; }
     }
 }
