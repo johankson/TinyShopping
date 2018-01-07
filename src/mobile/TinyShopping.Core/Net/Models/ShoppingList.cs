@@ -8,6 +8,7 @@ namespace TinyShopping.Core.Net.Models
 {
     using Microsoft.Rest;
     using Newtonsoft.Json;
+    using System.Linq;
 
     public partial class ShoppingList
     {
