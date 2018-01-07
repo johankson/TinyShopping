@@ -42,7 +42,7 @@ namespace TinyShopping.ViewModels
             };
             Device.BeginInvokeOnMainThread(() =>
             {
-                ItemsList.Insert(0,newItem);
+                ItemsList.Insert(0, newItem);
             });
             Task.Run(async () =>
             {
@@ -59,9 +59,7 @@ namespace TinyShopping.ViewModels
         public async Task LoadData()
         {
             _allItems = await _shoppingService.GetListItems(_shoppingList.Id);
-
             FilterResult();
-
         }
 
         private void FilterResult()
@@ -95,30 +93,23 @@ namespace TinyShopping.ViewModels
         private IList<Item> _allItems;
         public ObservableCollection<Item> ItemsList { get; set; }
 
-        public ICommand Delete
+        public ICommand Delete => new TinyCommand<Item>(async (item) =>
         {
-            get
-            {
-                return new TinyCommand<Item>(async (item) =>
-                {
-                    ItemsList.Remove(item);
-                    await _shoppingService.DeleteItem(item);
-                });
-            }
-        }
+            ItemsList.Remove(item);
+            await _shoppingService.DeleteItem(item);
+        });
 
         public ICommand Refresh => new TinyCommand(async () => await LoadData());
 
-        public ICommand Edit
+        public ICommand Edit => new TinyCommand<Item>(async (item) =>
         {
-            get
-            {
-                return new TinyCommand<Item>(async (item) =>
-                {
-                    await Navigation.NavigateToAsync("ListItemEditorView", item);
-                });
-            }
-        }
+            await Navigation.NavigateToAsync("ListItemEditorView", item);
+        });
+
+        public ICommand Changed => new TinyCommand<Item>(async (item) =>
+        {
+            await _shoppingService.UpdateItem(item);
+        });
 
         public ICommand CreateNewItem => new TinyCommand(() =>
         {

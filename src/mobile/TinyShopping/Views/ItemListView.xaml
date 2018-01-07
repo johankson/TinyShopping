@@ -25,7 +25,9 @@
                 <DataTemplate>
                     <SwitchCell
                         Text="{Binding Name}"
-                        On="{Binding Completed}">
+                        On="{Binding Completed}"
+                         OnChanged="Handle_OnChanged"
+                        >
                         <ViewCell.ContextActions>
                             <MenuItem
                                 Text="Edit"

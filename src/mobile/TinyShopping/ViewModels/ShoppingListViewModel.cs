@@ -87,19 +87,15 @@ namespace TinyShopping.ViewModels
             {
                 return null;
             }
-
             set
             {
-                if (value == null)
+                if (value != null)
                 {
-                    return;
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Navigation.NavigateToAsync("ItemListView", value);
+                    });
                 }
-
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Navigation.NavigateToAsync("ItemListView", value);
-                    RaisePropertyChanged(nameof(SelectedItem));
-                });
             }
         }
 
@@ -109,29 +105,18 @@ namespace TinyShopping.ViewModels
             set;
         } = string.Empty;
 
-        public ICommand Delete
+        public ICommand Delete => new TinyCommand<ShoppingList>(async (shoppingList) =>
         {
-            get
-            {
-                return new TinyCommand<ShoppingList>(async (shoppingList) =>
-                {
-                    ShoppingLists.Remove(shoppingList);
-                    await _shoppingService.Delete(shoppingList);
-                });
-            }
-        }
+            ShoppingLists.Remove(shoppingList);
+            await _shoppingService.Delete(shoppingList);
+        });
 
         public ICommand Refresh => new TinyCommand(async () => await LoadData());
 
-        public ICommand Edit
-        {
-            get
-            {
-                return new TinyCommand<ShoppingList>(async (shoppingList) =>
-                {
-                    await Navigation.NavigateToAsync("ListEditorView", shoppingList);
-                });
-            }
-        }
+        public ICommand Edit => new TinyCommand<ShoppingList>(async (shoppingList) =>
+         {
+             await Navigation.NavigateToAsync("ListEditorView", shoppingList);
+         });
+
     }
 }
