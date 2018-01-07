@@ -3,7 +3,11 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TinyPubSubLib;
 using TinyShopping.Messaging;
+<<<<<<< HEAD
 using TinyShopping.ApplicationModels;
+=======
+using System.Windows.Input;
+>>>>>>> ed1a8be5822fe2b740f9cfae7a004f6ea427668f
 
 namespace TinyShopping.ViewModels
 {
@@ -23,6 +27,7 @@ namespace TinyShopping.ViewModels
         }
 
         [TinySubscribe(Channels.ShoppingListAdded)]
+        [TinySubscribe(Channels.ShoppingListDeleted)]
         public async Task LoadData()
         {
             ShoppingLists = new ObservableCollection<ShoppingList>(await _shoppingService.GetShoppingLists());
@@ -41,5 +46,27 @@ namespace TinyShopping.ViewModels
             }
         }
 
+        public ICommand Delete
+        {
+            get
+            {
+                return new TinyCommand<ShoppingList>(async (shoppingList) =>
+                {
+                    ShoppingLists.Remove(shoppingList);
+                    await _shoppingService.Delete(shoppingList);
+                });
+            }
+        }
+
+        public ICommand Edit
+        {
+            get
+            {
+                return new TinyCommand<ShoppingList>(async (shoppingList) =>
+                {
+                    await Navigation.NavigateToAsync("ListEditorView", shoppingList);
+                });
+            }
+        }
     }
 }
