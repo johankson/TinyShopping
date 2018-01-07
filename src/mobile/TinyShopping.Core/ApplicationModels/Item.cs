@@ -18,10 +18,10 @@ namespace TinyShopping.ApplicationModels
         [Editor("Completed", "List data", Readonly = true)]
         public System.DateTime Done { get; set; }
 
-        [Editor("Name", "List data")]
+        [Editor("Name", "List data", Order = 10)]
         public string Name { get; set; }
 
-        [Editor("Marked as complete", "List data")]
+        [Editor("Marked as complete", "List data", Order = 11)]
         public bool Completed { get; set; }
 
         //[Editor("Store", "List data", RelationTo = typeof())]
@@ -38,10 +38,10 @@ namespace TinyShopping.ApplicationModels
 
         public bool PriceExists { get; set; }
 
-        [Editor("Price", "List data")]
+        [Editor("Price", "After purchase")]
         public double Price { get; set; }
 
-        [Editor("Barcode", "List data", CustomHandler = typeof(BarCodeHandler))]
+        [Editor("Barcode", "After purchase", CustomHandler = typeof(BarCodeHandler))]
         public string Barcode { get; set; } = string.Empty;
 
 

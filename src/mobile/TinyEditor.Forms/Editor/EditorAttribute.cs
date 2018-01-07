@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TinyEditor
 {
 
     public interface IEditorRelation
     {
-        IEnumerable<object> Values { get; }
+        Task<IEnumerable<object>> GetValues(); 
         object FindItem(object value);
     }
-
 
     public class EditorAttribute : Attribute
     {
