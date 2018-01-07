@@ -8,6 +8,9 @@
     x:Class="TinyShopping.Views.ShoppingListView"
     x:Name="root"
     Title="TinyShopping">
+    <tinymvvm:ViewBase.TitleView>
+        <Entry Text="Sklepar" />
+    </tinymvvm:ViewBase.TitleView>
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Name="MenuItem1"
@@ -26,7 +29,6 @@
             IsRefreshing="{Binding IsBusy, Mode=OneWay}"
             RefreshCommand="{Binding Refresh}"
             ItemsSource="{Binding ShoppingLists}">
-
             <ListView.HeaderTemplate>
                 <DataTemplate>
                         <Grid BackgroundColor="Fuchsia" Padding="8,2,8,2">
@@ -35,7 +37,6 @@
                         </Grid>
                 </DataTemplate>
             </ListView.HeaderTemplate>
-            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -51,12 +52,12 @@
                                 CommandParameter="{Binding .}" />
                         </ViewCell.ContextActions>
                         <Grid
-                            Margin="14,14,14,0">
+                            Margin="14,14">
                             <Label
                                 Text="{Binding Name}"
                                 FontAttributes="Bold" />
                             <Label
-                                Text="{Binding NumberOfItemsChecked}"
+                                Text="{Binding ItemStats}"
                                 Grid.Column="1"
                                 FontSize="Micro"
                                 HorizontalTextAlignment="End" />

@@ -20,9 +20,16 @@ namespace TinyShopping.Core.Services
             _client = new ShoppingAPI(new Uri("http://localhost:5000"), new UnsafeCredentials());
         }
 
+        private const string LISTKEY = "shoppingLists";
+        private const string ITEMSKEY = "listsItems";
+
+        private string ItemListKey(int listid) {
+            return ITEMSKEY + listid;
+        }
+
         public async Task<IList<ShoppingList>> GetShoppingLists()
         {
-            var data = await TinyCache.TinyCache.RunAsync("shoppingLista", async () =>
+            var data = await TinyCache.TinyCache.RunAsync(LISTKEY, async () =>
             {
                 var ret = await _client.GetShoppingListsAsync();
                 return ret.OrderByDescending(d => d.Created).ToModel();
@@ -33,24 +40,24 @@ namespace TinyShopping.Core.Services
         public async Task AddItem(Item item)
         {
             await _client.AddListItemAsync(item.ToRest());
-            TinyCache.TinyCache.Remove("listItems" + item.ListId);
+            TinyCache.TinyCache.Remove(ItemListKey(item.ListId));
         }
 
         public async Task AddList(ShoppingList item)
         {
             await _client.AddShoppingListAsync(item.ToRest());
-            TinyCache.TinyCache.Remove("shoppingLista");
+            TinyCache.TinyCache.Remove(LISTKEY);
         }
 
         public async Task UpdateItem(Item item)
         {
             await _client.UpdateListItemAsync(item.Id, item.ToRest());
-            TinyCache.TinyCache.Remove("listItems" + item.ListId);
+            TinyCache.TinyCache.Remove(ItemListKey(item.ListId));
         }
 
         public async Task<IList<Item>> GetListItems(int listId)
         {
-            var data = await TinyCache.TinyCache.RunAsync("listItems" + listId, async () =>
+            var data = await TinyCache.TinyCache.RunAsync(ItemListKey(listId), async () =>
             {
                 var ret = await _client.GetListItemsAsync(listId);
                 return ret.ToModel();
