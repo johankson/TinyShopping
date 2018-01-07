@@ -14,6 +14,7 @@ namespace TinyShopping.ViewModels
     public class ItemListViewModel : ShoppingBaseModel
     {
         private ShoppingService _shoppingService;
+        private ShoppingList _shoppingList;
 
         public ItemListViewModel(ShoppingService shoppingService)
         {
@@ -22,16 +23,18 @@ namespace TinyShopping.ViewModels
 
         public override Task Initialize()
         {
-            var shoppingList = NavigationParameter as ShoppingList;
-            ListId = shoppingList.Id;
+            _shoppingList = NavigationParameter as ShoppingList;
+            RaisePropertyChanged(nameof(Name));
             return base.Initialize();
         }
+
+        public string Name => _shoppingList?.Name ?? String.Empty;
 
         public void AddItemFromName()
         {
             var newItem = new Item()
             {
-                ListId = ListId,
+                ListId = _shoppingList.Id,
                 Name = NewItemName
             };
             Device.BeginInvokeOnMainThread(() =>
@@ -52,7 +55,7 @@ namespace TinyShopping.ViewModels
 
         public async Task LoadData()
         {
-            ItemsList = new ObservableCollection<Item>(await _shoppingService.GetListItems(ListId));
+            ItemsList = new ObservableCollection<Item>(await _shoppingService.GetListItems(_shoppingList.Id));
         }
 
         public string NewItemName
@@ -62,23 +65,6 @@ namespace TinyShopping.ViewModels
         }
 
         public ObservableCollection<Item> ItemsList { get; set; }
-
-        public ShoppingList SelectedItem
-        {
-            set
-            {
-                if (value == null)
-                {
-                    return;
-                }
-            }
-        }
-
-        public int ListId
-        {
-            get;
-            set;
-        } = 1;
 
         public ICommand Delete
         {

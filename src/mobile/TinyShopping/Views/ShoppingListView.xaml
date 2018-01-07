@@ -30,7 +30,7 @@
             <ListView.HeaderTemplate>
                 <DataTemplate>
                         <Grid BackgroundColor="Fuchsia" Padding="8,2,8,2">
-                            <Entry Placeholder="Add item" Text="{Binding NewListName}" 
+                            <Entry Placeholder="Add shopping list" Text="{Binding NewListName}" 
                                 Completed="Handle_Completed" FontSize="25" />
                         </Grid>
                 </DataTemplate>
