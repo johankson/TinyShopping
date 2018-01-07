@@ -8,9 +8,6 @@
     x:Class="TinyShopping.Views.ShoppingListView"
     x:Name="root"
     Title="TinyShopping">
-    <tinymvvm:ViewBase.TitleView>
-        <Entry Text="Sklepar" />
-    </tinymvvm:ViewBase.TitleView>
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Name="MenuItem1"
@@ -22,7 +19,7 @@
     <ContentPage.Content>
         <ListView
             x:Name="MainListView"
-            Header="{Binding .}"
+
             SelectedItem="{Binding SelectedItem}"
             ItemSelected="Handle_ItemSelected"
             IsPullToRefreshEnabled="true"

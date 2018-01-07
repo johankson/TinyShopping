@@ -84,11 +84,20 @@ namespace TinyShopping.ViewModels
         {
             get
             {
-                return new TinyCommand<ShoppingList>(async (item) =>
+                return new TinyCommand<Item>(async (item) =>
                 {
                     await Navigation.NavigateToAsync("ListItemEditorView", item);
                 });
             }
         }
+
+        public ICommand AddItem => new TinyCommand(() =>
+        {
+            var newItem = new Item()
+            {
+                ListId = _shoppingList.Id
+            };
+            Edit.Execute(newItem);
+        });
     }
 }

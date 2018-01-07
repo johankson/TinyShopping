@@ -8,9 +8,8 @@
 
     public partial class ShoppingListView : ViewBase<ShoppingListViewModel>, ICustomTitleView
     {
-        public View TitleView { get; set; }
-
         public EventHandler<string> SearchTextChanged { get; set; }
+        public bool ShowSearchBar => true;
 
         public ShoppingListView()
         {
@@ -31,9 +30,9 @@
         }
     }
 
-    internal interface ICustomTitleView
+    public interface ICustomTitleView
     {
-        View TitleView { get; set; }
+        bool ShowSearchBar { get; }
         EventHandler<string> SearchTextChanged { get; set; }
     }
 }

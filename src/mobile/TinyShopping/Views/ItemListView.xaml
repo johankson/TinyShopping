@@ -17,7 +17,6 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView
-            Header="{Binding .}"
             ItemsSource="{Binding ItemsList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -35,10 +34,6 @@
                                 Command="{Binding Source={x:Reference root}, Path=BindingContext.Delete}"
                                 CommandParameter="{Binding .}" />
                         </ViewCell.ContextActions>
-                        <!--<Grid Margin="14,14">
-                            <Label Text="{Binding Name}" FontAttributes="Bold" />
-                            <Label Text="13/18 items checked" Grid.Column="1" FontSize="Micro" HorizontalTextAlignment="End"/>
-                        </Grid>-->
                     </SwitchCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
