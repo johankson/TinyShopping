@@ -22,6 +22,10 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Edit" Command="{Binding Edit}" CommandParameter="{Binding .}" />
+                            <MenuItem Text="Delete" IsDestructive="true" Command="{Binding Delete}" CommandParameter="{Binding .}" />
+                        </ViewCell.ContextActions>
                         <Label
                             Text="{Binding Name}" />
                     </ViewCell>

@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using TinyMvvm;
 using TinyPubSubLib;
 using TinyShopping.Messaging;
+using System.Windows.Input;
 
 namespace TinyShopping.ViewModels
 {
@@ -28,6 +29,7 @@ namespace TinyShopping.ViewModels
         }
 
         [TinySubscribe(Channels.ShoppingListAdded)]
+        [TinySubscribe(Channels.ShoppingListDeleted)]
         public async Task LoadData()
         {
             ShoppingLists = new ObservableCollection<ShoppingList>(await _shoppingService.GetShoppingLists());
@@ -46,5 +48,16 @@ namespace TinyShopping.ViewModels
             }
         }
 
+        public ICommand Delete
+        {
+            get
+            {
+                return new Command(async (o) =>
+                {
+                    ShoppingLists.Remove(o as ShoppingList);
+                    await _shoppingService.Delete(o as ShoppingList);
+                });
+            }
+        }
     }
 }

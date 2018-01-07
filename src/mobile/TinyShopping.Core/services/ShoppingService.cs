@@ -37,5 +37,10 @@ namespace TinyShopping.Core.services
             var data = await _client.GetListItemsAsync(listId);
             return data;
         }
+
+        public async Task Delete(ShoppingList shoppingList)
+        {
+            await _client.DeleteShoppingListAsync(shoppingList.Id.Value);
+        }
     }
 }
