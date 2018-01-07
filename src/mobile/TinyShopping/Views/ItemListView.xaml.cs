@@ -17,7 +17,8 @@ namespace TinyShopping.Views
         void Handle_OnChanged(object sender, Xamarin.Forms.ToggledEventArgs e)
         {
             var cell = sender as SwitchCell;
-            ViewModel.Changed.Execute(cell.BindingContext as Item);
+            if (cell!=null && cell.BindingContext!=null)
+                ViewModel.Changed.Execute(cell.BindingContext as Item);
         }
 
         public bool ShowSearchBar => true;

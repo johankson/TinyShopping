@@ -35,19 +35,23 @@ namespace TinyShopping.ViewModels
 
         public void AddItem()
         {
-            var newItem = new Item()
+            if (!string.IsNullOrWhiteSpace(_searchString) && _searchString.Length > 2)
             {
-                ListId = _shoppingList.Id,
-                Name = _searchString
-            };
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                ItemsList.Insert(0, newItem);
-            });
-            Task.Run(async () =>
-            {
-                await _shoppingService.AddItem(newItem);
-            });
+                var newItem = new Item()
+                {
+                    ListId = _shoppingList.Id,
+                    Name = _searchString
+                };
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    ItemsList.Insert(0, newItem);
+                });
+                Task.Run(async () =>
+                {
+                    await _shoppingService.AddItem(newItem);
+                    await LoadData();
+                });
+            }
             //NewItemName = string.Empty;
         }
 

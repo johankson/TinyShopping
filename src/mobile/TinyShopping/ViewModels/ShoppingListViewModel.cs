@@ -26,8 +26,6 @@ namespace TinyShopping.ViewModels
 
         private string _searchString;
 
-
-
         private void FilterResults()
         {
             var res = _allLists;
@@ -40,15 +38,19 @@ namespace TinyShopping.ViewModels
 
         public void AddItem()
         {
-            var newList = new ShoppingList()
+            if (!string.IsNullOrWhiteSpace(_searchString) && _searchString.Length>2)
             {
-                Name = _searchString
-            };
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                await _shoppingService.AddList(newList);
+                var newList = new ShoppingList()
+                {
+                    Name = _searchString
+                };
                 ShoppingLists.Insert(0, newList);
-            });
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await _shoppingService.AddList(newList);
+                    await LoadData();
+                });
+            }
         }
 
         public async override Task OnFirstAppear()
@@ -108,6 +110,7 @@ namespace TinyShopping.ViewModels
         public ICommand Delete => new TinyCommand<ShoppingList>(async (shoppingList) =>
         {
             ShoppingLists.Remove(shoppingList);
+            _allLists.Remove(shoppingList);
             await _shoppingService.Delete(shoppingList);
         });
 
