@@ -6,6 +6,7 @@
 
 namespace TinyShopping.Core.Net.Models
 {
+    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -22,7 +23,7 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// Initializes a new instance of the Item class.
         /// </summary>
-        public Item(int? id = default(int?), System.DateTime? added = default(System.DateTime?), System.DateTime? done = default(System.DateTime?), string name = default(string), bool? completed = default(bool?), int? storeID = default(int?), int? listId = default(int?), double? lat = default(double?), double? lng = default(double?), bool? priceExists = default(bool?), double? price = default(double?), string barcode = default(string))
+        public Item(int id, System.DateTime added, System.DateTime done, string name, bool completed, int storeID, int listId, double lat, double lng, bool priceExists, double price, string barcode)
         {
             Id = id;
             Added = added;
@@ -47,17 +48,17 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "id")]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "added")]
-        public System.DateTime? Added { get; set; }
+        public System.DateTime Added { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "done")]
-        public System.DateTime? Done { get; set; }
+        public System.DateTime Done { get; set; }
 
         /// <summary>
         /// </summary>
@@ -67,42 +68,59 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "completed")]
-        public bool? Completed { get; set; }
+        public bool Completed { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "storeID")]
-        public int? StoreID { get; set; }
+        public int StoreID { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "listId")]
-        public int? ListId { get; set; }
+        public int ListId { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "lat")]
-        public double? Lat { get; set; }
+        public double Lat { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "lng")]
-        public double? Lng { get; set; }
+        public double Lng { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "priceExists")]
-        public bool? PriceExists { get; set; }
+        public bool PriceExists { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "price")]
-        public double? Price { get; set; }
+        public double Price { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "barcode")]
         public string Barcode { get; set; }
 
+        /// <summary>
+        /// Validate the object.
+        /// </summary>
+        /// <exception cref="ValidationException">
+        /// Thrown if validation fails
+        /// </exception>
+        public virtual void Validate()
+        {
+            if (Name == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "Name");
+            }
+            if (Barcode == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "Barcode");
+            }
+        }
     }
 }

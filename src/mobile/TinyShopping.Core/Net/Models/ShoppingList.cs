@@ -6,8 +6,10 @@
 
 namespace TinyShopping.Core.Net.Models
 {
+    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
+    using TinyShopping.Controls;
 
     public partial class ShoppingList
     {
@@ -22,7 +24,7 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// Initializes a new instance of the ShoppingList class.
         /// </summary>
-        public ShoppingList(int? id = default(int?), System.DateTime? created = default(System.DateTime?), bool? completed = default(bool?), System.DateTime? done = default(System.DateTime?), string name = default(string), int? storeID = default(int?))
+        public ShoppingList(int id, System.DateTime created, bool completed, System.DateTime done, string name, int storeID)
         {
             Id = id;
             Created = created;
@@ -41,32 +43,45 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "id")]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "created")]
-        public System.DateTime? Created { get; set; }
+        public System.DateTime Created { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "completed")]
-        public bool? Completed { get; set; }
+        [JsonProperty(PropertyName = "completed"), Editor("Done", "Basic")]
+        public bool Completed { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "done")]
-        public System.DateTime? Done { get; set; }
+        public System.DateTime Done { get; set; }
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "name")]
+        [JsonProperty(PropertyName = "name"), Editor("Name","Basic")]
         public string Name { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "storeID")]
-        public int? StoreID { get; set; }
+        public int StoreID { get; set; }
 
+        /// <summary>
+        /// Validate the object.
+        /// </summary>
+        /// <exception cref="ValidationException">
+        /// Thrown if validation fails
+        /// </exception>
+        public virtual void Validate()
+        {
+            if (Name == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "Name");
+            }
+        }
     }
 }

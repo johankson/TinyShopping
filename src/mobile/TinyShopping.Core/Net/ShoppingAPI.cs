@@ -240,6 +240,7 @@ namespace TinyShopping.Core.Net
         /// </summary>
         private void Initialize()
         {
+            //BaseUri = new System.Uri("");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,
@@ -412,6 +413,10 @@ namespace TinyShopping.Core.Net
         /// </return>
         public async Task<HttpOperationResponse> UpdateListItemWithHttpMessagesAsync(int id, Item itemData = default(Item), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (itemData != null)
+            {
+                itemData.Validate();
+            }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -631,6 +636,10 @@ namespace TinyShopping.Core.Net
         /// </return>
         public async Task<HttpOperationResponse> AddListItemWithHttpMessagesAsync(Item itemData = default(Item), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (itemData != null)
+            {
+                itemData.Validate();
+            }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -865,6 +874,10 @@ namespace TinyShopping.Core.Net
         /// </return>
         public async Task<HttpOperationResponse> AddShoppingListWithHttpMessagesAsync(ShoppingList listData = default(ShoppingList), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (listData != null)
+            {
+                listData.Validate();
+            }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -1105,6 +1118,10 @@ namespace TinyShopping.Core.Net
         /// </return>
         public async Task<HttpOperationResponse> UpdateShoppingListWithHttpMessagesAsync(int id, ShoppingList listData = default(ShoppingList), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (listData != null)
+            {
+                listData.Validate();
+            }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -1574,6 +1591,10 @@ namespace TinyShopping.Core.Net
         /// </return>
         public async Task<HttpOperationResponse> AddStoreWithHttpMessagesAsync(ShoppingList listData = default(ShoppingList), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (listData != null)
+            {
+                listData.Validate();
+            }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -1814,6 +1835,10 @@ namespace TinyShopping.Core.Net
         /// </return>
         public async Task<HttpOperationResponse> UpdateStoreWithHttpMessagesAsync(int id, ShoppingList listData = default(ShoppingList), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (listData != null)
+            {
+                listData.Validate();
+            }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;

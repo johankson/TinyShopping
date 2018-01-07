@@ -34,11 +34,16 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ShoppingBaseModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messaging\Channels.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ObjectEditor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\EditableField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor\EditorExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
     <Folder Include="$(MSBuildThisFileDirectory)Startup\" />
     <Folder Include="$(MSBuildThisFileDirectory)Messaging\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Editor\" />
   </ItemGroup>
 </Project>
