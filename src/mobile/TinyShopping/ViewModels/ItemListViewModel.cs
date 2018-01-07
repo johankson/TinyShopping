@@ -28,7 +28,15 @@ namespace TinyShopping.ViewModels
 
         public void AddItemFromName()
         {
-            
+            var newItem = new Item()
+            {
+                ListId = ListId,
+                Name = NewItemName
+            };
+            Task.Run(async ()=>{
+                await _shoppingService.AddItem(newItem);
+            });
+            NewItemName = string.Empty;
         }
 
         public async override Task OnFirstAppear()

@@ -17,7 +17,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView
-            Header="{Binding NewItemName}"
+            Header="{Binding .}"
             ItemsSource="{Binding ItemsList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
