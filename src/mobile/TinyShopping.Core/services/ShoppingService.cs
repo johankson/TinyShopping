@@ -31,11 +31,13 @@ namespace TinyShopping.Core.services
         public async Task AddItem(Item item)
         {
             await _client.AddListItemAsync(item.ToRest());
+            TinyCache.TinyCache.Remove("listItems" + item.ListId);
         }
 
         public async Task AddList(ShoppingList item)
         {
             await _client.AddShoppingListAsync(item.ToRest());
+            TinyCache.TinyCache.Remove("shoppingLista");
         }
 
         public async Task<IList<Item>> GetListItems(int listId)
