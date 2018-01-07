@@ -26,11 +26,6 @@ namespace TinyShopping.ViewModels
             var it = 2;
         }
 
-        //public void OpenList(ShoppingList shoppingList)
-        //{
-        //    Navigation.NavigateToAsync("ItemListView", shoppingList);
-        //}
-
         public async void AddListFromName()
         {
             var newList = new ShoppingList()
@@ -57,8 +52,6 @@ namespace TinyShopping.ViewModels
         }
 
         public ObservableCollection<ShoppingList> ShoppingLists { get; set; }
-
-        ShoppingList selectedItem;
 
         public ShoppingList SelectedItem
         {
