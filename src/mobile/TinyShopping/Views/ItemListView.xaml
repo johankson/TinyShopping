@@ -12,8 +12,7 @@
             Name="MenuItem1"
             Text="Add"
             Priority="0"
-            Command="{Binding NavigateTo}"
-            CommandParameter="ListItemEditorView" />
+            Command="{Binding AddItem}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView

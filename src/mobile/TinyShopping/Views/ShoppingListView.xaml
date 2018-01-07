@@ -26,6 +26,16 @@
             IsRefreshing="{Binding IsBusy, Mode=OneWay}"
             RefreshCommand="{Binding Refresh}"
             ItemsSource="{Binding ShoppingLists}">
+
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                        <Grid BackgroundColor="Fuchsia" Padding="8,2,8,2">
+                            <Entry Placeholder="Add item" Text="{Binding NewListName}" 
+                                Completed="Handle_Completed" FontSize="25" />
+                        </Grid>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -54,15 +64,6 @@
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <ListView.HeaderTemplate>
-                <DataTemplate>
-                        <Grid BackgroundColor="Fuchsia" Padding="8,2,8,2">
-                            <Entry Placeholder="Add item" Text="{Binding NewListName}" 
-                                Completed="Handle_Completed" FontSize="25" />
-
-                        </Grid>
-                </DataTemplate>
-            </ListView.HeaderTemplate>
         </ListView>
     </ContentPage.Content>
 </tinymvvm:ViewBase>
