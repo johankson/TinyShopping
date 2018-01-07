@@ -33,6 +33,7 @@ namespace TinyShopping.ViewModels
                 ListId = ListId,
                 Name = NewItemName
             };
+            ItemsList.Add(newItem);
             Task.Run(async ()=>{
                 await _shoppingService.AddItem(newItem);
             });
@@ -44,7 +45,6 @@ namespace TinyShopping.ViewModels
             await LoadData();
         }
 
-        [TinySubscribe(Channels.ShoppingListItemAdded)]
         public async Task LoadData()
         {
             ItemsList = new ObservableCollection<Item>(await _shoppingService.GetListItems(ListId));
@@ -93,21 +93,11 @@ namespace TinyShopping.ViewModels
         {
             get
             {
-                return new TinyCommand<Item>(async (item) =>
+                return new TinyCommand<ShoppingList>(async (item) =>
                 {
                     await Navigation.NavigateToAsync("ListItemEditorView", item);
                 });
             }
         }
-
-        public ICommand AddItem => new TinyCommand(() =>
-        {
-            var item = new Item()
-            {
-                ListId = ListId
-            };
-
-            Edit.Execute(item);
-        });
     }
 }
