@@ -14,26 +14,51 @@
             Text="Add"
             Priority="0"
             Command="{Binding NavigateTo}"
-            CommandParameter="ListEditorView"   
-        />
+            CommandParameter="ListEditorView" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView
+            Header="{Binding .}"
+            SelectedItem="{Binding SelectedItem}"
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            RefreshCommand="{Binding Refresh}"
             ItemsSource="{Binding ShoppingLists}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Text="Edit" Command="{Binding Source={x:Reference root}, Path=BindingContext.Edit}" CommandParameter="{Binding .}" />
-                            <MenuItem Text="Delete" IsDestructive="true" Command="{Binding Source={x:Reference root}, Path=BindingContext.Delete}" CommandParameter="{Binding .}" />
+                            <MenuItem
+                                Text="Edit"
+                                Command="{Binding Source={x:Reference root}, Path=BindingContext.Edit}"
+                                CommandParameter="{Binding .}" />
+                            <MenuItem
+                                Text="Delete"
+                                IsDestructive="true"
+                                Command="{Binding Source={x:Reference root}, Path=BindingContext.Delete}"
+                                CommandParameter="{Binding .}" />
                         </ViewCell.ContextActions>
-                        <Grid Margin="14,14">
-                            <Label Text="{Binding Name}" FontAttributes="Bold" />
-                            <Label Text="13/18 items checked" Grid.Column="1" FontSize="Micro" HorizontalTextAlignment="End"/>
+                        <Grid
+                            Margin="14,14">
+                            <Label
+                                Text="{Binding Name}"
+                                FontAttributes="Bold" />
+                            <Label
+                                Text="13/18 items checked"
+                                Grid.Column="1"
+                                FontSize="Micro"
+                                HorizontalTextAlignment="End" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <StackLayout BackgroundColor="Lime" Padding="10" Orientation="Horizontal">
+                        <Entry Placeholder="Add item" Text="{Binding NewListName}" Completed="Handle_Completed" HorizontalOptions="StartAndExpand" />
+                    </StackLayout>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
         </ListView>
     </ContentPage.Content>
 </tinymvvm:ViewBase>

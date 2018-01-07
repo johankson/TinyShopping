@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TinyShopping.ApplicationModels;
 using TinyShopping.Core.ApplicationModels.RestHelper;
@@ -21,9 +22,10 @@ namespace TinyShopping.Core.services
 
         public async Task<IList<ShoppingList>> GetShoppingLists()
         {
-            var data = await TinyCache.TinyCache.RunAsync("shoppingLista", async () => { 
+            var data = await TinyCache.TinyCache.RunAsync("shoppingLista", async () =>
+            {
                 var ret = await _client.GetShoppingListsAsync();
-                return ret.ToModel();
+                return ret.OrderByDescending(d => d.Created).ToModel();
             });
             return data;
         }
@@ -40,9 +42,16 @@ namespace TinyShopping.Core.services
             TinyCache.TinyCache.Remove("shoppingLista");
         }
 
+        public async Task UpdateItem(Item item)
+        {
+            await _client.UpdateListItemAsync(item.Id, item.ToRest());
+            TinyCache.TinyCache.Remove("listItems" + item.ListId);
+        }
+
         public async Task<IList<Item>> GetListItems(int listId)
         {
-            var data = await TinyCache.TinyCache.RunAsync("listItems"+listId, async () => {
+            var data = await TinyCache.TinyCache.RunAsync("listItems" + listId, async () =>
+            {
                 var ret = await _client.GetListItemsAsync(listId);
                 return ret.ToModel();
             });

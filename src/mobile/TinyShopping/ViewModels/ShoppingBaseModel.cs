@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using TinyMvvm;
 using TinyPubSubLib;
 using Xamarin.Forms;
 

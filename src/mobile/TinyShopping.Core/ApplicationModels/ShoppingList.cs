@@ -8,16 +8,30 @@ namespace TinyShopping.ApplicationModels
     {
         public int Id { get; set; }
 
-        [Editor("Completed", "List data", Readonly = true)]
-        public System.DateTime Created { get; set; }
+        [Editor("Created", "List data", Readonly = true)]
+        public System.DateTime Created { get; set; } = System.DateTime.Now;
 
+        bool completed;
         [Editor("Marked as complete", "List data")]
-        public bool Completed { get; set; }
+        public bool Completed
+        {
+            get
+            {
+                return completed;
+            }
+
+            set
+            {
+                completed = value;
+                if (value == true)
+                    Done = System.DateTime.Now;
+            }
+        }
 
         [Editor("Completed at", "List data", Readonly = true)]
         public System.DateTime Done { get; set; }
 
-        [Editor("Name", "List data")]
+        [Editor("Name", "List data", Order = 1)]
         public string Name { get; set; }
 
         public int StoreID { get; set; }

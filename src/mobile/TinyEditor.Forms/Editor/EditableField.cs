@@ -33,15 +33,27 @@ namespace TinyEditor
         {
             get
             {
+                if (parent is INotifyPropertyChanged pchange)
+                {
+                    pchange.PropertyChanged += (sender, e) =>
+                    {
+                        if (e.PropertyName==SourceProperty.Name) {
+                            PropertyChanged.Invoke(this,new PropertyChangedEventArgs("Value"));
+                        }
+                    };
+                }
                 if (view == null)
                 {
-                    if (PropertyData.Excluded)
+                    if (PropertyData.Readonly)
                     {
                         view = new TextCell()
                         {
                             Text = PropertyData.Title,
+                            BindingContext = this,
                             Detail = Value.ToString()
                         };
+                        view.SetBinding(TextCell.DetailProperty, nameof(Value));
+
                     }
                     else
                     {
