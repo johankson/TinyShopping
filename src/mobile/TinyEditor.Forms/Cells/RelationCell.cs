@@ -9,7 +9,8 @@ namespace TinyEditor.Forms.Cells
     {
         private StackLayout Root = new StackLayout()
         {
-            Orientation = StackOrientation.Horizontal
+            Orientation = StackOrientation.Horizontal,
+            Padding = new Thickness(15, 3)
         };
         public Label TextLabel = new Label()
         {
