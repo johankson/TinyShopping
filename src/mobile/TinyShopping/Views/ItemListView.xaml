@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tinymvvm:ViewBase
+    x:Name="root"
     x:TypeArguments="viewmodels:ItemListViewModel"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
