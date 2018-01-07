@@ -46,7 +46,7 @@ namespace TinyShopping.ApplicationModels
 
         public int NumberOfCompletedItems { get; set; }
 
-        public string NumberOfItemsChecked => $"{NumberOfItemsChecked}/{NumberOfItems} items checked";
+        public string NumberOfItemsChecked => $"{NumberOfCompletedItems}/{NumberOfItems} items checked";
 
         public override string ToString()
         {
