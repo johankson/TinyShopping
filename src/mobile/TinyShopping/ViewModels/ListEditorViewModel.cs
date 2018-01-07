@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-﻿using System.Windows.Input;
-=======
+﻿﻿using System.Windows.Input;
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows.Input;
->>>>>>> ed1a8be5822fe2b740f9cfae7a004f6ea427668f
 using TinyMvvm;
 using TinyPubSubLib;
 using TinyShopping.ApplicationModels;
@@ -22,8 +18,6 @@ namespace TinyShopping.ViewModels
             _shoppingService = shoppingService;
         }
 
-<<<<<<< HEAD
-=======
         public async override Task Initialize()
         {
             var shoppingList = NavigationParameter as ShoppingList;
@@ -39,7 +33,6 @@ namespace TinyShopping.ViewModels
             ShoppingList = shoppingList;
         }
 
->>>>>>> ed1a8be5822fe2b740f9cfae7a004f6ea427668f
         public ShoppingList ShoppingList { get; set; }
 
         public string Name { get; set; }

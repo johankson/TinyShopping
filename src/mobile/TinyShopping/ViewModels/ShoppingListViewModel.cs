@@ -3,11 +3,9 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TinyPubSubLib;
 using TinyShopping.Messaging;
-<<<<<<< HEAD
 using TinyShopping.ApplicationModels;
-=======
 using System.Windows.Input;
->>>>>>> ed1a8be5822fe2b740f9cfae7a004f6ea427668f
+using TinyMvvm;
 
 namespace TinyShopping.ViewModels
 {
