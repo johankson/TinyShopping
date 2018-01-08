@@ -1,6 +1,8 @@
 ﻿using System;
+using TinyMvvm.IoC;
 using TinyShopping.iOS.Renderers;
 using TinyShopping.Views;
+using TinyTranslation.Forms;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -11,6 +13,14 @@ namespace TinyShopping.iOS.Renderers
 {
     public class TilePageRenderer : PageRenderer
     {
+        private readonly TranslationHelper _transService;
+
+        public TilePageRenderer()
+        {
+            _transService = Resolver.Resolve<TranslationHelper>();
+        }
+
+
         public override void WillMoveToParentViewController(UIKit.UIViewController parent)
         {
             base.WillMoveToParentViewController(parent);
@@ -23,7 +33,7 @@ namespace TinyShopping.iOS.Renderers
                     //ObscuresBackgroundDuringPresentation = true
                 };
                 searchController.SearchBar.SearchBarStyle = UISearchBarStyle.Prominent;
-                searchController.SearchBar.Placeholder = "Search or add";
+                searchController.SearchBar.Placeholder = _transService.Translate("Search or add");
                 parent.NavigationItem.SearchController = searchController;
                 searchController.SearchBar.ShowsSearchResultsButton = true;
                 var tf = searchController.SearchBar.ValueForKey(new Foundation.NSString("_searchField")) as UITextField;
@@ -32,15 +42,17 @@ namespace TinyShopping.iOS.Renderers
                     tf.ClearButtonMode = UITextFieldViewMode.Never;
                     tf.ReturnKeyType = UIReturnKeyType.Send;
                 }
-                searchController.SearchBar.SearchButtonClicked += (sender, e) => {
+                searchController.SearchBar.SearchButtonClicked += (sender, e) =>
+                {
                     searchView.SearchHandler.AddItem();
                 };
-               
+
                 searchController.SearchBar.TextChanged += (sender, e) =>
                 {
                     searchView.SearchHandler.Search(e.SearchText);
                 };
-                searchController.SearchBar.CancelButtonClicked += (sender, e) => {
+                searchController.SearchBar.CancelButtonClicked += (sender, e) =>
+                {
                     searchView.SearchHandler.Clear();
                 };
             }

@@ -5,13 +5,14 @@
     xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
     xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
     xmlns:Editor="clr-namespace:TinyEditor.Controls;assembly=TinyEditor.Forms"
+    xmlns:Tr="clr-namespace:TinyTranslation.Forms;assembly=TinyTranslation.Forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="TinyShopping.Views.ListEditorView"
-    Title="Add a list">
+    Title="{Tr:ans Add a list}">
      <ContentPage.ToolbarItems>
         <ToolbarItem
             Name="MenuItem1"
-            Text="Save"
+            Text="{Tr:ans Save}"
             Priority="0"
             Command="{Binding Save}"
         />

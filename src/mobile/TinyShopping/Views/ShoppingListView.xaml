@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:viewmodels="clr-namespace:TinyShopping.ViewModels"
     xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
+    xmlns:Tr="clr-namespace:TinyTranslation.Forms;assembly=TinyTranslation.Forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="TinyShopping.Views.ShoppingListView"
     x:Name="root"
@@ -11,7 +12,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Name="MenuItem1"
-            Text="Add"
+            Text="{Tr:ans Add}"
             Priority="0"
             Command="{Binding NavigateTo}"
             CommandParameter="ListEditorView" />
@@ -30,11 +31,11 @@
                     <ViewCell>
                         <ViewCell.ContextActions>
                             <MenuItem
-                                Text="Edit"
+                                Text="{Tr:ans Edit}"
                                 Command="{Binding Source={x:Reference root}, Path=BindingContext.Edit}"
                                 CommandParameter="{Binding .}" />
                             <MenuItem
-                                Text="Delete"
+                                Text="{Tr:ans Delete}"
                                 IsDestructive="true"
                                 Command="{Binding Source={x:Reference root}, Path=BindingContext.Delete}"
                                 CommandParameter="{Binding .}" />

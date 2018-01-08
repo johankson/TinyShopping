@@ -137,6 +137,12 @@
     <Reference Include="TinyCache.Forms">
       <HintPath>..\packages\TinyCache.Forms.1.0.19\lib\netstandard1.4\TinyCache.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="TinyTranslation">
+      <HintPath>..\packages\TinyTranslation.1.0.5\lib\netstandard1.4\TinyTranslation.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyTranslation.Forms">
+      <HintPath>..\packages\TinyTranslation.Forms.1.0.5\lib\netstandard1.4\TinyTranslation.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
