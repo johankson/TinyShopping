@@ -37,6 +37,8 @@ namespace TinyShopping.ViewModels
                 }
                 ShoppingLists = new ObservableCollection<ShoppingList>(res);
             }
+            else
+                ShoppingLists = new ObservableCollection<ShoppingList>();
         }
 
         public void AddItem()

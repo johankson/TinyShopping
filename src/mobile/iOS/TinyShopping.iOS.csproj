@@ -175,6 +175,11 @@
       <Project>{782272BB-1D7B-44DA-BDB8-90C7A2E26E94}</Project>
       <Name>TinyEditor.Forms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TodoSummary\TodoSummary.csproj">
+      <IsAppExtension>true</IsAppExtension>
+      <Project>{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}</Project>
+      <Name>TodoSummary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\TinyShopping\TinyShopping.projitems" Label="Shared" Condition="Exists('..\TinyShopping\TinyShopping.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

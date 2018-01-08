@@ -37,6 +37,10 @@ namespace TinyEditor.Controls
             }
         }
 
+        private static Func<string, string> DefaultTranslator => (arg) => { return arg; };
+
+        public static Func<string, string> Translate { get; set; } = DefaultTranslator;
+
         private static bool CheckBook(BindableObject bindable, object value)
         {
             var that = bindable as ObjectEditor;
@@ -70,7 +74,7 @@ namespace TinyEditor.Controls
         private FieldGroup GetGroup(string name)
         {
             if (string.IsNullOrEmpty(name))
-                name = "Extra";
+                name = ObjectEditor.Translate("Extra");
             var ret = FieldGroups.FirstOrDefault(d => d.Name.Equals(name));
             if (ret == null)
             {
@@ -80,7 +84,7 @@ namespace TinyEditor.Controls
                 };
                 ret.View = new TableSection()
                 {
-                    Title = name
+                    Title = ObjectEditor.Translate(name)
                 };
                 ret.Fields = new ObservableCollection<EditableField>();
                 Root.Add(ret.View);

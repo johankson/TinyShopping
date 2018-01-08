@@ -75,6 +75,8 @@ namespace TinyShopping.ViewModels
                     ret = _allItems.Where(d => d.Name.Contains(_searchString)).ToList();
                 ItemsList = new ObservableCollection<Item>(ret);
             }
+            else
+                ItemsList = new ObservableCollection<Item>();
         }
 
 

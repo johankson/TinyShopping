@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Reflection;
+using TinyEditor.Controls;
 using TinyEditor.Forms.Cells;
 using Xamarin.Forms;
 
@@ -49,7 +50,7 @@ namespace TinyEditor
                     {
                         view = new TextCell()
                         {
-                            Text = PropertyData.Title,
+                            Text = ObjectEditor.Translate(PropertyData.Title),
                             BindingContext = this,
                             Detail = Value.ToString()
                         };
@@ -66,7 +67,7 @@ namespace TinyEditor
                             {
                                 view = new RelationCell(rel)
                                 {
-                                    Text = PropertyData.Title
+                                    Text = ObjectEditor.Translate(PropertyData.Title)
                                 };
                                 view.SetBinding(DateCell.ValueProperty, nameof(Value));
                             }
@@ -75,7 +76,7 @@ namespace TinyEditor
                         {
                             view = new EntryCell()
                             {
-                                Label = PropertyData.Title
+                                Label = ObjectEditor.Translate(PropertyData.Title)
                             };
                             view.SetBinding(EntryCell.TextProperty, nameof(Value));
                         }
@@ -83,7 +84,7 @@ namespace TinyEditor
                         {
                             view = new SwitchCell()
                             {
-                                Text = PropertyData.Title
+                                Text = ObjectEditor.Translate(PropertyData.Title)
                             };
                             view.SetBinding(SwitchCell.OnProperty, nameof(Value));
                         }
@@ -91,7 +92,7 @@ namespace TinyEditor
                         {
                             view = new DateCell()
                             {
-                                Text = PropertyData.Title
+                                Text = ObjectEditor.Translate(PropertyData.Title)
                             };
                             view.SetBinding(DateCell.ValueProperty, nameof(Value));
                         }

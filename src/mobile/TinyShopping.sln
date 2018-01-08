@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyEditor.Forms", "TinyEdi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyHelper", "TinyHelper\TinyHelper.csproj", "{32583ED5-1E43-4C08-9086-567DDF6F739D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoSummary", "TodoSummary\TodoSummary.csproj", "{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -83,5 +85,17 @@ Global
 		{32583ED5-1E43-4C08-9086-567DDF6F739D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32583ED5-1E43-4C08-9086-567DDF6F739D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32583ED5-1E43-4C08-9086-567DDF6F739D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Release|iPhone.ActiveCfg = Release|iPhone
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Release|iPhone.Build.0 = Release|iPhone
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Debug|iPhone.Build.0 = Debug|iPhone
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Release|Any CPU.ActiveCfg = Release|iPhone
+		{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}.Release|Any CPU.Build.0 = Release|iPhone
 	EndGlobalSection
 EndGlobal
