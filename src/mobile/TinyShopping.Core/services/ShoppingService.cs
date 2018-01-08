@@ -17,7 +17,7 @@ namespace TinyShopping.Core.Services
         public ShoppingService()
         {
             //_client = new ShoppingAPI(new Uri("http://localhost:5000"), new UnsafeCredentials(), new TinyCache.TinyCacheDelegationHandler());
-            _client = new ShoppingAPI(new Uri("http://localhost:5000"), new UnsafeCredentials());
+            _client = new ShoppingAPI(new Uri("http://192.168.1.131:5000"), new UnsafeCredentials());
         }
 
         private const string LISTKEY = "shoppingLists";

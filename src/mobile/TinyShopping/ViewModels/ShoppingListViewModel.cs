@@ -28,12 +28,15 @@ namespace TinyShopping.ViewModels
 
         private void FilterResults()
         {
-            var res = _allLists;
-            if (!string.IsNullOrEmpty(_searchString))
+            if (_allLists != null)
             {
-                res = _allLists.Where(d => d.Name.Contains(_searchString)).ToList();
+                var res = _allLists;
+                if (!string.IsNullOrEmpty(_searchString))
+                {
+                    res = _allLists.Where(d => d.Name.Contains(_searchString)).ToList();
+                }
+                ShoppingLists = new ObservableCollection<ShoppingList>(res);
             }
-            ShoppingLists = new ObservableCollection<ShoppingList>(res);
         }
 
         public void AddItem()

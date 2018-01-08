@@ -16,7 +16,6 @@ namespace TinyShopping.iOS.Renderers
             base.WillMoveToParentViewController(parent);
             if (Element is ISearchControllerPage searchView)
             {
-
                 var searchController = new UISearchController(searchResultsController: null)
                 {
                     HidesNavigationBarDuringPresentation = true,
@@ -56,8 +55,9 @@ namespace TinyShopping.iOS.Renderers
         }
         public override void ViewWillAppear(bool animated)
         {
-            base.ViewWillAppear(animated);
             UpdateTiles();
+            base.ViewWillAppear(animated);
+
         }
 
         private void UpdateTiles()
@@ -71,14 +71,15 @@ namespace TinyShopping.iOS.Renderers
             }
         }
 
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
+        //public override void ViewDidDisappear(bool animated)
+        //{
+            
 
-            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0) && NavigationController != null && NavigationController.NavigationBar != null)
-            {
-                NavigationController.NavigationBar.PrefersLargeTitles = false;
-            }
-        }
+        //    if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0) && NavigationController != null && NavigationController.NavigationBar != null)
+        //    {
+        //        NavigationController.NavigationBar.PrefersLargeTitles = false;
+        //    }
+        //    base.ViewDidDisappear(animated);
+        //}
     }
 }

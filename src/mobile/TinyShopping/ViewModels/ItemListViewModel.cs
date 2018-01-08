@@ -68,10 +68,13 @@ namespace TinyShopping.ViewModels
 
         private void FilterResult()
         {
-            var ret = _allItems;
-            if (!string.IsNullOrEmpty(_searchString))
-                ret = _allItems.Where(d => d.Name.Contains(_searchString)).ToList();
-            ItemsList = new ObservableCollection<Item>(ret);
+            if (_allItems != null)
+            {
+                var ret = _allItems;
+                if (!string.IsNullOrEmpty(_searchString))
+                    ret = _allItems.Where(d => d.Name.Contains(_searchString)).ToList();
+                ItemsList = new ObservableCollection<Item>(ret);
+            }
         }
 
 
