@@ -68,6 +68,13 @@ namespace TinyShopping.ViewModels
             IsBusy = false;
         }
 
+        [TinySubscribe(Channels.ShoppingListUpdated)]
+        public async Task ShoppingListUpdated(ShoppingList shoppingList)
+        {
+            // TODO Only update the GUI for the shoppinglist that was updated
+            await LoadData();
+        }
+
         public void Search(string value)
         {
             _searchString = value;

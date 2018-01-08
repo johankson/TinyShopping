@@ -113,6 +113,9 @@ namespace TinyShopping.ViewModels
         public ICommand Changed => new TinyCommand<Item>(async (item) =>
         {
             await _shoppingService.UpdateItem(item);
+
+            // QUESTION: Should the task firing be part of the shopping service?
+            TinyPubSub.Publish(Channels.ShoppingListUpdated, _shoppingList);
         });
 
         public ICommand CreateNewItem => new TinyCommand(() =>
