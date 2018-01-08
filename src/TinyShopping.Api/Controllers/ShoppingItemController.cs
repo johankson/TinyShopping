@@ -36,9 +36,11 @@ namespace TinyShopping.Api.Controllers
         [HttpPut("items/{id}", Name = "UpdateListItem")]
         public void UpdateItem(int id, [FromBody]Item itemData)
         {
-            var item = db.Lists.FirstOrDefault(d => d.ID == id);
-            itemData.MemberviseCopyTo(item);
-            db.SaveChangesAsync();
+            var item = db.Items.FirstOrDefault(d => d.ID == id);
+            if (item!=null) {
+                itemData.MemberviseCopyTo(item);
+                db.SaveChangesAsync();
+            }
         }
 
         [SwaggerOperation("DeleteListItem")]

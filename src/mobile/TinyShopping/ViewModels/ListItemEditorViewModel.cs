@@ -38,25 +38,21 @@ namespace TinyShopping.ViewModels
 
         public string Name { get; set; }
 
-        public ICommand Save
+        public ICommand Save => new TinyCommand(async () =>
         {
-            get
+            if (Item.Id == 0)
             {
-                return new TinyCommand(async () =>
-                {
-                    if (Item.Id == 0)
-                    {
-                        await _shoppingService.AddItem(Item);
-                    }
-                    else
-                    {
-                        await _shoppingService.UpdateItem(Item);
-                    }
-
-                    await TinyPubSub.PublishAsync(Channels.ShoppingListAdded);
-                    await Navigation.BackAsync();
-                });
+                await _shoppingService.AddItem(Item);
             }
-        }
+            else
+            {
+                await _shoppingService.UpdateItem(Item);
+            }
+
+            await TinyPubSub.PublishAsync(Channels.ShoppingListAdded);
+            await Navigation.BackAsync();
+        });
+            
+        
     }
 }

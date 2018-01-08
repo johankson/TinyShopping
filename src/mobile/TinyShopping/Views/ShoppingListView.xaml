@@ -19,23 +19,12 @@
     <ContentPage.Content>
         <ListView
             x:Name="MainListView"
-            Header="{Binding .}"
             SelectedItem="{Binding SelectedItem}"
-            ItemSelected="Handle_ItemSelected"
             IsPullToRefreshEnabled="true"
             IsRefreshing="{Binding IsBusy, Mode=OneWay}"
             RefreshCommand="{Binding Refresh}"
             ItemsSource="{Binding ShoppingLists}">
 
-            <ListView.HeaderTemplate>
-                <DataTemplate>
-                        <Grid BackgroundColor="Fuchsia" Padding="8,2,8,2">
-                            <Entry Placeholder="Add shopping list" Text="{Binding NewListName}" 
-                                Completed="Handle_Completed" FontSize="25" />
-                        </Grid>
-                </DataTemplate>
-            </ListView.HeaderTemplate>
-            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

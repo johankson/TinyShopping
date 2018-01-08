@@ -8,11 +8,14 @@ using System.Windows.Input;
 using TinyMvvm;
 using System;
 using Xamarin.Forms;
+using System.Collections.Generic;
+using System.Linq;
+using TinyShopping.Views;
 
 namespace TinyShopping.ViewModels
 {
 
-    public class ShoppingListViewModel : ShoppingBaseModel
+    public class ShoppingListViewModel : ShoppingBaseModel, ISearchHandler
     {
         private ShoppingService _shoppingService;
 
@@ -21,20 +24,33 @@ namespace TinyShopping.ViewModels
             _shoppingService = shoppingService;
         }
 
-        public void SearchTextChanged(string e)
+        private string _searchString;
+
+        private void FilterResults()
         {
-            var it = 2;
+            var res = _allLists;
+            if (!string.IsNullOrEmpty(_searchString))
+            {
+                res = _allLists.Where(d => d.Name.Contains(_searchString)).ToList();
+            }
+            ShoppingLists = new ObservableCollection<ShoppingList>(res);
         }
 
-        public async void AddListFromName()
+        public void AddItem()
         {
-            var newList = new ShoppingList()
+            if (!string.IsNullOrWhiteSpace(_searchString) && _searchString.Length>2)
             {
-                Name = NewListName
-            };
-            await _shoppingService.AddList(newList);
-            ShoppingLists.Insert(0, newList);
-            NewListName = string.Empty;
+                var newList = new ShoppingList()
+                {
+                    Name = _searchString
+                };
+                ShoppingLists.Insert(0, newList);
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await _shoppingService.AddList(newList);
+                    await LoadData();
+                });
+            }
         }
 
         public async override Task OnFirstAppear()
@@ -47,10 +63,24 @@ namespace TinyShopping.ViewModels
         public async Task LoadData()
         {
             IsBusy = true;
-            ShoppingLists = new ObservableCollection<ShoppingList>(await _shoppingService.GetShoppingLists());
+            _allLists = await _shoppingService.GetShoppingLists();
+            FilterResults();
             IsBusy = false;
         }
 
+        public void Search(string value)
+        {
+            _searchString = value;
+            FilterResults();
+        }
+
+        public void Clear()
+        {
+            _searchString = string.Empty;
+            FilterResults();
+        }
+
+        private IList<ShoppingList> _allLists;
         public ObservableCollection<ShoppingList> ShoppingLists { get; set; }
 
         public ShoppingList SelectedItem
@@ -59,19 +89,15 @@ namespace TinyShopping.ViewModels
             {
                 return null;
             }
-
             set
             {
-                if (value == null)
+                if (value != null)
                 {
-                    return;
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Navigation.NavigateToAsync("ItemListView", value);
+                    });
                 }
-
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await Navigation.NavigateToAsync("ItemListView", value);
-                    RaisePropertyChanged(nameof(SelectedItem));
-                });
             }
         }
 
@@ -81,29 +107,19 @@ namespace TinyShopping.ViewModels
             set;
         } = string.Empty;
 
-        public ICommand Delete
+        public ICommand Delete => new TinyCommand<ShoppingList>(async (shoppingList) =>
         {
-            get
-            {
-                return new TinyCommand<ShoppingList>(async (shoppingList) =>
-                {
-                    ShoppingLists.Remove(shoppingList);
-                    await _shoppingService.Delete(shoppingList);
-                });
-            }
-        }
+            ShoppingLists.Remove(shoppingList);
+            _allLists.Remove(shoppingList);
+            await _shoppingService.Delete(shoppingList);
+        });
 
         public ICommand Refresh => new TinyCommand(async () => await LoadData());
 
-        public ICommand Edit
-        {
-            get
-            {
-                return new TinyCommand<ShoppingList>(async (shoppingList) =>
-                {
-                    await Navigation.NavigateToAsync("ListEditorView", shoppingList);
-                });
-            }
-        }
+        public ICommand Edit => new TinyCommand<ShoppingList>(async (shoppingList) =>
+         {
+             await Navigation.NavigateToAsync("ListEditorView", shoppingList);
+         });
+
     }
 }

@@ -6,34 +6,37 @@
     using TinyShopping.ViewModels;
     using Xamarin.Forms;
 
-    public partial class ShoppingListView : ViewBase<ShoppingListViewModel>, ICustomTitleView
+    public partial class ShoppingListView : ViewBase<ShoppingListViewModel>, ISearchControllerPage
     {
-        public View TitleView { get; set; }
+        public bool ShowSearchBar => true;
 
-        public EventHandler<string> SearchTextChanged { get; set; }
+        public ISearchHandler SearchHandler => ViewModel;
+
+        public bool LargeTile => true;
 
         public ShoppingListView()
         {
             this.InitializeComponent();
-            SearchTextChanged += (sender, e) => ViewModel.SearchTextChanged(e);
             MainListView.ItemSelected += (sender, e) => MainListView.SelectedItem = null;
         }
 
-        void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
-        {
-            //   ViewModel.OpenList(e.SelectedItem as ShoppingList);
-        }
-
-        void Handle_Completed(object sender, System.EventArgs e)
-        {
-            var entry = sender as Entry;
-            ViewModel.AddListFromName();
-        }
     }
 
-    internal interface ICustomTitleView
+    public interface ICustomTitleView
     {
-        View TitleView { get; set; }
-        EventHandler<string> SearchTextChanged { get; set; }
+        bool LargeTile { get; }
+    }
+
+    public interface ISearchControllerPage : ICustomTitleView
+    {
+        bool ShowSearchBar { get; }
+        ISearchHandler SearchHandler { get; }
+    }
+
+    public interface ISearchHandler
+    {
+        void Search(string value);
+        void Clear();
+        void AddItem();
     }
 }
