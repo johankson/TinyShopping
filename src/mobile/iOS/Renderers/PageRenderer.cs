@@ -44,8 +44,6 @@ namespace TinyShopping.iOS.Renderers
                     searchView.SearchHandler.Clear();
                 };
             }
-
-            // parent.NavigationItem.TitleView = view.Subviews[0];
         }
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
@@ -70,16 +68,5 @@ namespace TinyShopping.iOS.Renderers
                 }
             }
         }
-
-        //public override void ViewDidDisappear(bool animated)
-        //{
-            
-
-        //    if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0) && NavigationController != null && NavigationController.NavigationBar != null)
-        //    {
-        //        NavigationController.NavigationBar.PrefersLargeTitles = false;
-        //    }
-        //    base.ViewDidDisappear(animated);
-        //}
     }
 }
