@@ -143,6 +143,15 @@
     <Reference Include="TinyTranslation.Forms">
       <HintPath>..\packages\TinyTranslation.Forms.1.0.5\lib\netstandard1.4\TinyTranslation.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Lottie.iOS">
+      <HintPath>..\packages\Com.Airbnb.iOS.Lottie.2.1.5.0\lib\xamarinios\Lottie.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Lottie.Forms">
+      <HintPath>..\packages\Com.Airbnb.Xamarin.Forms.Lottie.2.4.1\lib\xamarinios\Lottie.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Lottie.Forms.iOS">
+      <HintPath>..\packages\Com.Airbnb.Xamarin.Forms.Lottie.2.4.1\lib\xamarinios\Lottie.Forms.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -180,6 +189,9 @@
       <Project>{929CD0D2-DD10-493E-BAF9-60A9EF3190BB}</Project>
       <Name>TodoSummary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\tick.json" />
   </ItemGroup>
   <Import Project="..\TinyShopping\TinyShopping.projitems" Label="Shared" Condition="Exists('..\TinyShopping\TinyShopping.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

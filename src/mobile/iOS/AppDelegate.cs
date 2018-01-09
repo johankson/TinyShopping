@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Lottie.Forms.iOS.Renderers;
 using UIKit;
 
 namespace TinyShopping.iOS
@@ -13,6 +14,7 @@ namespace TinyShopping.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            AnimationViewRenderer.Init();
 
             LoadApplication(new App());
 

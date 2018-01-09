@@ -28,29 +28,34 @@ namespace TinyShopping.iOS.Renderers
             {
                 var searchController = new UISearchController(searchResultsController: null)
                 {
-                    HidesNavigationBarDuringPresentation = true,
+                    HidesNavigationBarDuringPresentation = false,
                     DimsBackgroundDuringPresentation = false,
                     //ObscuresBackgroundDuringPresentation = true
                 };
+
                 searchController.SearchBar.SearchBarStyle = UISearchBarStyle.Prominent;
                 searchController.SearchBar.Placeholder = _transService.Translate("Search or add");
                 parent.NavigationItem.SearchController = searchController;
                 searchController.SearchBar.ShowsSearchResultsButton = true;
                 var tf = searchController.SearchBar.ValueForKey(new Foundation.NSString("_searchField")) as UITextField;
+
                 if (tf != null)
                 {
                     tf.ClearButtonMode = UITextFieldViewMode.Never;
                     tf.ReturnKeyType = UIReturnKeyType.Send;
                 }
+
                 searchController.SearchBar.SearchButtonClicked += (sender, e) =>
                 {
                     searchView.SearchHandler.AddItem();
+                    searchController.SearchBar.Text = String.Empty;
                 };
 
                 searchController.SearchBar.TextChanged += (sender, e) =>
                 {
                     searchView.SearchHandler.Search(e.SearchText);
                 };
+
                 searchController.SearchBar.CancelButtonClicked += (sender, e) =>
                 {
                     searchView.SearchHandler.Clear();

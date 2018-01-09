@@ -8,7 +8,9 @@ using TinyShopping.Messaging;
 
 namespace TinyShopping.ViewModels
 {
-
+    /// <summary>
+    /// Handles add or edit for one specific shopping list
+    /// </summary>
     public class ListEditorViewModel : ShoppingBaseModel
     {
         private ShoppingService _shoppingService;
