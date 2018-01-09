@@ -38,8 +38,6 @@ namespace TinyShopping.Core.Services
             var data = await TinyCache.TinyCache.RunAsync(LISTKEY, async () =>
             {
                 return await _client.GetShoppingListsAsync();
-
-
             }, _fetchPolicy);
             Merge(data);
             return _currentLists;
@@ -68,7 +66,8 @@ namespace TinyShopping.Core.Services
 
             foreach (var old in _currentLists)
             {
-                old.Deleted = true;
+                if (!old.NeedSync)
+                    old.Deleted = true;
             }
             foreach (var item in list)
             {
@@ -175,22 +174,25 @@ namespace TinyShopping.Core.Services
 
         private static void MergeListItems(ShoppingList list, IEnumerable<IShoppingItem> items)
         {
-            foreach (var i in items)
+            if (items != null && items.Any())
             {
-                var old = list.Items.FirstOrDefault(d => d.Id == i.Id);
-                if (old != null)
+                foreach (var i in items)
                 {
-                    if (!old.NeedSync)
+                    var old = list.Items.FirstOrDefault(d => d.Id == i.Id);
+                    if (old != null)
                     {
-                        i.MemberviseCopyTo(old);
-                        old.LastSync = DateTime.Now;
+                        if (!old.NeedSync)
+                        {
+                            i.MemberviseCopyTo(old);
+                            old.LastSync = DateTime.Now;
+                        }
                     }
-                }
-                else
-                {
-                    var newitem = i.ToModel();
-                    list.Items.Add(newitem);
-                    newitem.LastSync = DateTime.Now;
+                    else
+                    {
+                        var newitem = i.ToModel();
+                        list.Items.Add(newitem);
+                        newitem.LastSync = DateTime.Now;
+                    }
                 }
             }
         }

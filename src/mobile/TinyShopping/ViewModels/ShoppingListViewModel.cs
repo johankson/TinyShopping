@@ -50,10 +50,11 @@ namespace TinyShopping.ViewModels
                     Name = _searchString
                 };
                 ShoppingLists.Insert(0, newList);
-                Device.BeginInvokeOnMainThread(() =>
+                Device.BeginInvokeOnMainThread(async () =>
                 {
+                    Clear();
                     _shoppingService.AddList(newList);
-                    //await LoadData();
+                    await LoadData();
                 });
             }
         }

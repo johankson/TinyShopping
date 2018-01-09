@@ -29,7 +29,7 @@ namespace TinyShopping.ApplicationModels
         //[Editor("Store", "List data", RelationTo = typeof())]
         public int StoreID { get; set; }
 
-        [Editor("Store", "Information", RelationTo = typeof(ShoppingListRelation))]
+        [Editor("Move to list", "Information", RelationTo = typeof(ShoppingListRelation))]
         public int ListId { get; set; }
 
         public double Lat { get; set; }

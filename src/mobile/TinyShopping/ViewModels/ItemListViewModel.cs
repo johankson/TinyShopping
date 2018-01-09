@@ -42,7 +42,7 @@ namespace TinyShopping.ViewModels
 
         public void AddItem()
         {
-            if (!string.IsNullOrWhiteSpace(_searchString) && _searchString.Length > 2)
+            if (!string.IsNullOrWhiteSpace(_searchString) && _searchString.Length > 1)
             {
                 var newItem = new Item()
                 {
@@ -52,15 +52,15 @@ namespace TinyShopping.ViewModels
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    ItemsList.Insert(0, newItem);
+                    //ItemsList.Insert(0, newItem);
                     Clear();
 
                     await Task.Delay(100);
 
-					//ScrollTo?.Invoke(newItem);
+					ScrollTo?.Invoke(newItem);
 
                     _shoppingService.AddItem(newItem);
-                    //await LoadData();
+                    await LoadData();
                 });
 
                 //Task.Run(async () =>
