@@ -42,11 +42,11 @@ namespace TinyShopping.ViewModels
         {
             if (Item.Id == 0)
             {
-                await _shoppingService.AddItem(Item);
+                 _shoppingService.AddItem(Item);
             }
             else
             {
-                await _shoppingService.UpdateItem(Item);
+                 _shoppingService.UpdateItem(Item);
             }
 
             await TinyPubSub.PublishAsync(Channels.ShoppingListAdded);

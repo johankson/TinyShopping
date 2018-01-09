@@ -1,5 +1,7 @@
 ﻿using TinyShopping.Core.Net.Interface;
 using TinyEditor;
+using System;
+using TinyHelper;
 
 namespace TinyShopping.ApplicationModels
 {
@@ -8,7 +10,7 @@ namespace TinyShopping.ApplicationModels
 
     }
 
-    public class Item : IShoppingItem
+    public class Item : IShoppingItem, IOfflineSupport
     {
         public int Id { get; set; }
 
@@ -43,6 +45,13 @@ namespace TinyShopping.ApplicationModels
         [Editor("Barcode", "After purchase", CustomHandler = typeof(BarCodeHandler))]
         public string Barcode { get; set; } = string.Empty;
 
+        [Copy(Exclude = true),Editor("Last sync","Sync",Readonly = true)]
+        public DateTime LastSync { get; set; }
 
+        [Copy(Exclude = true), Editor("Needs sync", "Sync", Readonly = true)]
+        public bool NeedSync { get; set; }
+
+        [Copy(Exclude = true)]
+        public bool Deleted { get; set; }
     }
 }

@@ -18,38 +18,48 @@ namespace TinyShopping.Api.Controllers
             this.db = db;
         }
         [SwaggerOperation("GetListItem")]
-        [HttpGet("items/{id}", Name = "GetListItem")]
+        [HttpGet("{id}", Name = "GetListItem")]
         public Item GetItemList(int id)
         {
             return db.Items.FirstOrDefault(d => d.ID == id);
         }
 
-        [SwaggerOperation("AddListItem")]
-        [HttpPost("items", Name = "AddListItem")]
-        public void AddItem([FromBody]Item itemData)
-        {
-            db.Items.Add(itemData);
-            db.SaveChangesAsync();
-        }
+        // [SwaggerOperation("AddListItem")]
+        // [HttpPost("items", Name = "AddListItem")]
+        // public Item AddItem([FromBody]Item itemData)
+        // {
+        //     db.Items.Add(itemData);
+        //     db.SaveChangesAsync();
+        //     return itemData;
+        // }
 
         [SwaggerOperation("UpdateListItem")]
-        [HttpPut("items/{id}", Name = "UpdateListItem")]
-        public void UpdateItem(int id, [FromBody]Item itemData)
+        [HttpPut(Name = "UpdateListItem")]
+        public Item UpdateItem([FromBody]Item itemData)
         {
-            var item = db.Items.FirstOrDefault(d => d.ID == id);
-            if (item!=null) {
+            var item = db.Items.FirstOrDefault(d => d.ID == itemData.ID);
+            if (item != null) {
                 itemData.MemberviseCopyTo(item);
-                db.SaveChangesAsync();
             }
+            else {
+                item = itemData;
+                db.Items.Add(item);
+            }
+            db.SaveChanges();
+            return item;
         }
 
         [SwaggerOperation("DeleteListItem")]
-        [HttpDelete("items/{id}", Name = "DeleteListItem")]
-        public void DeleteItem(int id)
+        [HttpDelete("{id}", Name = "DeleteListItem")]
+        public bool DeleteItem(int id)
         {
             var item = db.Items.FirstOrDefault(d => d.ID == id);
-            db.Items.Remove(item);
-            db.SaveChangesAsync();
+            if (item!=null) {
+                db.Items.Remove(item);
+                db.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

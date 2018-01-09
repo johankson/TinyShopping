@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TinyHelper;
+using TinyShopping.Core.Net.Interface;
 
 namespace TinyShopping.Core.ApplicationModels.RestHelper
 {
@@ -16,7 +17,7 @@ namespace TinyShopping.Core.ApplicationModels.RestHelper
             return ret;
         }
 
-        public static TinyShopping.ApplicationModels.ShoppingList ToModel(this Net.Models.ShoppingList item)
+        public static TinyShopping.ApplicationModels.ShoppingList ToModel(this IShoppingList item)
         {
             var ret = new TinyShopping.ApplicationModels.ShoppingList();
             item.MemberviseCopyTo(ret);
@@ -33,7 +34,7 @@ namespace TinyShopping.Core.ApplicationModels.RestHelper
             return ret;
         }
 
-        public static TinyShopping.ApplicationModels.Item ToModel(this Net.Models.Item item)
+        public static TinyShopping.ApplicationModels.Item ToModel(this IShoppingItem item)
         {
             var ret = new TinyShopping.ApplicationModels.Item();
             item.MemberviseCopyTo(ret);

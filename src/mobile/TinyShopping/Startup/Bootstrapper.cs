@@ -44,7 +44,7 @@ namespace TinyShopping
                    .Where(x => x.Name.EndsWith("ViewModel", StringComparison.Ordinal));
 
             builder.RegisterAssemblyTypes(typeof(Core.Services.ShoppingService).Assembly)
-                   .Where(x => x.Name.EndsWith("Service", StringComparison.Ordinal));
+                   .Where(x => x.Name.EndsWith("Service", StringComparison.Ordinal)).SingleInstance();
 
             // Navigation
             var navigationHelper = new TinyNavigationHelper.Forms.FormsNavigationHelper(app);

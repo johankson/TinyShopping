@@ -59,8 +59,8 @@ namespace TinyShopping.ViewModels
 
 					//ScrollTo?.Invoke(newItem);
 
-                    await _shoppingService.AddItem(newItem);
-                    await LoadData();
+                    _shoppingService.AddItem(newItem);
+                    //await LoadData();
                 });
 
                 //Task.Run(async () =>
@@ -108,7 +108,7 @@ namespace TinyShopping.ViewModels
                     ret = _allItems.Where(d => d.Name.Contains(_searchString)).ToList();
                 }
 
-                ItemsList = new ObservableCollection<Item>(ret);
+                ItemsList = new ObservableCollection<Item>(ret.Where(d=>!d.Deleted));
             }
             else
             {
@@ -139,10 +139,10 @@ namespace TinyShopping.ViewModels
         private IList<Item> _allItems;
         public ObservableCollection<Item> ItemsList { get; set; }
 
-        public ICommand Delete => new TinyCommand<Item>(async (item) =>
+        public ICommand Delete => new TinyCommand<Item>((item) =>
         {
             ItemsList.Remove(item);
-            await _shoppingService.DeleteItem(item);
+            _shoppingService.Delete(item);
         });
 
         public ICommand Refresh => new TinyCommand(async () => await LoadData());
@@ -152,9 +152,9 @@ namespace TinyShopping.ViewModels
             await Navigation.NavigateToAsync("ListItemEditorView", item);
         });
 
-        public ICommand Changed => new TinyCommand<Item>(async (item) =>
+        public ICommand Changed => new TinyCommand<Item>((item) =>
         {
-            await _shoppingService.UpdateItem(item);
+            _shoppingService.UpdateItem(item);
 
             var isCompleted = ItemsList.All(x => x.Completed == true);
             if (isCompleted && IsNotBusy)

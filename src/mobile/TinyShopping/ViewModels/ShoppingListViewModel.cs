@@ -35,7 +35,7 @@ namespace TinyShopping.ViewModels
                 {
                     res = _allLists.Where(d => d.Name.Contains(_searchString)).ToList();
                 }
-                ShoppingLists = new ObservableCollection<ShoppingList>(res);
+                ShoppingLists = new ObservableCollection<ShoppingList>(res.Where(d=>!d.Deleted));
             }
             else
                 ShoppingLists = new ObservableCollection<ShoppingList>();
@@ -50,10 +50,10 @@ namespace TinyShopping.ViewModels
                     Name = _searchString
                 };
                 ShoppingLists.Insert(0, newList);
-                Device.BeginInvokeOnMainThread(async () =>
+                Device.BeginInvokeOnMainThread(() =>
                 {
-                    await _shoppingService.AddList(newList);
-                    await LoadData();
+                    _shoppingService.AddList(newList);
+                    //await LoadData();
                 });
             }
         }
@@ -132,11 +132,11 @@ namespace TinyShopping.ViewModels
             set;
         } = string.Empty;
 
-        public ICommand Delete => new TinyCommand<ShoppingList>(async (shoppingList) =>
+        public ICommand Delete => new TinyCommand<ShoppingList>((shoppingList) =>
         {
             ShoppingLists.Remove(shoppingList);
             _allLists.Remove(shoppingList);
-            await _shoppingService.Delete(shoppingList);
+            _shoppingService.Delete(shoppingList);
         });
 
         public ICommand Refresh => new TinyCommand(async () => await LoadData());

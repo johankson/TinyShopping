@@ -43,30 +43,42 @@ namespace TinyShopping.Api.Controllers
             return db.Lists.FirstOrDefault(d => d.ID == id);
         }
 
-        [SwaggerOperation("AddShoppingList")]
-        [HttpPost(Name = "AddShoppingList")]
-        public void Add([FromBody]ShoppingList listData)
-        {
-            db.Lists.Add(listData);
-            db.SaveChangesAsync();
-        }
+        // [SwaggerOperation("AddShoppingList")]
+        // [HttpPost(Name = "AddShoppingList")]
+        // public ShoppingList Add([FromBody]ShoppingList listData)
+        // {
+        //     db.Lists.Add(listData);
+        //     db.SaveChangesAsync();
+        //     return listData;
+        // }
 
         [SwaggerOperation("UpdateShoppingList")]
-        [HttpPut("{id}", Name = "UpdateShoppingList")]
-        public void Update(int id, [FromBody]ShoppingList listData)
+        [HttpPut(Name = "UpdateShoppingList")]
+        public ShoppingList Update([FromBody]ShoppingList listData)
         {
-            var list = db.Lists.FirstOrDefault(d => d.ID == id);
-            listData.MemberviseCopyTo(list);
-            db.SaveChangesAsync();
+            var list = db.Lists.FirstOrDefault(d => d.ID == listData.ID);
+            if (list != null) {
+                listData.MemberviseCopyTo(list);
+            }
+            else {
+                list = listData;
+                db.Lists.Add(list);
+            }
+            db.SaveChanges();
+            return list;
         }
 
         [SwaggerOperation("DeleteShoppingList")]
         [HttpDelete("{id}", Name = "DeleteShoppingList")]
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var item = db.Lists.FirstOrDefault(d => d.ID == id);
-            db.Lists.Remove(item);
-            db.SaveChangesAsync();
+            if (item!=null) {
+                db.Lists.Remove(item);
+                db.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         // Items

@@ -22,41 +22,49 @@ namespace TinyShopping.Api.Controllers
 
         [SwaggerOperation("GetStores")]
         [HttpGet(Name = "GetStores")]
-        public IEnumerable<ShoppingList> GetStores()
+        public IEnumerable<Store> GetStores()
         {
-            return db.Lists;
+            return db.Stores;
         }
 
         [SwaggerOperation("GetStore")]
         [HttpGet("{id}", Name = "GetStore")]
-        public ShoppingList GetList(int id)
+        public Store GetList(int id)
         {
-            return db.Lists.FirstOrDefault(d => d.ID == id);
+            return db.Stores.FirstOrDefault(d => d.ID == id);
         }
 
-        [SwaggerOperation("AddStore")]
-        [HttpPost(Name = "AddStore")]
-        public void Add([FromBody]ShoppingList listData)
-        {
-            db.Lists.Add(listData);
-            db.SaveChangesAsync();
-        }
+        // [SwaggerOperation("AddStore")]
+        // [HttpPost(Name = "AddStore")]
+        // public Store Add([FromBody]Store listData)
+        // {
+        //     db.Stores.Add(listData);
+        //     db.SaveChangesAsync();
+        //     return listData;
+        // }
 
         [SwaggerOperation("UpdateStore")]
         [HttpPut("{id}", Name = "UpdateStore")]
-        public void Update(int id, [FromBody]ShoppingList listData)
+        public Store Update([FromBody]Store listData)
         {
-            var list = db.Lists.FirstOrDefault(d => d.ID == id);
-            listData.MemberviseCopyTo(list);
-            db.SaveChangesAsync();
+            var store = db.Stores.FirstOrDefault(d => d.ID == listData.ID);
+            if (store!=null) {
+                listData.MemberviseCopyTo(store);
+            }
+            else {
+                store = listData;
+                db.Stores.Add(store);
+            }
+            db.SaveChanges();
+            return store;
         }
 
         [SwaggerOperation("DeleteStore")]
         [HttpDelete("{id}", Name = "DeleteStore")]
         public void Delete(int id)
         {
-            var item = db.Lists.FirstOrDefault(d => d.ID == id);
-            db.Lists.Remove(item);
+            var item = db.Stores.FirstOrDefault(d => d.ID == id);
+            db.Stores.Remove(item);
             db.SaveChangesAsync();
         }
 
