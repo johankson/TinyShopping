@@ -32,11 +32,6 @@ namespace TinyShopping.ApplicationModels
         //[Editor("Move to list", "Information", RelationTo = typeof(ShoppingListRelation))]
         public int ListId { get; set; }
 
-        public double Lat { get; set; }
-
-
-        public double Lng { get; set; }
-
         public bool PriceExists { get; set; }
 
         [Editor("Price", "After purchase")]
@@ -53,5 +48,11 @@ namespace TinyShopping.ApplicationModels
 
         [Copy(Exclude = true)]
         public bool Deleted { get; set; }
+
+        [Editor("Latitude", "Location", Readonly = true)]
+        public double Lat { get; set; }
+
+        [Editor("Longitude", "Location", Readonly = true)]
+        public double Lng { get; set; }
     }
 }
