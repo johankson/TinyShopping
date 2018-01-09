@@ -59,7 +59,7 @@ namespace TinyShopping.Core.Services
             var data = await TinyCache.TinyCache.RunAsync(ItemListKey(listId), async () =>
             {
                 var ret = await _client.GetListItemsAsync(listId);
-                return ret.ToModel();
+                return ret.OrderByDescending(d=>d.Done).ThenByDescending(d=>d.Added).ToModel();
             });
             return data;
         }

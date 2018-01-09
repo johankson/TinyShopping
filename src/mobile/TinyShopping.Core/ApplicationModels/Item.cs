@@ -12,22 +12,22 @@ namespace TinyShopping.ApplicationModels
     {
         public int Id { get; set; }
 
-        [Editor("Added", "List data", Readonly = true)]
-        public System.DateTime Added { get; set; }
+        [Editor("Added", "Information", Readonly = true)]
+        public System.DateTime Added { get; set; } = System.DateTime.Now;
 
-        [Editor("Completed", "List data", Readonly = true)]
+        [Editor("Completed", "Information", Readonly = true)]
         public System.DateTime Done { get; set; }
 
-        [Editor("Name", "List data", Order = 10)]
+        [Editor("Name", "Required", Order = 10)]
         public string Name { get; set; }
 
-        [Editor("Marked as complete", "List data", Order = 11)]
+        [Editor("Marked as complete", "Required", Order = 11)]
         public bool Completed { get; set; }
 
         //[Editor("Store", "List data", RelationTo = typeof())]
         public int StoreID { get; set; }
 
-        [Editor("Store", "List data", RelationTo = typeof(ShoppingListRelation))]
+        [Editor("Store", "Information", RelationTo = typeof(ShoppingListRelation))]
         public int ListId { get; set; }
 
         public double Lat { get; set; }

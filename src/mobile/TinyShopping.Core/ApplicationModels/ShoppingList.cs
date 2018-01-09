@@ -9,11 +9,11 @@ namespace TinyShopping.ApplicationModels
     {
         public int Id { get; set; }
 
-        [Editor("Created", "List data", Readonly = true)]
+        [Editor("Created", "Information", Readonly = true)]
         public System.DateTime Created { get; set; } = System.DateTime.Now;
 
         bool completed;
-        [Editor("Marked as complete", "List data")]
+        [Editor("Marked as complete", "Required")]
         public bool Completed
         {
             get
@@ -32,10 +32,10 @@ namespace TinyShopping.ApplicationModels
             }
         }
 
-        [Editor("Completed at", "List data", Readonly = true)]
+        [Editor("Completed at", "Information", Readonly = true)]
         public System.DateTime Done { get; set; }
 
-        [Editor("Name", "List data", Order = 1)]
+        [Editor("Name", "Required", Order = 1)]
         public string Name { get; set; }
        
 
@@ -44,6 +44,7 @@ namespace TinyShopping.ApplicationModels
         [Editor("Number of items", "Stats", Readonly = true)]
         public int NumberOfItems { get; set; }
 
+        [Editor("Number of compleded items", "Stats", Readonly = true)]
         public int NumberOfCompletedItems { get; set; }
 
         public string NumberOfItemsChecked => $"{NumberOfCompletedItems}/{NumberOfItems} items checked";
