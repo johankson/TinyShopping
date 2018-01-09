@@ -37,6 +37,7 @@ namespace TinyShopping.iOS.Renderers
                 searchController.SearchBar.Placeholder = _transService.Translate("Search or add");
                 parent.NavigationItem.SearchController = searchController;
                 searchController.SearchBar.ShowsSearchResultsButton = true;
+                searchController.SearchBar.ShowsCancelButton = false;
                 var tf = searchController.SearchBar.ValueForKey(new Foundation.NSString("_searchField")) as UITextField;
 
                 if (tf != null)

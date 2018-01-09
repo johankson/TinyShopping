@@ -17,7 +17,8 @@ namespace TinyShopping.Core.Services
 
         public ShoppingService()
         {
-            _client = new ShoppingAPI(new Uri("http://localhost:5000"), new UnsafeCredentials());
+            //_client = new ShoppingAPI(new Uri("http://localhost:5000"), new UnsafeCredentials());
+            _client = new ShoppingAPI(new Uri("http://192.168.1.131:5000"), new UnsafeCredentials());
             TinyCache.TinyCache.OnUpdate += TinyCache_OnUpdate;
         }
 
@@ -63,32 +64,33 @@ namespace TinyShopping.Core.Services
 
         private void Merge(IEnumerable<IShoppingList> list)
         {
-
-            foreach (var old in _currentLists)
+            if (list != null && list.Any())
             {
-                if (!old.NeedSync)
-                    old.Deleted = true;
-            }
-            foreach (var item in list)
-            {
-                var old = _currentLists.FirstOrDefault(d => d.Id == item.Id);
-                if (old != null)
+                foreach (var old in _currentLists)
                 {
-                    if (old.NeedSync == false)
+                    if (!old.NeedSync)
+                        old.Deleted = true;
+                }
+                foreach (var item in list)
+                {
+                    var old = _currentLists.FirstOrDefault(d => d.Id == item.Id);
+                    if (old != null)
                     {
-                        item.MemberviseCopyTo(old, true);
-                        old.LastSync = DateTime.Now;
+                        if (old.NeedSync == false)
+                        {
+                            item.MemberviseCopyTo(old, true);
+                            old.LastSync = DateTime.Now;
+                        }
+                        old.Deleted = false;
                     }
-                    old.Deleted = false;
-                }
-                else
-                {
-                    var newlist = item.ToModel();
-                    _currentLists.Add(newlist);
-                    newlist.LastSync = DateTime.Now;
+                    else
+                    {
+                        var newlist = item.ToModel();
+                        _currentLists.Add(newlist);
+                        newlist.LastSync = DateTime.Now;
+                    }
                 }
             }
-
         }
 
 

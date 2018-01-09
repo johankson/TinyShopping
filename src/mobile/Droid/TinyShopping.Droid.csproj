@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>TinyShopping.Droid</RootNamespace>
     <AssemblyName>TinyShopping.Droid</AssemblyName>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -193,6 +193,9 @@
       <Project>{782272BB-1D7B-44DA-BDB8-90C7A2E26E94}</Project>
       <Name>TinyEditor.Forms</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\tick.json" />
   </ItemGroup>
   <Import Project="..\TinyShopping\TinyShopping.projitems" Label="Shared" Condition="Exists('..\TinyShopping\TinyShopping.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
