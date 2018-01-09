@@ -50,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\ListItemEditorView.xaml.cs">
       <DependentUpon>ListItemEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\CharCircleConverters.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
@@ -57,5 +58,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Startup\" />
     <Folder Include="$(MSBuildThisFileDirectory)Messaging\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Converters\" />
   </ItemGroup>
 </Project>

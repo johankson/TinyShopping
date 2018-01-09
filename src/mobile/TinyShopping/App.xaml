@@ -1,6 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="TinyShopping.App">
-	<Application.Resources>
-		<!-- Application resource dictionary -->
-	</Application.Resources>
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:cnv="clr-namespace:TinyShopping.Converters"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="TinyShopping.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <cnv:FirstCharConverter
+                x:Key="firstChar" />
+            <cnv:FirstCharColorConverter
+                x:Key="charColor" />
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

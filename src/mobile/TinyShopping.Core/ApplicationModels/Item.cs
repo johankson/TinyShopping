@@ -45,7 +45,7 @@ namespace TinyShopping.ApplicationModels
         [Editor("Barcode", "After purchase", CustomHandler = typeof(BarCodeHandler))]
         public string Barcode { get; set; } = string.Empty;
 
-        [Copy(Exclude = true),Editor("Last sync","Sync",Readonly = true)]
+        [Copy(Exclude = true), Editor("Last sync", "Sync", Readonly = true)]
         public DateTime LastSync { get; set; }
 
         [Copy(Exclude = true), Editor("Needs sync", "Sync", Readonly = true)]

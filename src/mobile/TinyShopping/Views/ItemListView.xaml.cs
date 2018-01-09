@@ -37,19 +37,6 @@ namespace TinyShopping.Views
             }
         }
 
-        void Handle_OnChanged(object sender, ToggledEventArgs e)
-        {
-            var cell = sender as SwitchCell;
-
-            if (cell != null && cell.BindingContext != null)
-            {
-                if(cell.BindingContext is Item item) 
-                {
-				    ViewModel.Changed.Execute(item);
-                }
-            }
-        }
-
         public bool ShowSearchBar => true;
 
         public ISearchHandler SearchHandler => ViewModel;

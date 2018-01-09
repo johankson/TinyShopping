@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using Autofac;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
 using TinyCache;
 using TinyEditor.Controls;
 using TinyMvvm.Autofac;
@@ -30,6 +33,40 @@ namespace TinyShopping
 
     public static class Bootstrapper
     {
+        public static async Task<Position> GetCurrentLocation()
+        {
+            Position position = null;
+            try
+            {
+                var locator = CrossGeolocator.Current;
+                locator.DesiredAccuracy = 100;
+
+                position = await locator.GetLastKnownPositionAsync();
+
+                if (position != null)
+                {
+                    //got a cahched position, so let's use it.
+                    return position;
+                }
+
+                if (await locator.GetIsGeolocationAvailableAsync())
+                {
+                    //not available or enabled
+                    position = await locator.GetPositionAsync(TimeSpan.FromSeconds(20), null, true);
+                }
+
+                return position;
+
+            }
+            catch (Exception ex)
+            {
+                //Display error as we have timed out or can't get location.
+            }
+
+            return position;
+
+        }
+
         public static void Initialize(App app)
         {
             var builder = new ContainerBuilder();
@@ -55,7 +92,8 @@ namespace TinyShopping
             var translator = new TranslationHelper(new CustomTranslationClient());
             //var translator = new TranslationHelper(new System.Uri("http://tinytranslation.azurewebsites.net"), "f17528d1-0dd0-4181-90b8-0853c62178a9");
 
-            ObjectEditor.Translate = (string arg) => {
+            ObjectEditor.Translate = (string arg) =>
+            {
                 Console.WriteLine("Translate from ObjectEditor");
                 return translator.Translate(arg);
             };

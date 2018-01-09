@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using TinyEditor;
 using TinyHelper;
 using TinyShopping.Core.Net.Interface;
@@ -44,12 +45,44 @@ namespace TinyShopping.ApplicationModels
         public int StoreID { get; set; }
 
         public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
+        int numberOfItems;
 
         [Editor("Number of items", "Stats", Readonly = true)]
-        public int NumberOfItems { get; set; }
+        public int NumberOfItems
+        {
+            get
+            {
+                if (Items.Any()) {
+                    numberOfItems = Items.Count;
+                }
+                return numberOfItems;
+            }
+
+            set
+            {
+                numberOfItems = value;
+            }
+        }
+
+        int numberOfCompletedItems;
 
         [Editor("Number of compleded items", "Stats", Readonly = true)]
-        public int NumberOfCompletedItems { get; set; }
+        public int NumberOfCompletedItems
+        {
+            get
+            {
+                if (Items.Any())
+                {
+                    numberOfCompletedItems = Items.Count(d => d.Completed);
+                }
+                return numberOfCompletedItems;
+            }
+
+            set
+            {
+                numberOfCompletedItems = value;
+            }
+        }
 
         public string NumberOfItemsChecked => $"{NumberOfCompletedItems}/{NumberOfItems} items checked";
 

@@ -7,7 +7,7 @@
     xmlns:tinymvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms"
     xmlns:Tr="clr-namespace:TinyTranslation.Forms;assembly=TinyTranslation.Forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
+    xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
     x:Class="TinyShopping.Views.ItemListView"
     Title="{Binding Name}">
     <ContentPage.ToolbarItems>
@@ -19,43 +19,66 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>
-            
-        <ListView
-            x:Name="MainListView"
-            IsPullToRefreshEnabled="true"
-            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-            RefreshCommand="{Binding Refresh}"
-            ItemsSource="{Binding ItemsList}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <SwitchCell
-                        Text="{Binding Name}"
-                        On="{Binding Completed}"
-                        OnChanged="Handle_OnChanged">
-                        <ViewCell.ContextActions>
-                            <MenuItem
-                                Text="{Tr:ans Edit}"
-                                Command="{Binding Source={x:Reference root}, Path=BindingContext.Edit}"
-                                CommandParameter="{Binding .}" />
-                            <MenuItem
-                                Text="{Tr:ans Delete}"
-                                IsDestructive="true"
-                                Command="{Binding Source={x:Reference root}, Path=BindingContext.Delete}"
-                                CommandParameter="{Binding .}" />
-                        </ViewCell.ContextActions>
-                    </SwitchCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <lottie:AnimationView x:Name="animationView" 
-            IsVisible="false" 
-            IsEnabled="false"
-            Animation="tick.json" 
-            Loop="false" 
-            VerticalOptions="FillAndExpand" 
-            HorizontalOptions="FillAndExpand" />
+            <ListView
+                x:Name="MainListView"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                RefreshCommand="{Binding Refresh}"
+                ItemsSource="{Binding ItemsList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem
+                                    Text="{Tr:ans Edit}"
+                                    Command="{Binding Source={x:Reference root}, Path=BindingContext.Edit}"
+                                    CommandParameter="{Binding .}" />
+                                <MenuItem
+                                    Text="{Tr:ans Delete}"
+                                    IsDestructive="true"
+                                    Command="{Binding Source={x:Reference root}, Path=BindingContext.Delete}"
+                                    CommandParameter="{Binding .}" />
+                            </ViewCell.ContextActions>
+                            <Grid
+                                Margin="14,14,14,0">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={x:Reference root}, Path=BindingContext.ToggleCompleted}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="2" />
+                                </Grid.GestureRecognizers>
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontAttributes="Bold">
+                                    <Label.Triggers>
+                                        <DataTrigger
+                                            TargetType="Label"
+                                            Binding="{Binding Completed}"
+                                            Value="True">
+                                            <Setter
+                                                Property="TextColor"
+                                                Value="#aaaaaa" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <BoxView
+                                    Color="#888888"
+                                    IsVisible="{Binding Completed}"
+                                    HeightRequest="1"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <lottie:AnimationView
+                x:Name="animationView"
+                IsVisible="false"
+                IsEnabled="false"
+                Animation="tick.json"
+                Loop="false"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand" />
         </Grid>
-        
     </ContentPage.Content>
 </tinymvvm:ViewBase>

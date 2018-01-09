@@ -78,11 +78,16 @@ namespace TinyShopping.iOS.Renderers
 
         private void UpdateTiles()
         {
-            if (Element is ICustomTitleView tv)
+            if (NavigationController != null && NavigationController.NavigationBar != null)
             {
-                if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0) && NavigationController != null && NavigationController.NavigationBar != null)
+                //NavigationController.NavigationBar.BackgroundColor = UIColor.FromRGB(205, 241, 255);
+                //NavigationController.NavigationBar.Translucent = true;
+                if (Element is ICustomTitleView tv)
                 {
-                    NavigationController.NavigationBar.PrefersLargeTitles = tv.LargeTile;
+                    if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+                    {
+                        NavigationController.NavigationBar.PrefersLargeTitles = tv.LargeTile;
+                    }
                 }
             }
         }

@@ -24,8 +24,8 @@
             IsPullToRefreshEnabled="true"
             IsRefreshing="{Binding IsBusy, Mode=OneWay}"
             RefreshCommand="{Binding Refresh}"
+            HasUnevenRows="true"
             ItemsSource="{Binding ShoppingLists}">
-
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -41,15 +41,49 @@
                                 CommandParameter="{Binding .}" />
                         </ViewCell.ContextActions>
                         <Grid
-                            Margin="14,14,14,0">
+                            ColumnSpacing="10"
+                            Margin="14,14,2,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="40" />
+                                <ColumnDefinition
+                                    Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Frame
+                                Grid.RowSpan="2"
+                                WidthRequest="40"
+                                CornerRadius="20"
+                                HasShadow="false"
+                                HeightRequest="40"
+                                HorizontalOptions="Center"
+                                BackgroundColor="{Binding Name, Converter={StaticResource charColor}}">
+                            </Frame>
                             <Label
+                                Grid.RowSpan="2"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Text="{Binding Name, Converter={StaticResource firstChar}}"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                HorizontalTextAlignment="Center"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="CenterAndExpand" />
+                            <Label
+                                Grid.Column="1"
                                 Text="{Binding Name}"
                                 FontAttributes="Bold" />
                             <Label
                                 Text="{Binding NumberOfItemsChecked}"
                                 Grid.Column="1"
-                                FontSize="Micro"
-                                HorizontalTextAlignment="End" />
+                                Grid.Row="1"
+                                FontSize="Micro" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

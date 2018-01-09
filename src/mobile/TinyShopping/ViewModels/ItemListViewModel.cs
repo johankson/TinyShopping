@@ -47,28 +47,21 @@ namespace TinyShopping.ViewModels
                 var newItem = new Item()
                 {
                     ListId = _shoppingList.Id,
-                    Name = _searchString
+                    Name = _searchString.Trim()
                 };
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    //ItemsList.Insert(0, newItem);
+                    _allItems.Add(newItem);
                     Clear();
 
                     await Task.Delay(100);
 
-					ScrollTo?.Invoke(newItem);
+                    ScrollTo?.Invoke(newItem);
 
                     _shoppingService.AddItem(newItem);
-                    await LoadData();
+                    //FilterResult();
                 });
-
-                //Task.Run(async () =>
-                //{
-                //    await _shoppingService.AddItem(newItem);
-                //    await LoadData();
-                //    ScrollTo?.Invoke(_allItems.First());
-                //});
             }
         }
 
@@ -77,7 +70,7 @@ namespace TinyShopping.ViewModels
         public bool DisplayTick { get; set; }
 
         public ICommand TickPlaybackFinished => new Command(
-            (o) => 
+            (o) =>
             {
                 DisplayTick = false;
             }
@@ -102,13 +95,13 @@ namespace TinyShopping.ViewModels
         {
             if (_allItems != null)
             {
-                var ret = _allItems;
+                var ret = _allItems.ToList();
                 if (!string.IsNullOrEmpty(_searchString))
                 {
                     ret = _allItems.Where(d => d.Name.Contains(_searchString)).ToList();
                 }
 
-                ItemsList = new ObservableCollection<Item>(ret.Where(d=>!d.Deleted));
+                ItemsList = new ObservableCollection<Item>(ret.Where(d => !d.Deleted).OrderBy(d => d.Completed).ThenByDescending(d => d.Added));
             }
             else
             {
@@ -152,8 +145,22 @@ namespace TinyShopping.ViewModels
             await Navigation.NavigateToAsync("ListItemEditorView", item);
         });
 
-        public ICommand Changed => new TinyCommand<Item>((item) =>
+        public ICommand ToggleCompleted => new TinyCommand<Item>((item) =>
         {
+            item.Completed = !item.Completed;
+            if (item.Completed)
+            {
+                Task.Run(async () =>
+                {
+                    var pos = await Bootstrapper.GetCurrentLocation();
+                    if (pos != null)
+                    {
+                        item.Lat = pos.Latitude;
+                        item.Lng = pos.Longitude;
+                        _shoppingService.UpdateItem(item);
+                    }
+                });
+            }
             _shoppingService.UpdateItem(item);
 
             var isCompleted = ItemsList.All(x => x.Completed == true);
@@ -162,8 +169,9 @@ namespace TinyShopping.ViewModels
                 PlayTickAnimation?.Invoke();
             }
 
-            // QUESTION: Should the task firing be part of the shopping service?
-            TinyPubSub.Publish(Channels.ShoppingListUpdated, _shoppingList);
+            FilterResult();
+            // QUESTION: Should the task firing be part of the shopping service? ANSWER: No updates in memmory
+            //TinyPubSub.Publish(Channels.ShoppingListUpdated, _shoppingList);
         });
 
         public ICommand CreateNewItem => new TinyCommand(() =>

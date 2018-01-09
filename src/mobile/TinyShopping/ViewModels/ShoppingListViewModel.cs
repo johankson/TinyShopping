@@ -30,12 +30,12 @@ namespace TinyShopping.ViewModels
         {
             if (_allLists != null)
             {
-                var res = _allLists;
+                var res = _allLists.ToList();
                 if (!string.IsNullOrEmpty(_searchString))
                 {
                     res = _allLists.Where(d => d.Name.Contains(_searchString)).ToList();
                 }
-                ShoppingLists = new ObservableCollection<ShoppingList>(res.Where(d=>!d.Deleted));
+                ShoppingLists = new ObservableCollection<ShoppingList>(res.Where(d=>!d.Deleted).OrderByDescending(d=>d.Created));
             }
             else
                 ShoppingLists = new ObservableCollection<ShoppingList>();

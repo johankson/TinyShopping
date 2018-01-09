@@ -18,8 +18,6 @@ namespace TinyShopping.iOS
 
             LoadApplication(new App());
 
-
-
             TinyPubSubLib.TinyPubSub.Subscribe<Core.Services.SummaryData>("SummaryData", (Core.Services.SummaryData data) =>
             {
                 var shared = new NSUserDefaults(

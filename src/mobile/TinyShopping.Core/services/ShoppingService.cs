@@ -19,12 +19,16 @@ namespace TinyShopping.Core.Services
         {
             _client = new ShoppingAPI(new Uri("http://localhost:5000"), new UnsafeCredentials());
             //_client = new ShoppingAPI(new Uri("http://192.168.1.131:5000"), new UnsafeCredentials());
+
+            // Get changes from TinyCache to update collections
             TinyCache.TinyCache.OnUpdate += TinyCache_OnUpdate;
         }
 
         private TinyCache.TinyCachePolicy _fetchPolicy = new TinyCache.TinyCachePolicy().SetMode(TinyCache.TinyCacheModeEnum.CacheFirst).SetFetchTimeout(300);
         private const string LISTKEY = "shoppingLists";
         private const string ITEMSKEY = "listsItems_";
+        private int _retryCount = 0;
+        private IList<IOfflineSupport> _syncItems { get; set; } = new List<IOfflineSupport>();
 
         private string ItemListKey(int listid)
         {
@@ -32,7 +36,6 @@ namespace TinyShopping.Core.Services
         }
 
         private ObservableCollection<ShoppingList> _currentLists { get; set; } = new ObservableCollection<ShoppingList>();
-        private IList<IOfflineSupport> _syncItems { get; set; } = new List<IOfflineSupport>();
 
         public async Task<IList<ShoppingList>> GetShoppingLists()
         {
@@ -97,14 +100,12 @@ namespace TinyShopping.Core.Services
         public void UpdateItem(Item item)
         {
             AddSync(item);
-            //await _client.UpdateListItemAsync(item.ToRest());
             TinyCache.TinyCache.Remove(ItemListKey(item.ListId));
         }
 
         public void AddItem(Item item)
         {
             AddItemToList(item);
-            //await _client.AddListItemAsync(item.ToRest());
             TinyCache.TinyCache.Remove(ItemListKey(item.ListId));
             AddSync(item);
         }
@@ -115,8 +116,10 @@ namespace TinyShopping.Core.Services
         {
             data.NeedSync = true;
             if (!_syncItems.Contains(data))
+            {
                 _syncItems.Add(data);
-            TriggerSync();
+                TriggerSync();
+            }
         }
 
         private void TriggerSync()
@@ -143,8 +146,6 @@ namespace TinyShopping.Core.Services
             }
         }
 
-        private int _retryCount = 0;
-
         private void AddItemToList(Item item)
         {
             var list = _currentLists.FirstOrDefault(d => d.Id == item.ListId);
@@ -157,8 +158,17 @@ namespace TinyShopping.Core.Services
             if (!_currentLists.Contains(item))
                 _currentLists.Add(item);
             AddSync(item);
-            //await _client.AddShoppingListAsync(item.ToRest());
-            TinyCache.TinyCache.Remove(LISTKEY);
+            //TinyCache.TinyCache.Remove(LISTKEY);
+        }
+
+        public void Delete(IOfflineSupport item)
+        {
+            SetDeleted(item);
+        }
+
+        public void UpdateList(ShoppingList shoppingList)
+        {
+            AddSync(shoppingList);
         }
 
         public async Task<IList<Item>> GetListItems(int listId)
@@ -178,6 +188,10 @@ namespace TinyShopping.Core.Services
         {
             if (items != null && items.Any())
             {
+                foreach (var old in list.Items)
+                {
+                    old.Deleted = true;
+                }
                 foreach (var i in items)
                 {
                     var old = list.Items.FirstOrDefault(d => d.Id == i.Id);
@@ -188,12 +202,14 @@ namespace TinyShopping.Core.Services
                             i.MemberviseCopyTo(old);
                             old.LastSync = DateTime.Now;
                         }
+                        old.Deleted = false;
                     }
                     else
                     {
                         var newitem = i.ToModel();
                         list.Items.Add(newitem);
                         newitem.LastSync = DateTime.Now;
+                        newitem.Deleted = false;
                     }
                 }
             }
@@ -247,6 +263,7 @@ namespace TinyShopping.Core.Services
             else
             {
                 var ret = await _client.UpdateShoppingListAsync(i.ToRest());
+                i.Id = ret.Id;
                 SetSynced(i);
             }
         }
@@ -277,30 +294,16 @@ namespace TinyShopping.Core.Services
             else
             {
                 var ret = await _client.UpdateListItemAsync(i.ToRest());
+                i.Id = ret.Id;
                 var list = _currentLists.FirstOrDefault(d => d.Id == i.ListId);
-                if (list.Items.Contains(i))
-                    list.Items.Remove(i);
+                if (!list.Items.Contains(i))
+                {
+                    list.Items.Add(i);
+                }
                 SetSynced(i);
             }
         }
 
-        //public void DeleteItem(Item item)
-        //{
-        //    SetDeleted(item);
-        //    //await _client.DeleteListItemAsync(item.Id);
-        //    TinyCache.TinyCache.Remove("listItems" + item.ListId);
-        //}
 
-        public void Delete(IOfflineSupport item)
-        {
-            SetDeleted(item);
-            //await _client.DeleteShoppingListAsync(shoppingList.Id);
-        }
-
-        public void UpdateList(ShoppingList shoppingList)
-        {
-            AddSync(shoppingList);
-            //await _client.UpdateShoppingListAsync(shoppingList.Id, shoppingList.ToRest());
-        }
     }
 }
