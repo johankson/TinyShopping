@@ -14,10 +14,17 @@ using Xamarin.Forms;
 
 namespace TinyShopping.ViewModels
 {
+    /// <summary>
+    /// Handles the list of items for a specific shopping list
+    /// </summary>
     public class ItemListViewModel : ShoppingBaseModel, ISearchHandler
     {
         private ShoppingService _shoppingService;
         private ShoppingList _shoppingList;
+
+        private bool _isLoading;
+
+        public Action<Item> ScrollTo { get; set; } = null;
 
         public ItemListViewModel(ShoppingService shoppingService)
         {
@@ -42,18 +49,41 @@ namespace TinyShopping.ViewModels
                     ListId = _shoppingList.Id,
                     Name = _searchString
                 };
-                Device.BeginInvokeOnMainThread(() =>
+
+                Device.BeginInvokeOnMainThread(async () =>
                 {
                     ItemsList.Insert(0, newItem);
-                });
-                Task.Run(async () =>
-                {
+                    Clear();
+
+                    await Task.Delay(100);
+
+					//ScrollTo?.Invoke(newItem);
+
                     await _shoppingService.AddItem(newItem);
                     await LoadData();
                 });
+
+                //Task.Run(async () =>
+                //{
+                //    await _shoppingService.AddItem(newItem);
+                //    await LoadData();
+                //    ScrollTo?.Invoke(_allItems.First());
+                //});
             }
-            //NewItemName = string.Empty;
         }
+
+        public bool ListComplete { get; set; }
+
+        public bool DisplayTick { get; set; }
+
+        public ICommand TickPlaybackFinished => new Command(
+            (o) => 
+            {
+                DisplayTick = false;
+            }
+        );
+
+        public Action PlayTickAnimation { get; set; }
 
         public async override Task OnFirstAppear()
         {
@@ -62,8 +92,10 @@ namespace TinyShopping.ViewModels
 
         public async Task LoadData()
         {
+            IsBusy = true;
             _allItems = await _shoppingService.GetListItems(_shoppingList.Id);
             FilterResult();
+            IsBusy = false;
         }
 
         private void FilterResult()
@@ -72,11 +104,16 @@ namespace TinyShopping.ViewModels
             {
                 var ret = _allItems;
                 if (!string.IsNullOrEmpty(_searchString))
+                {
                     ret = _allItems.Where(d => d.Name.Contains(_searchString)).ToList();
+                }
+
                 ItemsList = new ObservableCollection<Item>(ret);
             }
             else
+            {
                 ItemsList = new ObservableCollection<Item>();
+            }
         }
 
 
@@ -119,6 +156,12 @@ namespace TinyShopping.ViewModels
         {
             await _shoppingService.UpdateItem(item);
 
+            var isCompleted = ItemsList.All(x => x.Completed == true);
+            if (isCompleted && IsNotBusy)
+            {
+                PlayTickAnimation?.Invoke();
+            }
+
             // QUESTION: Should the task firing be part of the shopping service?
             TinyPubSub.Publish(Channels.ShoppingListUpdated, _shoppingList);
         });
@@ -129,6 +172,7 @@ namespace TinyShopping.ViewModels
             {
                 ListId = _shoppingList.Id
             };
+
             Edit.Execute(newItem);
         });
     }
