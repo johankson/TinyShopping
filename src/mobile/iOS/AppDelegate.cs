@@ -12,11 +12,30 @@ namespace TinyShopping.iOS
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+
             global::Xamarin.Forms.Forms.Init();
 
             LoadApplication(new App());
 
+
+
+            TinyPubSubLib.TinyPubSub.Subscribe<Core.Services.SummaryData>("SummaryData", (Core.Services.SummaryData data) =>
+            {
+                var shared = new NSUserDefaults(
+                    "se.tinystuff.TinyShopping.shared",
+                    NSUserDefaultsType.SuiteName);
+
+                shared.SetInt(data.TotalItems, "total");
+                shared.SetInt(data.DoneItems, "done");
+               // shared.Synchronize();
+            });
+
             return base.FinishedLaunching(app, options);
+        }
+
+        public override void WillEnterForeground(UIApplication uiApplication)
+        {
+            base.WillEnterForeground(uiApplication);
         }
     }
 }

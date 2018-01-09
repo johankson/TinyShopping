@@ -3,6 +3,7 @@
 using NotificationCenter;
 using Foundation;
 using UIKit;
+using CoreGraphics;
 
 namespace TodoSummary
 {
@@ -10,7 +11,8 @@ namespace TodoSummary
     {
         protected TodayViewController(IntPtr handle) : base(handle)
         {
-            // Note: this .ctor should not contain any initialization logic.
+            // Note: this .ctor should not contain any initialization logic
+
         }
 
         public override void DidReceiveMemoryWarning()
@@ -25,6 +27,7 @@ namespace TodoSummary
         {
             base.ViewDidLoad();
 
+            lblSummary.Text = "Laddar...";
             // Do any additional setup after loading the view.
         }
 
@@ -36,6 +39,15 @@ namespace TodoSummary
             // If an error is encoutered, use NCUpdateResultFailed
             // If there's no update required, use NCUpdateResultNoData
             // If there's an update, use NCUpdateResultNewData
+
+
+            var shared = new NSUserDefaults(
+                    "se.tinystuff.TinyShopping.shared",
+                    NSUserDefaultsType.SuiteName);
+            //shared.Synchronize();
+            var total = shared.IntForKey("total");
+            var done = shared.IntForKey("done");
+            lblSummary.Text = $"{done} / {total} items is done";
 
             completionHandler(NCUpdateResult.NewData);
         }

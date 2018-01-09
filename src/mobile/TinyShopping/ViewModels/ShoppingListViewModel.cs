@@ -69,8 +69,21 @@ namespace TinyShopping.ViewModels
         {
             IsBusy = true;
             _allLists = await _shoppingService.GetShoppingLists();
+            SumAndPublish(_allLists);
             FilterResults();
             IsBusy = false;
+        }
+
+        private void SumAndPublish(IList<ShoppingList> allLists)
+        {
+            var done = allLists.Sum(d => d.NumberOfCompletedItems);
+            var total = allLists.Sum(d => d.NumberOfItems);
+            var sd = new SummaryData()
+            {
+                TotalItems = total,
+                DoneItems = done
+            };
+            TinyPubSub.Publish<SummaryData>("SummaryData",sd);
         }
 
         [TinySubscribe(Channels.ShoppingListUpdated)]
