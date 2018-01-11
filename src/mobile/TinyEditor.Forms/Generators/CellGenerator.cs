@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using TinyEditor.Controls;
 using TinyEditor.Forms.Cells;
 using Xamarin.Forms;
@@ -15,6 +13,9 @@ namespace TinyEditor.Controls
         public CellGenerator()
         {
         }
+
+        public ObservableCollection<FieldGroup> FieldGroups { get; internal set; }
+
 
         public override Element GetEditor(EditableField field, object parent)
         {
@@ -85,7 +86,9 @@ namespace TinyEditor.Controls
         public override View GetRootElement(object obj)
         {
             var tbl = new TableView();
-
+            if (FieldGroups == null)
+                FieldGroups = new ObservableCollection<FieldGroup>();
+            FieldGroups.Clear();
             table = new TableRoot();
             tbl.Root = table;
             return tbl;
@@ -108,7 +111,6 @@ namespace TinyEditor.Controls
                     Title = name
                 };
 
-
                 ret.Fields = new ObservableCollection<EditableField>();
                 table.Add(ret.View as TableSection);
 
@@ -123,67 +125,5 @@ namespace TinyEditor.Controls
             grp.Fields.Add(field);
             (grp.View as TableSection).Add(field.EditorView as Cell);
         }
-    }
-
-    public interface IEditorGenerator
-    {
-        View GenerateEditor(ref object item);
-        //void AddSection(FieldGroup ret);
-        Element GetEditor(EditableField field, object obj);
-        //GroupView GetGroup(FieldGroup group);
-    }
-
-    public abstract class BaseGenerator : IEditorGenerator
-    {
-
-        public ObservableCollection<FieldGroup> FieldGroups { get; internal set; }
-
-        public List<EditableField> AllFields { get; internal set; }
-
-        internal object DataItem { get; set; }
-
-        public bool ShowExcudedAsText
-        {
-            get;
-            set;
-        } = false;
-
-        public virtual View GenerateEditor(ref object item)
-        {
-            DataItem = item;
-            var ret = GetRootElement(item);
-            PopulateFields();
-            return ret;
-        }
-
-        public virtual void PopulateFields()
-        {
-            var type = DataItem.GetType();
-            var fields = type.GetRuntimeProperties().Where(d => d.CanWrite);
-            AllFields = new List<EditableField>();
-            if (FieldGroups == null)
-                FieldGroups = new ObservableCollection<FieldGroup>();
-            FieldGroups.Clear();
-
-            foreach (var field in fields.Select(d => new EditableField(d, DataItem, this)).OrderBy(d => d.PropertyData.Order))
-            {
-
-                if (field.PropertyData.Excluded && !ShowExcudedAsText)
-                    continue;
-                if (field.EditorView != null)
-                {
-                    AddEditorToRoot(field);
-                    AllFields.Add(field);
-                }
-            }
-
-        }
-
-        public abstract View GetRootElement(object obj);
-
-        public abstract Element GetEditor(EditableField field, object obj);
-
-        public abstract void AddEditorToRoot(EditableField field);
-
     }
 }
