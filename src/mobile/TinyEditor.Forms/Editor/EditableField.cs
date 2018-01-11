@@ -16,9 +16,10 @@ namespace TinyEditor
 
         private object parent;
 
-        public EditableField(PropertyInfo propery, object parent)
+        public EditableField(PropertyInfo propery, object parent, IEditorGenerator generator)
         {
             this.parent = parent;
+            Generator = generator;
             var attr = propery.GetEditorAttribute();
             SourceProperty = propery;
             PropertyData = attr;
@@ -26,81 +27,26 @@ namespace TinyEditor
 
         public EditorAttribute PropertyData { get; internal set; }
 
-        private Cell view;
+        private Element view;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Cell EditorCell
+        public Element EditorView
         {
             get
             {
-                if (parent is INotifyPropertyChanged pchange)
-                {
-                    pchange.PropertyChanged += (sender, e) =>
+                if (view==null) {
+                    if (parent is INotifyPropertyChanged pchange)
                     {
-                        if (e.PropertyName == SourceProperty.Name)
+                        pchange.PropertyChanged += (sender, e) =>
                         {
-                            PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Value"));
-                        }
-                    };
-                }
-                if (view == null)
-                {
-                    if (PropertyData.Readonly)
-                    {
-                        view = new TextCell()
-                        {
-                            Text = ObjectEditor.Translate(PropertyData.Title),
-                            BindingContext = this,
-                            Detail = Value.ToString()
-                        };
-                        view.SetBinding(TextCell.DetailProperty, nameof(Value));
-
-                    }
-                    else
-                    {
-                        var type = SourceProperty.PropertyType;
-                        if (PropertyData.RelationTo != null)
-                        {
-                            var inst = Activator.CreateInstance(PropertyData.RelationTo);
-                            if (inst is IEditorRelation rel)
+                            if (e.PropertyName == SourceProperty.Name)
                             {
-                                view = new RelationCell(rel)
-                                {
-                                    Text = ObjectEditor.Translate(PropertyData.Title)
-                                };
-                                view.SetBinding(DateCell.ValueProperty, nameof(Value));
+                                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Value"));
                             }
-                        }
-                        else if (type == typeof(string) || type == typeof(int))
-                        {
-                            view = new EntryCell()
-                            {
-                                Label = ObjectEditor.Translate(PropertyData.Title)
-                            };
-                            view.SetBinding(EntryCell.TextProperty, nameof(Value));
-                        }
-                        else if (type == typeof(bool))
-                        {
-                            view = new SwitchCell()
-                            {
-                                Text = ObjectEditor.Translate(PropertyData.Title)
-                            };
-                            view.SetBinding(SwitchCell.OnProperty, nameof(Value));
-                        }
-                        else if (type == typeof(DateTime))
-                        {
-                            view = new DateCell()
-                            {
-                                Text = ObjectEditor.Translate(PropertyData.Title)
-                            };
-                            view.SetBinding(DateCell.ValueProperty, nameof(Value));
-                        }
-                        if (view != null)
-                            view.BindingContext = this;
-
+                        };
                     }
-
+                    view = Generator.GetEditor(this, parent);
                 }
                 return view;
             }
@@ -122,6 +68,7 @@ namespace TinyEditor
 
 
         internal PropertyInfo SourceProperty { get; set; }
+        public IEditorGenerator Generator { get; internal set; }
     }
 }
 

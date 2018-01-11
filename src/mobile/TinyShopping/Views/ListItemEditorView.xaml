@@ -18,6 +18,10 @@
         />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Editor:ObjectEditor DataItem="{Binding Item}" />
+        <Editor:ObjectEditor DataItem="{Binding Item}">
+            <Editor:ObjectEditor.Generator>
+                <Editor:CellGenerator />
+            </Editor:ObjectEditor.Generator>
+        </Editor:ObjectEditor>
     </ContentPage.Content>
 </tinymvvm:ViewBase>

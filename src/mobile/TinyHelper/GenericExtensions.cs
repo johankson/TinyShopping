@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -21,6 +22,48 @@ namespace TinyHelper
 
     public static class GenericExtensions
     {
+        public static IEnumerable<(PropertyInfo prp, T attr)> GetPropertiesWithAttribute<T>(this object o) where T : Attribute
+        {
+            var attrType = typeof(T);
+            Type typ = null;
+            if (o is Type t)
+            {
+                typ = t;
+            }
+            else
+            {
+                typ = o.GetType();
+            }
+            foreach (var prp in typ.GetRuntimeProperties())
+            {
+                var customAttr = prp.GetCustomAttributes(attrType, true).OfType<T>().FirstOrDefault();
+                if (customAttr!=null) {
+                    yield return (prp, customAttr);
+                }
+            }
+        }
+
+        public static IEnumerable<(MethodInfo prp, T attr)> GetMethodsWithAttribute<T>(this object o) where T : Attribute
+        {
+            var attrType = typeof(T);
+            Type typ = null;
+            if (o is Type t)
+            {
+                typ = t;
+            }
+            else
+            {
+                typ = o.GetType();
+            }
+            foreach (var prp in typ.GetRuntimeMethods())
+            {
+                var customAttr = prp.GetCustomAttributes(attrType, true).OfType<T>().FirstOrDefault();
+                if (customAttr != null)
+                {
+                    yield return (prp, customAttr);
+                }
+            }
+        }
 
         public static void MemberviseCopyTo(this object a, object b, bool overwrite = true)
         {
@@ -53,7 +96,8 @@ namespace TinyHelper
                             }
                         }
                     }
-                    catch(Exception ex) {
+                    catch (Exception ex)
+                    {
                         var i = 22;
                     }
 
