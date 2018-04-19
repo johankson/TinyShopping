@@ -22,28 +22,29 @@ namespace TinyShopping.ViewModels
         public ShoppingListViewModel(ShoppingService shoppingService)
         {
             _shoppingService = shoppingService;
+            ShoppingLists = _shoppingService.ShoppingLists;
         }
 
         private string _searchString;
 
         private void FilterResults()
         {
-            if (_allLists != null)
-            {
-                var res = _allLists.ToList();
-                if (!string.IsNullOrEmpty(_searchString))
-                {
-                    res = _allLists.Where(d => d.Name.Contains(_searchString)).ToList();
-                }
-                ShoppingLists = new ObservableCollection<ShoppingList>(res.Where(d=>!d.Deleted).OrderByDescending(d=>d.Created));
-            }
-            else
-                ShoppingLists = new ObservableCollection<ShoppingList>();
+            //if (_allLists != null)
+            //{
+            //    var res = _allLists.ToList();
+            //    if (!string.IsNullOrEmpty(_searchString))
+            //    {
+            //        res = _allLists.Where(d => d.Name.Contains(_searchString)).ToList();
+            //    }
+            //    ShoppingLists = new ObservableCollection<ShoppingList>(res.Where(d=>!d.Deleted).OrderByDescending(d=>d.Created));
+            //}
+            //else
+            //ShoppingLists = new ObservableCollection<ShoppingList>();
         }
 
         public void AddItem()
         {
-            if (!string.IsNullOrWhiteSpace(_searchString) && _searchString.Length>2)
+            if (!string.IsNullOrWhiteSpace(_searchString) && _searchString.Length > 2)
             {
                 var newList = new ShoppingList()
                 {
@@ -54,26 +55,26 @@ namespace TinyShopping.ViewModels
                 {
                     Clear();
                     _shoppingService.AddList(newList);
-                    await LoadData();
+                    //await LoadData();
                 });
             }
         }
 
         public async override Task OnFirstAppear()
         {
-            await LoadData();
+            //await LoadData();
         }
 
-        [TinySubscribe(Channels.ShoppingListAdded)]
-        [TinySubscribe(Channels.ShoppingListDeleted)]
-        public async Task LoadData()
-        {
-            IsBusy = true;
-            _allLists = await _shoppingService.GetShoppingLists();
-            SumAndPublish(_allLists);
-            FilterResults();
-            IsBusy = false;
-        }
+        //[TinySubscribe(Channels.ShoppingListAdded)]
+        //[TinySubscribe(Channels.ShoppingListDeleted)]
+        //public async Task LoadData()
+        //{
+        //    IsBusy = true;
+        //    _allLists = await _shoppingService.GetShoppingLists();
+        //    SumAndPublish(_allLists);
+        //    FilterResults();
+        //    IsBusy = false;
+        //}
 
         private void SumAndPublish(IList<ShoppingList> allLists)
         {
@@ -84,15 +85,15 @@ namespace TinyShopping.ViewModels
                 TotalItems = total,
                 DoneItems = done
             };
-            TinyPubSub.Publish<SummaryData>("SummaryData",sd);
+            TinyPubSub.Publish<SummaryData>("SummaryData", sd);
         }
 
-        [TinySubscribe(Channels.ShoppingListUpdated)]
-        public async Task ShoppingListUpdated(ShoppingList shoppingList)
-        {
-            // TODO Only update the GUI for the shoppinglist that was updated
-            await LoadData();
-        }
+        //[TinySubscribe(Channels.ShoppingListUpdated)]
+        //public async Task ShoppingListUpdated(ShoppingList shoppingList)
+        //{
+        //    // TODO Only update the GUI for the shoppinglist that was updated
+        //    //await LoadData();
+        //}
 
         public void Search(string value)
         {
@@ -106,7 +107,7 @@ namespace TinyShopping.ViewModels
             FilterResults();
         }
 
-        private IList<ShoppingList> _allLists;
+        //private IList<ShoppingList> _allLists;
         public ObservableCollection<ShoppingList> ShoppingLists { get; set; }
 
         public ShoppingList SelectedItem
@@ -136,11 +137,11 @@ namespace TinyShopping.ViewModels
         public ICommand Delete => new TinyCommand<ShoppingList>((shoppingList) =>
         {
             ShoppingLists.Remove(shoppingList);
-            _allLists.Remove(shoppingList);
+            //_allLists.Remove(shoppingList);
             _shoppingService.Delete(shoppingList);
         });
 
-        public ICommand Refresh => new TinyCommand(async () => await LoadData());
+        public ICommand Refresh => new TinyCommand(async () => {});
 
         public ICommand Edit => new TinyCommand<ShoppingList>(async (shoppingList) =>
          {

@@ -33,7 +33,7 @@ namespace TinyShopping.ApplicationModels
 
         public async Task<IEnumerable<object>> GetValues()
         {
-            var ret = await _service.GetShoppingLists();
+            var ret = _service.ShoppingLists;
             return ret.OfType<object>();
         }
     }

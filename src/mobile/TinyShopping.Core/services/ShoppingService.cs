@@ -28,6 +28,54 @@ namespace TinyShopping.Core.Services
 
             // Get changes from TinyCache to update collections
             //TinyCache.TinyCache.OnUpdate += TinyCache_OnUpdate;
+            _currentLists = new ObservableCollection<ShoppingList>();
+            Task.Run(async () =>
+            {
+                var lists = await _client
+                  .Child("lists")
+                  .OrderByKey()
+                  .OnceAsync<ShoppingList>();
+
+                foreach (var list in lists)
+                {
+                    list.Object.Id = list.Key;
+                    _currentLists.Add(list.Object);
+                }
+
+                var observable = _client
+    .Child("lists")
+    .AsObservable<ShoppingList>()
+                    .Subscribe(d =>
+                    {
+                        var newlist = d.Object;
+                        newlist.Id = d.Key;
+                        if (d.EventType == FirebaseEventType.InsertOrUpdate)
+                        {
+                            var oldList = _currentLists.FirstOrDefault(list => list.Id == d.Key);
+                            if (oldList == null)
+                            {
+                                _currentLists.Add(newlist);
+                            }
+                            else
+                            {
+                                var idx = _currentLists.IndexOf(oldList);
+                                _currentLists.Remove(oldList);
+                                _currentLists.Insert(idx, newlist);
+                            }
+                            TinyPubSub.Publish("shopping-list-added");
+                        }
+                        else if (d.EventType == FirebaseEventType.Delete)
+                        {
+                            var oldList = _currentLists.FirstOrDefault(list => list.Id == d.Key);
+                            if (oldList != null)
+                            {
+                                _currentLists.Remove(oldList);
+                                TinyPubSub.Publish("shopping-list-deleted");
+                            }
+                        }
+
+                    });
+            });
         }
 
         //private TinyCache.TinyCachePolicy _fetchPolicy = new TinyCache.TinyCachePolicy().SetMode(TinyCache.TinyCacheModeEnum.CacheFirst).SetFetchTimeout(300);
@@ -43,57 +91,12 @@ namespace TinyShopping.Core.Services
 
         private ObservableCollection<ShoppingList> _currentLists { get; set; }
 
-        public async Task<IList<ShoppingList>> GetShoppingLists()
+        public ObservableCollection<ShoppingList> ShoppingLists
         {
-            if (_currentLists == null)
+            get
             {
-                _currentLists = new ObservableCollection<ShoppingList>();
-                var lists = await _client
-                  .Child("lists")
-                  .OrderByKey()
-                  .OnceAsync<ShoppingList>();
-
-                foreach (var list in lists)
-                {
-                    list.Object.Id = list.Key;
-                    _currentLists.Add(list.Object);
-                }
-
-                var observable = _client
-  .Child("lists")
-  .AsObservable<ShoppingList>()
-                    .Subscribe(d =>
-                    {
-
-                        if (d.EventType == FirebaseEventType.InsertOrUpdate)
-                        {
-                            var oldList = _currentLists.FirstOrDefault(list => list.Id == d.Key);
-                            if (oldList == null)
-                            {
-                                _currentLists.Add(d.Object);
-                            }
-                            else
-                            {
-                                var idx = _currentLists.IndexOf(oldList);
-                                _currentLists.Remove(oldList);
-                                _currentLists.Insert(idx, d.Object);
-                            }
-                            TinyPubSub.Publish("shopping-list-added");
-                        }
-                        else if (d.EventType == FirebaseEventType.Delete)
-                        {
-                            var oldList = _currentLists.FirstOrDefault(list => list.Id == d.Key);
-                            if (oldList != null)
-                            {
-                                _currentLists.Remove(oldList);
-                                TinyPubSub.Publish("shopping-list-deleted");
-                            }
-                        }
-
-                    });
-
+                return _currentLists;
             }
-            return _currentLists;
         }
 
         public void UpdateItem(Item item)
