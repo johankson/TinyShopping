@@ -90,7 +90,7 @@ namespace TinyHelper
                                 var valueToAdd = fromProperty.GetValue(a, null);
                                 if (valueToAdd != null)
                                 {
-                                    if (overwrite || !IsEmpty(valueToAdd))
+                                    if (overwrite || !EmptyValue(valueToAdd))
                                         prpInfo.SetValue(b, valueToAdd);
                                 }
                             }
@@ -110,7 +110,11 @@ namespace TinyHelper
             }
         }
 
-        private static bool IsEmpty(object valueToAdd)
+        public static bool IsEmpty(this object value) {
+            return EmptyValue(value);
+        }
+
+        private static bool EmptyValue(object valueToAdd)
         {
             if (valueToAdd == null)
                 return true;

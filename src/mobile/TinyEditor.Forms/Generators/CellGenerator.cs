@@ -8,12 +8,90 @@ using Xamarin.Forms;
 
 namespace TinyEditor.Controls
 {
+    public class StackGenerator : BaseGenerator
+    {
+        public override void AddEditorToRoot(EditableField field)
+        {
+            stack.Children.Add(field.EditorView as View);
+        }
+
+        public override Element GetEditor(EditableField field, object obj)
+        {
+            Element view = null;
+            var lblText = ObjectEditor.Translate(field.PropertyData.Title);
+            Label lbl = new Label()
+            {
+                Text = lblText
+            };
+            if (view == null)
+            {
+                if (field.PropertyData.Readonly)
+                {
+                    view = new Label()
+                    {
+                        BindingContext = field,
+                        Text = field.Value.ToString()
+                    };
+                    view.SetBinding(Entry.TextProperty, nameof(field.Value));
+                }
+                else
+                {
+                    var type = field.SourceProperty.PropertyType;
+                    if (type == typeof(string) || type == typeof(int))
+                    {
+                        view = new Entry()
+                        {
+                            Text = field.Value.ToString()
+                        };
+                        view.SetBinding(EntryCell.TextProperty, nameof(field.Value));
+                    }
+                    else if (type == typeof(bool))
+                    {
+                        view = new Switch()
+                        {
+
+                        };
+                        view.SetBinding(Switch.IsToggledProperty, nameof(field.Value));
+                    }
+                    else if (type == typeof(DateTime))
+                    {
+                        view = new DatePicker()
+                        {
+
+                        };
+                        view.SetBinding(DatePicker.DateProperty, nameof(field.Value));
+                    }
+                    if (view != null)
+                        view.BindingContext = field;
+
+                }
+
+            }
+            return view as Element;
+        }
+
+
+        private ScrollView root;
+        private StackLayout stack;
+
+        public override View GetRootElement(object obj)
+        {
+            stack = new StackLayout();
+            root = new ScrollView()
+            {
+                Content = stack
+            };
+            return root;
+        }
+    }
+
     public class CellGenerator : BaseGenerator
     {
         public CellGenerator()
         {
         }
 
+        private TableRoot table;
         public ObservableCollection<FieldGroup> FieldGroups { get; internal set; }
 
 
@@ -31,7 +109,6 @@ namespace TinyEditor.Controls
                         Detail = field.Value.ToString()
                     };
                     view.SetBinding(TextCell.DetailProperty, nameof(field.Value));
-
                 }
                 else
                 {
@@ -80,8 +157,6 @@ namespace TinyEditor.Controls
             }
             return view as Element;
         }
-
-        private TableRoot table;
 
         public override View GetRootElement(object obj)
         {
