@@ -20,7 +20,7 @@ namespace TinyShopping.ApplicationModels
 
         public object FindItem(object value)
         {
-            if (value is int id)
+            if (value is string id)
             {
                 return _list.FirstOrDefault(d => d.Id == id);
             }

@@ -11,7 +11,7 @@ namespace TinyShopping.ApplicationModels
     [PropertyChanged.AddINotifyPropertyChangedInterface]
     public class ShoppingList : IShoppingList, IOfflineSupport
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Editor("Created", "Information", Readonly = true)]
         public System.DateTime Created { get; set; } = System.DateTime.Now;

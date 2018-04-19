@@ -80,13 +80,13 @@ namespace TinyShopping.ViewModels
 
         public async override Task OnFirstAppear()
         {
-            await LoadData();
+            LoadData();
         }
 
-        public async Task LoadData()
+        public void LoadData()
         {
             IsBusy = true;
-            _allItems = await _shoppingService.GetListItems(_shoppingList.Id);
+            _allItems = _shoppingList.Items;
             FilterResult();
             IsBusy = false;
         }
@@ -138,7 +138,7 @@ namespace TinyShopping.ViewModels
             _shoppingService.Delete(item);
         });
 
-        public ICommand Refresh => new TinyCommand(async () => await LoadData());
+        public ICommand Refresh => new TinyCommand(() => {});
 
         public ICommand Edit => new TinyCommand<Item>(async (item) =>
         {

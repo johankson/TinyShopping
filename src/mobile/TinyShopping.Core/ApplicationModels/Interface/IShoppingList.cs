@@ -2,7 +2,7 @@
 {
     public interface IShoppingList
     {
-        int Id { get; set; }
+        string Id { get; set; }
 
         System.DateTime Created { get; set; }
 

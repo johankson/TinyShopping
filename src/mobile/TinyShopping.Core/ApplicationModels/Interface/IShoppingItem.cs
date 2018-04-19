@@ -11,7 +11,7 @@ namespace TinyShopping.Core.Net.Interface
 
     public interface IShoppingItem
     {
-        int Id { get; set; }
+        string Id { get; set; }
 
         DateTime Added { get; set; }
 
@@ -23,7 +23,7 @@ namespace TinyShopping.Core.Net.Interface
 
         int StoreID { get; set; }
 
-        int ListId { get; set; }
+        string ListId { get; set; }
 
         double Lat { get; set; }
 

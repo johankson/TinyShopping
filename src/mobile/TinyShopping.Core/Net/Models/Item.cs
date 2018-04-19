@@ -23,7 +23,7 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// Initializes a new instance of the Item class.
         /// </summary>
-        public Item(int id, System.DateTime added, System.DateTime done, string name, bool completed, int storeID, int listId, double lat, double lng, bool priceExists, double price, string barcode)
+        public Item(string id, System.DateTime added, System.DateTime done, string name, bool completed, int storeID, string listId, double lat, double lng, bool priceExists, double price, string barcode)
         {
             Id = id;
             Added = added;
@@ -48,7 +48,7 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// </summary>
@@ -78,7 +78,7 @@ namespace TinyShopping.Core.Net.Models
         /// <summary>
         /// </summary>
         [JsonProperty(PropertyName = "listId")]
-        public int ListId { get; set; }
+        public string ListId { get; set; }
 
         /// <summary>
         /// </summary>

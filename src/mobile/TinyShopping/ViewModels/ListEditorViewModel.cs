@@ -41,7 +41,7 @@ namespace TinyShopping.ViewModels
 
         public ICommand Save => new TinyCommand(async () =>
         {
-            if (ShoppingList.Id == 0)
+            if (string.IsNullOrEmpty(ShoppingList.Id))
             {
                 _shoppingService.AddList(ShoppingList);
             }

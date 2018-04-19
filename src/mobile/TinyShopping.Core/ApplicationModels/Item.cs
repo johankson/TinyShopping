@@ -12,7 +12,7 @@ namespace TinyShopping.ApplicationModels
 
     public class Item : IShoppingItem, IOfflineSupport
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Editor("Added", "Information", Readonly = true)]
         public System.DateTime Added { get; set; } = System.DateTime.Now;
@@ -30,7 +30,7 @@ namespace TinyShopping.ApplicationModels
         public int StoreID { get; set; }
 
         //[Editor("Move to list", "Information", RelationTo = typeof(ShoppingListRelation))]
-        public int ListId { get; set; }
+        public string ListId { get; set; }
 
         public bool PriceExists { get; set; }
 
