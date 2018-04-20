@@ -5,12 +5,23 @@ using System.Linq;
 using TinyEditor;
 using TinyHelper;
 using TinyShopping.Core.Net.Interface;
+using Newtonsoft.Json;
 
 namespace TinyShopping.ApplicationModels
 {
     [PropertyChanged.AddINotifyPropertyChangedInterface]
-    public class ShoppingList : IShoppingList, IOfflineSupport
+    public class ShoppingList : IShoppingList, IHasId
     {
+        public ShoppingList()
+        {
+            Items.CollectionChanged += (sender, e) => {
+                if (Items.Any())
+                {
+                    NumberOfItems = Items.Count;
+                    NumberOfCompletedItems = Items.Count(d => d.Completed);
+                }
+            };
+        }
         public string Id { get; set; }
 
         [Editor("Created", "Information", Readonly = true)]
@@ -44,17 +55,16 @@ namespace TinyShopping.ApplicationModels
 
         public int StoreID { get; set; }
 
+        [JsonIgnore]
         public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
         int numberOfItems;
 
         [Editor("Number of items", "Stats", Readonly = true)]
+        [JsonIgnore]
         public int NumberOfItems
         {
             get
             {
-                if (Items.Any()) {
-                    numberOfItems = Items.Count;
-                }
                 return numberOfItems;
             }
 
@@ -67,14 +77,11 @@ namespace TinyShopping.ApplicationModels
         int numberOfCompletedItems;
 
         [Editor("Number of compleded items", "Stats", Readonly = true)]
+        [JsonIgnore]
         public int NumberOfCompletedItems
         {
             get
             {
-                if (Items.Any())
-                {
-                    numberOfCompletedItems = Items.Count(d => d.Completed);
-                }
                 return numberOfCompletedItems;
             }
 
@@ -85,15 +92,6 @@ namespace TinyShopping.ApplicationModels
         }
 
         public string NumberOfItemsChecked => $"{NumberOfCompletedItems}/{NumberOfItems} items checked";
-
-        [Copy(Exclude = true), Editor("Last sync", "Sync", Readonly = true)]
-        public DateTime LastSync { get; set; }
-
-        [Copy(Exclude = true), Editor("Needs sync", "Sync", Readonly = true)]
-        public bool NeedSync { get; set; }
-
-        [Copy(Exclude = true)]
-        public bool Deleted { get; set; }
 
         public override string ToString()
         {

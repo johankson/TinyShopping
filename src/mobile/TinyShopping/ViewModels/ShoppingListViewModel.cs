@@ -22,24 +22,34 @@ namespace TinyShopping.ViewModels
         public ShoppingListViewModel(ShoppingService shoppingService)
         {
             _shoppingService = shoppingService;
-            ShoppingLists = _shoppingService.ShoppingLists;
+            _allLists = _shoppingService.ShoppingLists;
+            _shoppingService.ShoppingLists.CollectionChanged += (s, e) =>
+            {
+                FilterResults();
+            };
+            FilterResults();
         }
 
         private string _searchString;
 
         private void FilterResults()
         {
-            //if (_allLists != null)
-            //{
-            //    var res = _allLists.ToList();
-            //    if (!string.IsNullOrEmpty(_searchString))
-            //    {
-            //        res = _allLists.Where(d => d.Name.Contains(_searchString)).ToList();
-            //    }
-            //    ShoppingLists = new ObservableCollection<ShoppingList>(res.Where(d=>!d.Deleted).OrderByDescending(d=>d.Created));
-            //}
-            //else
-            //ShoppingLists = new ObservableCollection<ShoppingList>();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                IsBusy = true;
+                if (_allLists != null)
+                {
+                    var res = _allLists.ToList();
+                    if (!string.IsNullOrEmpty(_searchString))
+                    {
+                        res = _allLists.Where(d => d.Name.Contains(_searchString)).ToList();
+                    }
+                    ShoppingLists = new ObservableCollection<ShoppingList>(res.OrderByDescending(d => d.Created));
+                }
+                else
+                    ShoppingLists = new ObservableCollection<ShoppingList>();
+                IsBusy = false;
+            });
         }
 
         public void AddItem()
@@ -76,17 +86,17 @@ namespace TinyShopping.ViewModels
         //    IsBusy = false;
         //}
 
-        private void SumAndPublish(IList<ShoppingList> allLists)
-        {
-            var done = allLists.Sum(d => d.NumberOfCompletedItems);
-            var total = allLists.Sum(d => d.NumberOfItems);
-            var sd = new SummaryData()
-            {
-                TotalItems = total,
-                DoneItems = done
-            };
-            TinyPubSub.Publish<SummaryData>("SummaryData", sd);
-        }
+        //private void SumAndPublish(IList<ShoppingList> allLists)
+        //{
+        //    var done = allLists.Sum(d => d.NumberOfCompletedItems);
+        //    var total = allLists.Sum(d => d.NumberOfItems);
+        //    var sd = new SummaryData()
+        //    {
+        //        TotalItems = total,
+        //        DoneItems = done
+        //    };
+        //    TinyPubSub.Publish<SummaryData>("SummaryData", sd);
+        //}
 
         //[TinySubscribe(Channels.ShoppingListUpdated)]
         //public async Task ShoppingListUpdated(ShoppingList shoppingList)
@@ -107,7 +117,7 @@ namespace TinyShopping.ViewModels
             FilterResults();
         }
 
-        //private IList<ShoppingList> _allLists;
+        private ObservableCollection<ShoppingList> _allLists;
         public ObservableCollection<ShoppingList> ShoppingLists { get; set; }
 
         public ShoppingList SelectedItem
@@ -141,7 +151,7 @@ namespace TinyShopping.ViewModels
             _shoppingService.Delete(shoppingList);
         });
 
-        public ICommand Refresh => new TinyCommand(async () => {});
+        public ICommand Refresh => new TinyCommand(() => FilterResults());
 
         public ICommand Edit => new TinyCommand<ShoppingList>(async (shoppingList) =>
          {

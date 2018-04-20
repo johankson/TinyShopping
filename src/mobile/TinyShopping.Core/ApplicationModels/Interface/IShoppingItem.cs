@@ -2,12 +2,6 @@
 
 namespace TinyShopping.Core.Net.Interface
 {
-    public interface IOfflineSupport
-    {
-        DateTime LastSync { get; set; }
-        bool NeedSync { get; set; }
-        bool Deleted { get; set; }
-    }
 
     public interface IShoppingItem
     {

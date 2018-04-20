@@ -12,6 +12,7 @@ using Firebase.Database;
 using Firebase.Database.Query;
 using Firebase.Database.Streaming;
 using TinyPubSubLib;
+using TinyShopping.Core.Extensions;
 
 
 namespace TinyShopping.Core.Services
@@ -20,15 +21,61 @@ namespace TinyShopping.Core.Services
     {
         private FirebaseClient _client;
 
+        private async void PopulateItems(ShoppingList list)
+        {
+            var key = "listitems/" + list.Id;
+            var items = await _client
+                .Child(key)
+                          .OrderByKey()
+                          .OnceAsync<Item>();
+            foreach (var item in items)
+            {
+                list.Items.AddWithId(item);
+            }
+
+            var observable = _client
+                .Child(key)
+                .AsObservable<Item>()
+                .Subscribe(d =>
+                {
+                    var oldItem = list.Items.FindExisting(d);
+                    if (d.EventType == FirebaseEventType.InsertOrUpdate)
+                    {
+                        if (oldItem == null)
+                        {
+                            list.Items.AddWithId(d);
+                        }
+                        else
+                        {
+                            list.Items.Replace(oldItem, d);
+                        }
+                    }
+                    else if (d.EventType == FirebaseEventType.Delete)
+                    {
+                        if (oldItem != null)
+                        {
+                            list.Items.Remove(oldItem);
+                        }
+                    }
+
+                });
+
+        }
+
         public ShoppingService()
         {
             _client = new FirebaseClient("https://turnkey-lacing-622.firebaseio.com/");
-            //_client = new ShoppingAPI(new Uri("http://localhost:5000"), new UnsafeCredentials());
-            //_client = new ShoppingAPI(new Uri("http://192.168.1.131:5000"), new UnsafeCredentials());
-
-            // Get changes from TinyCache to update collections
-            //TinyCache.TinyCache.OnUpdate += TinyCache_OnUpdate;
             _currentLists = new ObservableCollection<ShoppingList>();
+            _currentLists.CollectionChanged += async (sender, e) =>
+            {
+                if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                {
+                    foreach (ShoppingList list in e.NewItems)
+                    {
+                        PopulateItems(list);
+                    }
+                }
+            };
             Task.Run(async () =>
             {
                 var lists = await _client
@@ -38,56 +85,39 @@ namespace TinyShopping.Core.Services
 
                 foreach (var list in lists)
                 {
-                    list.Object.Id = list.Key;
-                    _currentLists.Add(list.Object);
+                    _currentLists.AddWithId(list);
                 }
 
                 var observable = _client
-    .Child("lists")
-    .AsObservable<ShoppingList>()
+                    .Child("lists")
+                    .AsObservable<ShoppingList>()
                     .Subscribe(d =>
                     {
-                        var newlist = d.Object;
-                        newlist.Id = d.Key;
+                        var oldList = _currentLists.FindExisting(d);
                         if (d.EventType == FirebaseEventType.InsertOrUpdate)
                         {
-                            var oldList = _currentLists.FirstOrDefault(list => list.Id == d.Key);
                             if (oldList == null)
                             {
-                                _currentLists.Add(newlist);
+                                _currentLists.AddWithId(d);
                             }
                             else
                             {
-                                var idx = _currentLists.IndexOf(oldList);
-                                _currentLists.Remove(oldList);
-                                _currentLists.Insert(idx, newlist);
+                                _currentLists.Replace(oldList, d);
                             }
-                            TinyPubSub.Publish("shopping-list-added");
+                            //TinyPubSub.Publish("shopping-list-added");
                         }
                         else if (d.EventType == FirebaseEventType.Delete)
                         {
-                            var oldList = _currentLists.FirstOrDefault(list => list.Id == d.Key);
                             if (oldList != null)
                             {
                                 _currentLists.Remove(oldList);
-                                TinyPubSub.Publish("shopping-list-deleted");
+                                //TinyPubSub.Publish("shopping-list-deleted");
                             }
                         }
 
                     });
             });
         }
-
-        //private TinyCache.TinyCachePolicy _fetchPolicy = new TinyCache.TinyCachePolicy().SetMode(TinyCache.TinyCacheModeEnum.CacheFirst).SetFetchTimeout(300);
-        //private const string LISTKEY = "shoppingLists";
-        //private const string ITEMSKEY = "listsItems_";
-        //private int _retryCount = 0;
-        //private IList<IOfflineSupport> _syncItems { get; set; } = new List<IOfflineSupport>();
-
-        //private string ItemListKey(int listid)
-        //{
-        //    return ITEMSKEY + listid;
-        //}
 
         private ObservableCollection<ShoppingList> _currentLists { get; set; }
 
@@ -101,86 +131,41 @@ namespace TinyShopping.Core.Services
 
         public void UpdateItem(Item item)
         {
-            AddSync(item);
-            //TinyCache.TinyCache.Remove(ItemListKey(item.ListId));
+            AddItem(item);
         }
 
         public void AddItem(Item item)
         {
-            AddItemToList(item);
-            //TinyCache.TinyCache.Remove(ItemListKey(item.ListId));
-            AddSync(item);
+            Task.Run(async () =>
+            {
+                var key = "listitems/" + item.ListId;
+
+                await _client.AddOrUpdate(key, item);
+            });
         }
 
-        private Task _syncTask;
-
-        private ShoppingList GetList(IOfflineSupport data)
-        {
-            ShoppingList list = null;
-            if (data is Item item)
-            {
-                list = _currentLists.FirstOrDefault(d => d.Id == item.ListId);
-            }
-            else if (data is ShoppingList datalist)
-            {
-                list = datalist;
-            }
-            return list;
-        }
-
-        private void AddSync(IOfflineSupport data)
-        {
-            var list = GetList(data);
-            if (list != null)
-            {
-                Task.Run(async () =>
-                {
-                    if (string.IsNullOrEmpty(list.Id))
-                    {
-                        var ret = await _client
-                          .Child("lists")
-                                .PostAsync(list);
-                        list.Id = ret.Key;
-                    }
-                    else
-                    {
-                        await _client.Child("lists")
-                                     .Child(list.Id)
-                                     .PutAsync(list);
-                    }
-
-                });
-            }
-
-            //data.NeedSync = true;
-            //if (!_syncItems.Contains(data))
-            //{
-            //    _syncItems.Add(data);
-            //    TriggerSync();
-            //}
-        }
-
-        //private void TriggerSync()
+        //private void AddSync(IHasId data)
         //{
-        //    if (_syncItems != null && _syncItems.Any())
+        //    var list = data.GetShoppingList(_currentLists);
+        //    if (list != null)
         //    {
-        //        Console.WriteLine("Sync triggerd");
-        //        if (_syncTask == null || _syncTask.IsCompleted)
-        //            _syncTask = Task.Delay(1500).ContinueWith(async (a) =>
+        //        Task.Run(async () =>
+        //        {
+        //            if (string.IsNullOrEmpty(list.Id))
         //            {
-        //                try
-        //                {
-        //                    await SyncItems();
-        //                    _retryCount = 0;
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    Console.WriteLine(ex);
-        //                    _retryCount++;
-        //                    Console.WriteLine($"Retry in {_retryCount}s");
-        //                    Task.Delay(_retryCount * 1000).ContinueWith((b) => TriggerSync());
-        //                }
-        //            });
+        //                var ret = await _client
+        //                  .Child("lists")
+        //                        .PostAsync(list);
+        //                list.Id = ret.Key;
+        //            }
+        //            else
+        //            {
+        //                await _client.Child("lists")
+        //                             .Child(list.Id)
+        //                             .PutAsync(list);
+        //            }
+
+        //        });
         //    }
         //}
 
@@ -195,161 +180,29 @@ namespace TinyShopping.Core.Services
         {
             if (!_currentLists.Contains(item))
                 _currentLists.Add(item);
-            AddSync(item);
-            //TinyCache.TinyCache.Remove(LISTKEY);
-        }
-
-        public void Delete(IOfflineSupport item)
-        {
-
             Task.Run(async () =>
             {
-                var list = GetList(item);
+                await _client.AddOrUpdate("lists", item);
+            });
+
+        }
+
+        public void Delete(IHasId item)
+        {
+            var key = (item is Item i) ? "listitems/" + i.ListId : "lists";
+            Task.Run(async () =>
+            {
                 await _client
-                    .Child("lists")
-                    .Child(list.Id)
+                    .Child(key)
+                    .Child(item.Id)
                     .DeleteAsync();
             });
         }
 
         public void UpdateList(ShoppingList shoppingList)
         {
-            AddSync(shoppingList);
+            AddList(shoppingList);
         }
-
-        //public async Task<IList<Item>> GetListItems(int listId)
-        //{
-
-        //    var data = await TinyCache.TinyCache.RunAsync(ItemListKey(listId), async () =>
-        //    {
-        //        return await _client.GetListItemsAsync(listId);
-        //    }, _fetchPolicy);
-        //    var list = _currentLists.FirstOrDefault(d => d.Id == listId);
-        //    MergeListItems(list, data);
-        //    return list.Items;
-
-        //}
-
-        //private static void MergeListItems(ShoppingList list, IEnumerable<IShoppingItem> items)
-        //{
-        //    if (items != null && items.Any())
-        //    {
-        //        foreach (var old in list.Items)
-        //        {
-        //            old.Deleted = true;
-        //        }
-        //        foreach (var i in items)
-        //        {
-        //            var old = list.Items.FirstOrDefault(d => d.Id == i.Id);
-        //            if (old != null)
-        //            {
-        //                if (!old.NeedSync)
-        //                {
-        //                    i.MemberviseCopyTo(old);
-        //                    old.LastSync = DateTime.Now;
-        //                }
-        //                old.Deleted = false;
-        //            }
-        //            else
-        //            {
-        //                var newitem = i.ToModel();
-        //                list.Items.Add(newitem);
-        //                newitem.LastSync = DateTime.Now;
-        //                newitem.Deleted = false;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private void SetDeleted(IOfflineSupport data)
-        //{
-        //    data.Deleted = true;
-        //    data.NeedSync = true;
-        //    if (!_syncItems.Contains(data))
-        //    {
-        //        _syncItems.Add(data);
-        //    }
-        //    TriggerSync();
-        //}
-
-        //public async Task SyncItems()
-        //{
-        //    Console.WriteLine("Syncing items");
-        //    foreach (var item in _syncItems.ToList())
-        //    {
-        //        switch (item)
-        //        {
-        //            case Item i:
-        //                await SyncListItem(item, i);
-        //                break;
-        //            case ShoppingList list:
-        //                await SyncList(list);
-        //                break;
-        //        }
-        //    }
-        //}
-
-        //private async Task SyncList(ShoppingList i)
-        //{
-        //    if (i.Deleted)
-        //    {
-        //        try
-        //        {
-        //            var ret = await _client.DeleteShoppingListAsync(i.Id);
-        //            if (_currentLists.Contains(i))
-        //                _currentLists.Remove(i);
-        //            SetSynced(i);
-
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Console.WriteLine(ex);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        var ret = await _client.UpdateShoppingListAsync(i.ToRest());
-        //        i.Id = ret.Id;
-        //        SetSynced(i);
-        //    }
-        //}
-
-        //private void SetSynced(IOfflineSupport i)
-        //{
-        //    i.LastSync = DateTime.Now;
-        //    _syncItems.Remove(i);
-        //}
-
-        //private async Task SyncListItem(IOfflineSupport item, Item i)
-        //{
-        //    if (i.Deleted)
-        //    {
-        //        try
-        //        {
-        //            var ret = await _client.DeleteListItemAsync(i.Id);
-        //            var list = _currentLists.FirstOrDefault(d => d.Id == i.ListId);
-        //            if (list.Items.Contains(i))
-        //                list.Items.Remove(i);
-        //            SetSynced(i);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Console.WriteLine(ex);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        var ret = await _client.UpdateListItemAsync(i.ToRest());
-        //        i.Id = ret.Id;
-        //        var list = _currentLists.FirstOrDefault(d => d.Id == i.ListId);
-        //        if (!list.Items.Contains(i))
-        //        {
-        //            list.Items.Add(i);
-        //        }
-        //        SetSynced(i);
-        //    }
-        //}
-
 
     }
 }

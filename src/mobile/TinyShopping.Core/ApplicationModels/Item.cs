@@ -10,7 +10,7 @@ namespace TinyShopping.ApplicationModels
 
     }
 
-    public class Item : IShoppingItem, IOfflineSupport
+    public class Item : IShoppingItem, IHasId
     {
         public string Id { get; set; }
 
@@ -39,15 +39,6 @@ namespace TinyShopping.ApplicationModels
 
         [Editor("Barcode", "After purchase", CustomHandler = typeof(BarCodeHandler))]
         public string Barcode { get; set; } = string.Empty;
-
-        [Copy(Exclude = true), Editor("Last sync", "Sync", Readonly = true)]
-        public DateTime LastSync { get; set; }
-
-        [Copy(Exclude = true), Editor("Needs sync", "Sync", Readonly = true)]
-        public bool NeedSync { get; set; }
-
-        [Copy(Exclude = true)]
-        public bool Deleted { get; set; }
 
         [Editor("Latitude", "Location", Readonly = true)]
         public double Lat { get; set; }

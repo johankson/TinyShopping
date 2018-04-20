@@ -22,7 +22,7 @@ namespace TinyShopping.ViewModels
         private ShoppingService _shoppingService;
         private ShoppingList _shoppingList;
 
-        private bool _isLoading;
+     //   private bool _isLoading;
 
         public Action<Item> ScrollTo { get; set; } = null;
 
@@ -35,6 +35,11 @@ namespace TinyShopping.ViewModels
         {
             _shoppingList = NavigationParameter as ShoppingList;
             RaisePropertyChanged(nameof(Name));
+            _shoppingList.Items.CollectionChanged += (s, e) =>
+            {
+                FilterResult();
+            };
+            FilterResult();
             return base.Initialize();
         }
 
@@ -52,7 +57,7 @@ namespace TinyShopping.ViewModels
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    _allItems.Add(newItem);
+                    _shoppingList.Items.Add(newItem);
                     Clear();
 
                     await Task.Delay(100);
@@ -78,35 +83,27 @@ namespace TinyShopping.ViewModels
 
         public Action PlayTickAnimation { get; set; }
 
-        public async override Task OnFirstAppear()
-        {
-            LoadData();
-        }
-
-        public void LoadData()
-        {
-            IsBusy = true;
-            _allItems = _shoppingList.Items;
-            FilterResult();
-            IsBusy = false;
-        }
-
         private void FilterResult()
         {
-            if (_allItems != null)
+            Device.BeginInvokeOnMainThread(() =>
             {
-                var ret = _allItems.ToList();
-                if (!string.IsNullOrEmpty(_searchString))
+                IsBusy = true;
+                if (_shoppingList.Items != null)
                 {
-                    ret = _allItems.Where(d => d.Name.Contains(_searchString)).ToList();
-                }
+                    var ret = _shoppingList.Items.ToList();
+                    if (!string.IsNullOrEmpty(_searchString))
+                    {
+                        ret = _shoppingList.Items.Where(d => d.Name!=null && d.Name.Contains(_searchString)).ToList();
+                    }
 
-                ItemsList = new ObservableCollection<Item>(ret.Where(d => !d.Deleted).OrderBy(d => d.Completed).ThenByDescending(d => d.Added));
-            }
-            else
-            {
-                ItemsList = new ObservableCollection<Item>();
-            }
+                    ItemsList = new ObservableCollection<Item>(ret.OrderBy(d => d.Completed).ThenByDescending(d => d.Added));
+                }
+                else
+                {
+                    ItemsList = new ObservableCollection<Item>();
+                }
+                IsBusy = false;
+            });
         }
 
 
@@ -129,7 +126,7 @@ namespace TinyShopping.ViewModels
             set;
         }
 
-        private IList<Item> _allItems;
+       // private IList<Item> _allItems;
         public ObservableCollection<Item> ItemsList { get; set; }
 
         public ICommand Delete => new TinyCommand<Item>((item) =>
@@ -138,7 +135,7 @@ namespace TinyShopping.ViewModels
             _shoppingService.Delete(item);
         });
 
-        public ICommand Refresh => new TinyCommand(() => {});
+        public ICommand Refresh => new TinyCommand(() => FilterResult());
 
         public ICommand Edit => new TinyCommand<Item>(async (item) =>
         {

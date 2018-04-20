@@ -17,6 +17,7 @@
     <Folder Include="ApplicationModels\" />
     <Folder Include="ApplicationModels\RestHelper\" />
     <Folder Include="ApplicationModels\Interface\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TinyEditor.Forms\TinyEditor.Forms.csproj" />
