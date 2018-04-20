@@ -25,19 +25,19 @@ namespace TinyShopping.Core.Extensions
             lists.InsertWithId(idx, newList);
         }
 
-        public static ShoppingList GetShoppingList(this IHasId data, IEnumerable<ShoppingList> lists)
-        {
-            ShoppingList list = null;
-            if (data is Item item)
-            {
-                list = lists.FirstOrDefault(d => d.Id == item.ListId);
-            }
-            else if (data is ShoppingList datalist)
-            {
-                list = datalist;
-            }
-            return list;
-        }
+        //public static ShoppingList GetShoppingList(this IHasId data, IEnumerable<ShoppingList> lists)
+        //{
+        //    ShoppingList list = null;
+        //    if (data is Item item)
+        //    {
+        //        list = lists.FirstOrDefault(d => d.Id == item.ListId);
+        //    }
+        //    else if (data is ShoppingList datalist)
+        //    {
+        //        list = datalist;
+        //    }
+        //    return list;
+        //}
 
         public static void AddWithId<T>(this ObservableCollection<T> list, FirebaseObject<T> evt)
         {
@@ -62,11 +62,18 @@ namespace TinyShopping.Core.Extensions
             T ret = data;
             if (string.IsNullOrEmpty(data.Id))
             {
-                var fret = await client
-                  .Child(key)
-                        .PostAsync(data);
-                fret.Object.Id = fret.Key;
-                ret = fret.Object;
+                try
+                {
+                    var fret = await client
+                      .Child(key)
+                            .PostAsync(data);
+                    fret.Object.Id = fret.Key;
+                    ret = fret.Object;
+                }
+                catch (Exception ex)
+                {
+                    var i = 2;
+                }
             }
             else
             {

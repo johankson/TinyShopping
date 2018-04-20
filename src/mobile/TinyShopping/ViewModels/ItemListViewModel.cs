@@ -22,7 +22,7 @@ namespace TinyShopping.ViewModels
         private ShoppingService _shoppingService;
         private ShoppingList _shoppingList;
 
-     //   private bool _isLoading;
+        //   private bool _isLoading;
 
         public Action<Item> ScrollTo { get; set; } = null;
 
@@ -35,12 +35,17 @@ namespace TinyShopping.ViewModels
         {
             _shoppingList = NavigationParameter as ShoppingList;
             RaisePropertyChanged(nameof(Name));
+            return base.Initialize();
+        }
+
+        public override Task OnFirstAppear()
+        {
             _shoppingList.Items.CollectionChanged += (s, e) =>
             {
                 FilterResult();
             };
             FilterResult();
-            return base.Initialize();
+            return base.OnFirstAppear();
         }
 
         public string Name => _shoppingList?.Name ?? String.Empty;
@@ -55,18 +60,9 @@ namespace TinyShopping.ViewModels
                     Name = _searchString.Trim()
                 };
 
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    _shoppingList.Items.Add(newItem);
-                    Clear();
+                _shoppingService.AddItem(newItem);
+                Clear();
 
-                    await Task.Delay(100);
-
-                    ScrollTo?.Invoke(newItem);
-
-                    _shoppingService.AddItem(newItem);
-                    //FilterResult();
-                });
             }
         }
 
@@ -93,7 +89,7 @@ namespace TinyShopping.ViewModels
                     var ret = _shoppingList.Items.ToList();
                     if (!string.IsNullOrEmpty(_searchString))
                     {
-                        ret = _shoppingList.Items.Where(d => d.Name!=null && d.Name.Contains(_searchString)).ToList();
+                        ret = _shoppingList.Items.Where(d => d.Name.Contains(_searchString)).ToList();
                     }
 
                     ItemsList = new ObservableCollection<Item>(ret.OrderBy(d => d.Completed).ThenByDescending(d => d.Added));
@@ -126,7 +122,7 @@ namespace TinyShopping.ViewModels
             set;
         }
 
-       // private IList<Item> _allItems;
+        // private IList<Item> _allItems;
         public ObservableCollection<Item> ItemsList { get; set; }
 
         public ICommand Delete => new TinyCommand<Item>((item) =>

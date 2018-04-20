@@ -60,31 +60,14 @@ namespace TinyShopping.ViewModels
                 {
                     Name = _searchString
                 };
-                ShoppingLists.Insert(0, newList);
-                Device.BeginInvokeOnMainThread(async () =>
+                Task.Run(async () =>
                 {
+                    await _shoppingService.AddList(newList);
                     Clear();
-                    _shoppingService.AddList(newList);
-                    //await LoadData();
                 });
+
             }
         }
-
-        public async override Task OnFirstAppear()
-        {
-            //await LoadData();
-        }
-
-        //[TinySubscribe(Channels.ShoppingListAdded)]
-        //[TinySubscribe(Channels.ShoppingListDeleted)]
-        //public async Task LoadData()
-        //{
-        //    IsBusy = true;
-        //    _allLists = await _shoppingService.GetShoppingLists();
-        //    SumAndPublish(_allLists);
-        //    FilterResults();
-        //    IsBusy = false;
-        //}
 
         //private void SumAndPublish(IList<ShoppingList> allLists)
         //{
@@ -96,13 +79,6 @@ namespace TinyShopping.ViewModels
         //        DoneItems = done
         //    };
         //    TinyPubSub.Publish<SummaryData>("SummaryData", sd);
-        //}
-
-        //[TinySubscribe(Channels.ShoppingListUpdated)]
-        //public async Task ShoppingListUpdated(ShoppingList shoppingList)
-        //{
-        //    // TODO Only update the GUI for the shoppinglist that was updated
-        //    //await LoadData();
         //}
 
         public void Search(string value)
@@ -144,11 +120,11 @@ namespace TinyShopping.ViewModels
             set;
         } = string.Empty;
 
-        public ICommand Delete => new TinyCommand<ShoppingList>((shoppingList) =>
+        public ICommand Delete => new TinyCommand<ShoppingList>(async (shoppingList) =>
         {
-            ShoppingLists.Remove(shoppingList);
-            //_allLists.Remove(shoppingList);
-            _shoppingService.Delete(shoppingList);
+            //ShoppingLists.Remove(shoppingList);
+
+            await _shoppingService.Delete(shoppingList);
         });
 
         public ICommand Refresh => new TinyCommand(() => FilterResults());

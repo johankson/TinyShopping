@@ -97,5 +97,14 @@ namespace TinyShopping.ApplicationModels
         {
             return Name;
         }
+
+        internal void CopyFrom(ShoppingList newdata)
+        {
+            Name = newdata.Name;
+            Completed = newdata.Completed;
+            Done = newdata.Done;
+            StoreID = newdata.StoreID;
+            Id = newdata.Id;
+        }
     }
 }

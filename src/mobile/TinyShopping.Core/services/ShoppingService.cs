@@ -38,9 +38,12 @@ namespace TinyShopping.Core.Services
                 .AsObservable<Item>()
                 .Subscribe(d =>
                 {
+
                     var oldItem = list.Items.FindExisting(d);
                     if (d.EventType == FirebaseEventType.InsertOrUpdate)
                     {
+                        if (d.Object == null)
+                            return;
                         if (oldItem == null)
                         {
                             list.Items.AddWithId(d);
@@ -93,16 +96,21 @@ namespace TinyShopping.Core.Services
                     .AsObservable<ShoppingList>()
                     .Subscribe(d =>
                     {
+
                         var oldList = _currentLists.FindExisting(d);
                         if (d.EventType == FirebaseEventType.InsertOrUpdate)
                         {
+                            if (d.Object == null)
+                                return;
                             if (oldList == null)
                             {
                                 _currentLists.AddWithId(d);
                             }
                             else
                             {
-                                _currentLists.Replace(oldList, d);
+                                oldList.CopyFrom(d.Object);
+                                //_currentLists.Replace(oldList, d);
+                                //PopulateItems(d.Object);
                             }
                             //TinyPubSub.Publish("shopping-list-added");
                         }
@@ -129,79 +137,55 @@ namespace TinyShopping.Core.Services
             }
         }
 
-        public void UpdateItem(Item item)
+        public async Task<Item> UpdateItem(Item item)
         {
-            AddItem(item);
+            return await AddItem(item);
         }
 
-        public void AddItem(Item item)
+        public async Task<Item> AddItem(Item item)
         {
-            Task.Run(async () =>
-            {
-                var key = "listitems/" + item.ListId;
 
-                await _client.AddOrUpdate(key, item);
-            });
+            var key = "listitems/" + item.ListId;
+
+            return await _client.AddOrUpdate(key, item);
+
         }
 
-        //private void AddSync(IHasId data)
+
+        //private void AddItemToList(Item item)
         //{
-        //    var list = data.GetShoppingList(_currentLists);
-        //    if (list != null)
-        //    {
-        //        Task.Run(async () =>
-        //        {
-        //            if (string.IsNullOrEmpty(list.Id))
-        //            {
-        //                var ret = await _client
-        //                  .Child("lists")
-        //                        .PostAsync(list);
-        //                list.Id = ret.Key;
-        //            }
-        //            else
-        //            {
-        //                await _client.Child("lists")
-        //                             .Child(list.Id)
-        //                             .PutAsync(list);
-        //            }
-
-        //        });
-        //    }
+        //    var list = _currentLists.FirstOrDefault(d => d.Id == item.ListId);
+        //    if (!list.Items.Contains(item))
+        //        list.Items.Add(item);
         //}
 
-        private void AddItemToList(Item item)
+        public async Task<ShoppingList> AddList(ShoppingList item)
         {
-            var list = _currentLists.FirstOrDefault(d => d.Id == item.ListId);
-            if (!list.Items.Contains(item))
-                list.Items.Add(item);
+            //bool isNew = string.IsNullOrEmpty(item.Id);
+
+            var ret = await _client.AddOrUpdate("lists", item);
+            //var key = "listitems/" + ret.Id;
+            //if (isNew)
+            //{
+            //    await _client.Child(key).PostAsync("placeholder");
+            //}
+            return ret;
         }
 
-        public void AddList(ShoppingList item)
-        {
-            if (!_currentLists.Contains(item))
-                _currentLists.Add(item);
-            Task.Run(async () =>
-            {
-                await _client.AddOrUpdate("lists", item);
-            });
-
-        }
-
-        public void Delete(IHasId item)
+        public async Task Delete(IHasId item)
         {
             var key = (item is Item i) ? "listitems/" + i.ListId : "lists";
-            Task.Run(async () =>
-            {
-                await _client
-                    .Child(key)
-                    .Child(item.Id)
-                    .DeleteAsync();
-            });
+
+            await _client
+                .Child(key)
+                .Child(item.Id)
+                .DeleteAsync();
+
         }
 
-        public void UpdateList(ShoppingList shoppingList)
+        public async Task<ShoppingList> UpdateList(ShoppingList shoppingList)
         {
-            AddList(shoppingList);
+            return await AddList(shoppingList);
         }
 
     }

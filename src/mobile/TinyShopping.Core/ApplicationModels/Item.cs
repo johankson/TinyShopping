@@ -21,7 +21,7 @@ namespace TinyShopping.ApplicationModels
         public System.DateTime Done { get; set; }
 
         [Editor("Name", "Required", Order = 10)]
-        public string Name { get; set; }
+        public string Name { get; set; } = "No name";
 
         [Editor("Marked as complete", "Required", Order = 11)]
         public bool Completed { get; set; }
